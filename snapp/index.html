@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snapp Checkout — O checkout mais poderoso do mercado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <header class="nav">
+    <div class="container nav__inner">
+      <div class="nav__left">
+        <a href="#" class="logo"><img src="images/logo-snapp.png" alt="Snapp" class="logo-img"
+            style="height: 38px; width: auto;" /></a>
+      </div>
+      <nav class="nav__links">
+        <a href="#precos">Planos</a>
+        <a href="#global">Vendas Globais</a>
+        <a href="#checkout">Checkout</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav__right">
+        <a href="#" class="nav__entrar">Entrar</a>
+        <a href="#comecar" class="btn btn-premium-sm">Começar Agora</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero-new">
+    <div class="hero-background-glow"></div>
+
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <div class="floating-icons">
+          <!-- Left side -->
+          <div class="floating-icon icon-1" style="top: -10%; left: -15%;">
+            <img src="images/logo-stripe.png" alt="Stripe" />
+          </div>
+          <div class="floating-icon icon-2" style="top: 35%; left: -25%;">
+            <img src="images/logo-paypal.png" alt="PayPal" />
+          </div>
+          <div class="floating-icon icon-3" style="top: 80%; left: -10%;">
+            <img src="images/logo-stripe.png" alt="Stripe" />
+          </div>
+
+          <!-- Right side -->
+          <div class="floating-icon icon-4" style="top: -5%; right: -15%;">
+            <img src="images/logo-paypal.png" alt="PayPal" />
+          </div>
+          <div class="floating-icon icon-5" style="top: 40%; right: -25%;">
+            <img src="images/logo-stripe.png" alt="Stripe" />
+          </div>
+          <div class="floating-icon icon-6" style="top: 85%; right: -10%;">
+            <img src="images/logo-paypal.png" alt="PayPal" />
+          </div>
+        </div>
+
+        <h1>Venda infoprodutos globalmente com <span class="yellow">Stripe + PayPal</span> em um checkout feito para
+          conversão.</h1>
+        <p>Em menos de 10 minutos, conecte suas próprias contas, receba direto na sua Stripe ou no seu PayPal e comece a
+          vender em até 195 países, com suporte a 135+ moedas.</p>
+
+        <div class="hero__btns-centered">
+          <a href="#comecar" class="btn btn-premium">
+            <span>Começar Agora</span>
+            <div class="icon-circle">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURE STRIP ═══ -->
+  <div class="feature-strip-wrapper">
+    <div class="feature-strip">
+      <!-- Multiple sets for seamless scrolling on all screen sizes -->
+      <div class="feature-strip__inner">
+        <div class="strip-item">STRIPE + PAYPAL</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 135+ MOEDAS</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">RECEBA DIRETO NA SUA CONTA</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 190+ PAÍSES</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">UPSELL ONE-CLICK</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">ASSINATURAS RECORRENTES</div>
+        <div class="strip-icon-yellow">✓</div>
+      </div>
+      <div class="feature-strip__inner">
+        <div class="strip-item">STRIPE + PAYPAL</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 135+ MOEDAS</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">RECEBA DIRETO NA SUA CONTA</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 190+ PAÍSES</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">UPSELL ONE-CLICK</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">ASSINATURAS RECORRENTES</div>
+        <div class="strip-icon-yellow">✓</div>
+      </div>
+      <div class="feature-strip__inner">
+        <div class="strip-item">STRIPE + PAYPAL</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 135+ MOEDAS</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">RECEBA DIRETO NA SUA CONTA</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 190+ PAÍSES</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">UPSELL ONE-CLICK</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">ASSINATURAS RECORRENTES</div>
+        <div class="strip-icon-yellow">✓</div>
+      </div>
+      <div class="feature-strip__inner">
+        <div class="strip-item">STRIPE + PAYPAL</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 135+ MOEDAS</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">RECEBA DIRETO NA SUA CONTA</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 190+ PAÍSES</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">UPSELL ONE-CLICK</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">ASSINATURAS RECORRENTES</div>
+        <div class="strip-icon-yellow">✓</div>
+      </div>
+      <div class="feature-strip__inner">
+        <div class="strip-item">STRIPE + PAYPAL</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 135+ MOEDAS</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">RECEBA DIRETO NA SUA CONTA</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 190+ PAÍSES</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">UPSELL ONE-CLICK</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">ASSINATURAS RECORRENTES</div>
+        <div class="strip-icon-yellow">✓</div>
+      </div>
+      <div class="feature-strip__inner">
+        <div class="strip-item">STRIPE + PAYPAL</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 135+ MOEDAS</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">RECEBA DIRETO NA SUA CONTA</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">VENDA EM 190+ PAÍSES</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">UPSELL ONE-CLICK</div>
+        <div class="strip-icon-yellow">✓</div>
+        <div class="strip-item">ASSINATURAS RECORRENTES</div>
+        <div class="strip-icon-yellow">✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PREÇOS ═══ -->
+  <section class="pricing" id="precos">
+    <div class="container">
+      <h2 class="section-title">Só pague quando vender.</h2>
+      <p class="section-sub">O Snapp cobra apenas 3% sobre cada venda aprovada. Sem mensalidade, sem valor fixo e sem
+        letras miúdas.</p>
+
+      <div class="pricing-grid">
+        <div class="pricing-card pricing-card--highlight">
+          <div class="pricing-card__tag">Snapp Checkout</div>
+          <div class="pricing-card__rate">3%</div>
+          <div class="pricing-card__label">por transação aprovada</div>
+          <ul class="pricing-list">
+            <li><span class="chk">✓</span> Stripe + PayPal no mesmo checkout</li>
+            <li><span class="chk">✓</span> Recebimento direto na sua conta</li>
+            <li><span class="chk">✓</span> Venda em 135+ moedas</li>
+            <li><span class="chk">✓</span> Venda em até 195 países</li>
+            <li><span class="chk">✓</span> Checkouts personalizáveis com modelos prontos</li>
+            <li><span class="chk">✓</span> Crie quantos order bumps quiser</li>
+            <li><span class="chk">✓</span> Upsell e downsell one-click</li>
+            <li><span class="chk">✓</span> Assinaturas recorrentes</li>
+            <li><span class="chk">✓</span> Sem mensalidade ou valor fixo</li>
+          </ul>
+          <a href="#comecar" class="btn btn-primary btn-full">Começar Agora</a>
+        </div>
+
+        <div class="pricing-card pricing-card--muted">
+          <div class="pricing-card__tag muted-tag">Outros checkouts e plataformas</div>
+          <div class="pricing-card__rate muted-rate">4,9 &ndash; 10%<span class="plus-sign">+</span></div>
+          <div class="pricing-card__label muted-label">por transação aprovada</div>
+          <ul class="pricing-list muted-list">
+            <li><span class="xmark">×</span> Apenas Stripe ou processadores limitados</li>
+            <li><span class="xmark">×</span> Seu dinheiro pode ficar preso na plataforma</li>
+            <li><span class="xmark">×</span> Menos opções de moedas para vender fora</li>
+            <li><span class="xmark">×</span> Venda internacional mais limitada</li>
+            <li><span class="xmark">×</span> Poucos modelos de checkout para testar</li>
+            <li><span class="xmark">×</span> Limite para criação de order bumps</li>
+            <li><span class="xmark">×</span> Não possuem funil de upsell + downsell one-click</li>
+            <li><span class="xmark">×</span> Assinaturas podem exigir outro plano ou ferramenta</li>
+            <li><span class="xmark">×</span> Mensalidade, taxa fixa ou letras miúdas</li>
+          </ul>
+          <button class="btn btn-disabled btn-full" disabled>Não recomendado</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GLOBAL ═══ -->
+  <section class="global-section" id="global">
+    <div class="container">
+      <div class="global-flex">
+        <!-- Left Column: Image -->
+        <div class="global-image">
+          <img src="images/logo3d-stripe-paypal.png" alt="Stripe + PayPal 3D" />
+        </div>
+
+        <!-- Right Column: Text + Cards -->
+        <div class="global-content">
+          <h2 class="section-title">O poder da Stripe com o alcance do PayPal, no <span class="yellow">mesmo
+              checkout.</span></h2>
+          <p class="section-sub">Nem todo comprador quer pagar do mesmo jeito. Com Stripe + PayPal no mesmo checkout,
+            você reduz abandono, aumenta confiança e dá mais caminhos para a venda acontecer.</p>
+
+          <div class="global-mini-cards">
+            <div class="mini-card">
+              <div class="mini-card__icon stripe-bg">
+                <img src="images/logo-stripe.png" alt="Stripe" />
+              </div>
+              <div class="mini-card__text">
+                <h3>Stripe</h3>
+                <p>Conecte sua conta Stripe e receba pagamentos em 135+ moedas direto na sua conta — sem intermediário
+                  retendo seu dinheiro.</p>
+              </div>
+            </div>
+
+            <div class="mini-card">
+              <div class="mini-card__icon paypal-bg">
+                <img src="images/logo-paypal.png" alt="PayPal" />
+              </div>
+              <div class="mini-card__text">
+                <h3>PayPal</h3>
+                <p>Aceite PayPal e amplie seu alcance para compradores que preferem pagar pelo PayPal — especialmente
+                  EUA e Europa.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CHECKOUT / BRAND ═══ -->
+  <section class="brand-section" id="checkout">
+    <div class="container brand-section__inner">
+      <div class="brand-text">
+        <h2 class="section-title white-title">Escolha o checkout que combina com <span class="yellow">sua oferta.</span>
+        </h2>
+        <p class="section-sub white-sub">Não fique preso a um único layout de plataforma. No Snapp, você testa modelos
+          inspirados em checkouts já validados no mercado, alterna entre estilos em poucos cliques e descobre qual
+          experiência converte melhor para cada produto.</p>
+        <ul class="brand-list">
+          <li><span class="chk-y">✓</span> Modelos inspirados em checkouts validados</li>
+          <li><span class="chk-y">✓</span> Troque o estilo do checkout em poucos cliques</li>
+          <li><span class="chk-y">✓</span> Teste A/B entre diferentes layouts</li>
+        </ul>
+      </div>
+
+      <div class="brand-visual">
+        <img src="images/checkouts.png" alt="Modelos de Checkout Snapp" class="brand-image" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RECURSOS ═══ -->
+  <section class="recursos-section" id="recursos">
+    <div class="container">
+      <p class="section-eyebrow">Ferramentas de conversão</p>
+      <h2 class="section-title">Tudo o que você precisa para <span class="yellow">maximizar sua receita.</span></h2>
+
+      <div class="recursos-grid">
+        <div class="recurso-card">
+          <div class="recurso-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg></div>
+          <h3>Upsell One-Click</h3>
+          <p>Ofereça um produto complementar logo após a compra. O cliente aceita com um clique, sem redigitar o cartão.
+          </p>
+        </div>
+        <div class="recurso-card">
+          <div class="recurso-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg></div>
+          <h3>Order Bump</h3>
+          <p>Adicione uma oferta diretamente no checkout. Aumenta o ticket médio sem adicionar fricção ao processo.</p>
+        </div>
+        <div class="recurso-card">
+          <div class="recurso-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg></div>
+          <h3>Recuperação de Carrinho</h3>
+          <p>Sequências automáticas de e-mail para recuperar quem abandonou o checkout antes de finalizar.</p>
+        </div>
+        <div class="recurso-card">
+          <div class="recurso-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg></div>
+          <h3>Assinaturas</h3>
+          <p>Crie planos mensais, trimestrais ou anuais com cobrança automática via Stripe ou PayPal.</p>
+        </div>
+        <div class="recurso-card">
+          <div class="recurso-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg></div>
+          <h3>Funis de E-mail</h3>
+          <p>Sequências de boas-vindas, upsell e reativação — tudo dentro do Snapp, sem ferramentas extras.</p>
+        </div>
+        <div class="recurso-card">
+          <div class="recurso-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg></div>
+          <h3>Recuperação de Vendas</h3>
+          <p>Identifique pagamentos recusados e acione automaticamente uma tentativa de cobrança alternativa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ASSINATURAS ═══ -->
+  <section class="assinaturas-section">
+    <div class="container">
+      <p class="section-eyebrow light-eyebrow">Receita recorrente</p>
+      <h2 class="section-title white-title">Construa uma <span class="yellow">renda previsível</span> com assinaturas.
+      </h2>
+      <p class="section-sub white-sub">Crie planos, gerencie cobranças e controle inadimplência — tudo integrado com
+        Stripe e PayPal.</p>
+
+      <div class="sub-cards">
+        <div class="sub-card">
+          <div class="sub-card__top">
+            <span class="sub-card__name">Curso Premium</span>
+            <span class="sub-badge active-badge">Ativo</span>
+          </div>
+          <div class="sub-card__num">1.247 assinantes</div>
+          <div class="sub-card__price">$29<span>/mês</span></div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-card__top">
+            <span class="sub-card__name">Comunidade VIP</span>
+            <span class="sub-badge active-badge">Ativo</span>
+          </div>
+          <div class="sub-card__num">583 assinantes</div>
+          <div class="sub-card__price">$49<span>/mês</span></div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-card__top">
+            <span class="sub-card__name">Newsletter Premium</span>
+            <span class="sub-badge active-badge">Ativo</span>
+          </div>
+          <div class="sub-card__num">2.891 assinantes</div>
+          <div class="sub-card__price">$9<span>/mês</span></div>
+        </div>
+        <div class="sub-total">
+          <div class="sub-total__label">Receita Mensal Recorrente</div>
+          <div class="sub-total__value">$78.432</div>
+          <div class="sub-total__sub">renovando automaticamente todo mês</div>
+        </div>
+      </div>
+
+      <div class="sub-features">
+        <div class="sub-feat"><span class="chk-y">✓</span> Renovação automática</div>
+        <div class="sub-feat"><span class="chk-y">✓</span> Preços flexíveis</div>
+        <div class="sub-feat"><span class="chk-y">✓</span> Gestão de inadimplência</div>
+        <div class="sub-feat"><span class="chk-y">✓</span> Perfeito para qualquer modelo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EMAIL ═══ -->
+  <section class="email-section">
+    <div class="container">
+      <p class="section-eyebrow">E-mail marketing</p>
+      <h2 class="section-title">Automação de e-mail <span class="yellow">sem ferramentas extras.</span></h2>
+      <p class="section-sub">Confirmação de compra, recuperação de carrinho, upsell, reativação — tudo dentro do Snapp.
+      </p>
+
+      <div class="email-panel">
+        <div class="email-list">
+          <div class="email-item">
+            <div class="email-item__dot active-dot"></div>
+            <div class="email-item__info">
+              <div class="email-item__name">Confirmação de Compra</div>
+              <div class="email-item__meta">Imediatamente após a compra</div>
+            </div>
+            <div class="email-item__status active-status">Ativo</div>
+          </div>
+          <div class="email-item">
+            <div class="email-item__dot active-dot"></div>
+            <div class="email-item__info">
+              <div class="email-item__name">Abandono de Carrinho</div>
+              <div class="email-item__meta">30 min após abandono</div>
+            </div>
+            <div class="email-item__status active-status">Ativo</div>
+          </div>
+          <div class="email-item">
+            <div class="email-item__dot active-dot"></div>
+            <div class="email-item__info">
+              <div class="email-item__name">Sequência de Upsell</div>
+              <div class="email-item__meta">24h após a compra</div>
+            </div>
+            <div class="email-item__status active-status">Ativo</div>
+          </div>
+          <div class="email-item">
+            <div class="email-item__dot draft-dot"></div>
+            <div class="email-item__info">
+              <div class="email-item__name">Renovação de Assinatura</div>
+              <div class="email-item__meta">7 dias antes do vencimento</div>
+            </div>
+            <div class="email-item__status draft-status">Rascunho</div>
+          </div>
+          <div class="email-item">
+            <div class="email-item__dot draft-dot"></div>
+            <div class="email-item__info">
+              <div class="email-item__name">Campanha de Reativação</div>
+              <div class="email-item__meta">30 dias sem compra</div>
+            </div>
+            <div class="email-item__status draft-status">Rascunho</div>
+          </div>
+        </div>
+
+        <div class="email-feats">
+          <div class="email-feat"><span class="chk">✓</span> E-mails de compra</div>
+          <div class="email-feat"><span class="chk">✓</span> Recuperação de abandono</div>
+          <div class="email-feat"><span class="chk">✓</span> Campanhas de upsell</div>
+          <div class="email-feat"><span class="chk">✓</span> Zero ferramentas externas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INTEGRAÇÕES ═══ -->
+  <section class="integrations-section">
+    <div class="container">
+      <p class="section-eyebrow light-eyebrow">Integrações</p>
+      <h2 class="section-title white-title">Conecta com as ferramentas que <span class="yellow">você já usa.</span></h2>
+
+      <div class="int-cards">
+
+        <div class="int-card">
+          <div class="int-card__logo vturb-logo">▶</div>
+          <h3>VTurb</h3>
+          <p>Integre sua VSL e rastreie exatamente em qual momento do vídeo seu cliente decidiu comprar.</p>
+        </div>
+        <div class="int-card">
+          <div class="int-card__logo utmify-logo">U</div>
+          <h3>UTMify</h3>
+          <p>Atribuição de campanhas completa. Saiba exatamente de qual anúncio veio cada venda realizada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COMPARATIVO ═══ -->
+  <section class="comparison-section">
+    <div class="container">
+      <p class="section-eyebrow">Comparativo</p>
+      <h2 class="section-title">Veja como o Snapp <span class="yellow">se destaca.</span></h2>
+
+      <div class="table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th class="col-feature">Recurso</th>
+              <th class="col-snapp">Snapp Checkout</th>
+              <th>Outras plataformas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vendas globais em USD, EUR, GBP e mais</td>
+              <td class="col-snapp"><span class="yes">✓ Sim</span></td>
+              <td><span class="no">✕ Limitado</span></td>
+            </tr>
+            <tr>
+              <td>Checkout personalizável</td>
+              <td class="col-snapp"><span class="yes">✓ Totalmente</span></td>
+              <td><span class="no">✕ Genérico</span></td>
+            </tr>
+            <tr>
+              <td>Apple Pay, Google Pay &amp; Link</td>
+              <td class="col-snapp"><span class="yes">✓ Sim</span></td>
+              <td><span class="no">✕ Não</span></td>
+            </tr>
+            <tr>
+              <td>PayPal integrado</td>
+              <td class="col-snapp"><span class="yes">✓ Sim</span></td>
+              <td><span class="no">✕ Não</span></td>
+            </tr>
+            <tr>
+              <td>Assinaturas recorrentes</td>
+              <td class="col-snapp"><span class="yes">✓ Integrado</span></td>
+              <td><span class="no">✕ Limitado</span></td>
+            </tr>
+            <tr>
+              <td>Dinheiro direto na adquirente</td>
+              <td class="col-snapp"><span class="yes">✓ Sempre</span></td>
+              <td><span class="no">✕ Plataforma retém</span></td>
+            </tr>
+            <tr>
+              <td>Funil de e-mail integrado</td>
+              <td class="col-snapp"><span class="yes">✓ Sim</span></td>
+              <td><span class="no">✕ Ferramentas externas</span></td>
+            </tr>
+            <tr>
+              <td>Taxa por transação</td>
+              <td class="col-snapp"><span class="yes">✓ Apenas 3%</span></td>
+              <td><span class="no">✕ 7–10%+</span></td>
+            </tr>
+            <tr>
+              <td>Sem retenção de saldo</td>
+              <td class="col-snapp"><span class="yes">✓ Zero</span></td>
+              <td><span class="no">✕ Até 30 dias</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <p class="section-eyebrow">Dúvidas</p>
+      <h2 class="section-title">Perguntas <span class="yellow">frequentes.</span></h2>
+
+      <div class="faq-list">
+
+        <details class="faq-item">
+          <summary>O Snapp processa o pagamento?</summary>
+          <p>Não. O Snapp é a camada de checkout, automação e gestão. O processamento é feito direto pela sua conta
+            <strong>Stripe</strong> ou <strong>PayPal</strong> — o dinheiro cai direto na sua conta, sem intermediário.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Preciso ter uma conta na Stripe ou no PayPal?</summary>
+          <p>Sim. Você conecta sua própria conta da Stripe e/ou PayPal. Isso garante que você recebe direto, com toda a
+            segurança e infraestrutura dos melhores gateways do mundo.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Posso vender assinaturas?</summary>
+          <p>Sim! O Snapp tem suporte completo a assinaturas com ciclos flexíveis — mensais, trimestrais, anuais ou
+            personalizados. Cobrança automática via Stripe ou PayPal.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Posso personalizar o checkout por completo?</summary>
+          <p>Totalmente. Cores, logo, domínio próprio, headlines, copy e layout são 100% customizáveis. A personalização
+            do checkout é um dos maiores diferenciais do Snapp.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Tem mensalidade?</summary>
+          <p>Não. O modelo é simples: você paga <strong>apenas 3%</strong> por transação aprovada. Se não vender, não
+            paga nada. Sem mensalidade, sem taxa de setup, sem custo oculto.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Para quais países posso vender?</summary>
+          <p>Mais de <strong>190 países</strong> via Stripe e PayPal. O checkout adapta moeda e idioma automaticamente
+            pelo IP do comprador.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Posso integrar com outras ferramentas?</summary>
+          <p>Sim. O Snapp integra com VTurb, UTMify, Meta Pixel, Google Tag, TikTok Pixel e Zapier. Mais integrações são
+            adicionadas regularmente.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Aceita Apple Pay e Google Pay?</summary>
+          <p>Sim. Via integração com a Stripe, o Snapp suporta nativamente Cartão, Apple Pay, Google Pay e Link — sem
+            nenhuma configuração adicional.</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA FINAL ═══ -->
+  <section class="cta-section" id="comecar">
+    <div class="container cta-section__inner">
+      <h2>Se você vende globalmente,<br />sua plataforma também <span class="yellow">precisa ser global.</span></h2>
+      <p>Junte-se aos infoprodutores que já usam o Snapp Checkout para vender com Stripe e PayPal para o mundo inteiro.
+      </p>
+      <a href="#" class="btn btn-primary btn-lg">Começar Agora</a>
+      <div class="cta-trust">Grátis para começar · Só paga quando vender · 3% por transação</div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__top">
+        <a href="#" class="logo footer-logo"><img src="images/logo-snapp.png" alt="Snapp" class="logo-img"
+            style="height: 42px; width: auto;" /></a>
+        <nav class="footer__nav">
+          <a href="#recursos">Recursos</a>
+          <a href="#precos">Preços</a>
+          <a href="#global">Integrações</a>
+          <a href="#faq">FAQ</a>
+          <a href="#">Suporte</a>
+          <a href="#">Termos</a>
+          <a href="#">Privacidade</a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2025 Snapp Checkout. Todos os direitos reservados. Feito para vendas globais de infoprodutos.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Handle navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 20) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+  </script>
+
+</body>
+
+</html>
