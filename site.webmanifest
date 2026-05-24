@@ -1,0 +1,22 @@
+{
+  "name": "Snapp Checkout",
+  "short_name": "Snapp",
+  "description": "O checkout mais poderoso do mercado para venda de infoprodutos globalmente",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0a0a0b",
+  "theme_color": "#fed217",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

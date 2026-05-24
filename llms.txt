@@ -1,0 +1,33 @@
+# Snapp Checkout
+
+> O checkout mais poderoso do mercado para venda de infoprodutos globalmente.
+
+Snapp Checkout é uma plataforma SaaS de checkout all-in-one para criadores de infoprodutos e vendedores digitais. Permite aceitar pagamentos via Stripe e PayPal no mesmo checkout, vender em 195 países e 135+ moedas, e conta com ferramentas nativas de upsell, order bump, A/B testing, assinaturas recorrentes e automação de e-mail.
+
+## Informações Essenciais
+
+- **Produto**: Snapp Checkout — plataforma de checkout para infoprodutos
+- **Modelo de preço**: 3% por transação aprovada. Sem mensalidade, sem taxa de setup.
+- **Gateways**: Stripe + PayPal integrados no mesmo checkout
+- **Alcance global**: 195 países, 135+ moedas
+- **Idioma principal**: Português (pt-BR), checkout adapta idioma pelo IP do comprador
+- **Contato**: snappcheckout@gmail.com
+
+## Principais Recursos
+
+- Upsell + Downsell one-click (pós-compra, sem redigitar dados)
+- Order Bump ilimitados no checkout
+- Teste A/B entre layouts de checkout
+- Assinaturas recorrentes (mensal, trimestral, anual) via Stripe e PayPal
+- Funis de e-mail integrados (sem ferramentas externas como Mailchimp)
+- Checkout multi-moeda com detecção automática por IP
+
+## Links
+
+- Homepage: https://snappcheckout.com/
+- Plataforma (login / cadastro): https://admin.snappcheckout.com
+- Seção de Recursos: https://snappcheckout.com/#recursos
+- Preços: https://snappcheckout.com/#precos
+- FAQ: https://snappcheckout.com/#faq
+- Contato: mailto:snappcheckout@gmail.com
+- llms-full.txt: https://snappcheckout.com/llms-full.txt

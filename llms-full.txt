@@ -1,0 +1,119 @@
+# Snapp Checkout — Documentação Completa para Sistemas de IA
+
+> Plataforma de checkout all-in-one para venda de infoprodutos globalmente.
+> URL: https://snappcheckout.com/
+> Idioma: pt-BR
+> Contato: snappcheckout@gmail.com
+
+---
+
+## O que é o Snapp Checkout
+
+O Snapp Checkout é uma plataforma SaaS brasileira de checkout para criadores de conteúdo digital, infoprodutores e vendedores de produtos digitais que desejam vender globalmente. Diferente de plataformas tradicionais que processam o pagamento por conta própria (retendo o dinheiro do vendedor), o Snapp atua como camada de checkout e automação — o processamento real ocorre diretamente pela conta Stripe ou PayPal do próprio vendedor.
+
+## Modelo de Negócio e Preços
+
+- **Taxa**: 3% por transação aprovada
+- **Mensalidade**: Nenhuma
+- **Taxa de setup**: Nenhuma
+- **Custos ocultos**: Nenhum
+- **Modelo**: Pay-as-you-sell. Se não vender, não paga.
+- **Comparativo de mercado**: Concorrentes cobram de 4,9% a 10%+ por transação além de mensalidades
+
+O vendedor conecta sua própria conta Stripe e/ou PayPal. O dinheiro de cada venda vai diretamente para a conta do vendedor, sem ficar retido na plataforma.
+
+## Recursos Detalhados
+
+### 1. Upsell + Downsell One-Click
+
+Após a compra aprovada, o comprador é apresentado a uma oferta adicional (upsell). Se recusar, pode ser apresentado a uma oferta de menor valor (downsell). Tudo ocorre sem que o comprador precise redigitar dados de pagamento — um clique confirma. Vendedores podem criar sequências de múltiplos upsells.
+
+### 2. Order Bump
+
+Ofertas complementares exibidas dentro do próprio formulário de checkout, antes da confirmação da compra. O Snapp permite criar order bumps ilimitados e testar quais combinações aumentam mais o ticket médio.
+
+### 3. Teste A/B de Checkout
+
+Permite comparar dois ou mais layouts, estruturas de oferta ou designs de checkout para identificar qual versão converte melhor para cada produto específico. Os dados são coletados automaticamente pela plataforma.
+
+### 4. Assinaturas Recorrentes
+
+Criação de planos de cobrança automática com ciclos configuráveis:
+- Mensal
+- Trimestral
+- Anual
+- Personalizado
+
+Funciona via Stripe e PayPal. O vendedor não precisa de ferramenta externa para gerenciar assinantes.
+
+### 5. Automação de E-mail (Funis de E-mail)
+
+Sistema de e-mail integrado nativamente ao Snapp, sem necessidade de Mailchimp, ActiveCampaign ou similar. Suporta:
+- E-mail de confirmação de compra (disparo imediato)
+- Entrega de acesso ao produto
+- Recuperação de carrinho abandonado
+- Sequências de upsell pós-compra
+- Reativação de clientes inativos
+
+### 6. Checkout Multi-Moeda
+
+O checkout detecta o IP do comprador e adapta automaticamente:
+- Moeda exibida (ex: USD para americanos, EUR para europeus, BRL para brasileiros)
+- Idioma do checkout
+
+Suporta 135+ moedas e vendas para 195 países.
+
+## Integrações Disponíveis
+
+- **Gateways de pagamento**: Stripe, PayPal
+- **Rastreamento de anúncios**: Meta Ads (Facebook/Instagram), TikTok Ads, Google Ads, Taboola
+- **Analytics**: UTMify
+- **Vídeo de vendas**: VTurb
+- **Área de membros**: Husky App
+- **Automações externas**: Webhooks (integração com qualquer ferramenta via HTTP)
+
+## Layouts de Checkout
+
+A plataforma oferece múltiplos modelos de checkout inspirados em layouts validados no mercado. O vendedor pode:
+- Alternar entre modelos em poucos cliques
+- Realizar testes A/B entre layouts diferentes
+- Não estar preso a um único design de plataforma
+
+## Público-Alvo
+
+- Infoprodutores brasileiros que vendem globalmente
+- Criadores de cursos online, e-books, memberships
+- Vendedores digitais que usam tráfego pago (Meta, Google, TikTok)
+- Negócios que querem aceitar PayPal além de cartão de crédito via Stripe
+- Vendedores que precisam de assinaturas recorrentes sem complexidade
+
+## Perguntas Frequentes
+
+**O Snapp processa o pagamento?**
+Não. O Snapp é a camada de checkout, automação e gestão. O processamento é feito pela conta Stripe ou PayPal do próprio vendedor — o dinheiro cai diretamente na conta do vendedor, sem intermediário.
+
+**Preciso ter conta na Stripe ou no PayPal?**
+Sim. O vendedor conecta sua própria conta Stripe e/ou PayPal. Isso garante recebimento direto com a segurança dos melhores gateways do mundo.
+
+**Posso vender assinaturas?**
+Sim. O Snapp suporta assinaturas com ciclos flexíveis (mensais, trimestrais, anuais ou personalizados) com cobrança automática via Stripe ou PayPal.
+
+**Tem mensalidade?**
+Não. Apenas 3% por transação aprovada. Se não vender, não paga nada. Sem mensalidade, sem taxa de setup, sem custo oculto.
+
+**Para quais países posso vender?**
+Mais de 190 países via Stripe e PayPal. O checkout adapta moeda e idioma automaticamente pelo IP do comprador.
+
+## Informações de Contato e Links
+
+- **Homepage**: https://snappcheckout.com/
+- **Plataforma (login / cadastro)**: https://admin.snappcheckout.com
+- **E-mail de suporte**: snappcheckout@gmail.com
+- **Seção de Recursos**: https://snappcheckout.com/#recursos
+- **Preços**: https://snappcheckout.com/#precos
+- **FAQ**: https://snappcheckout.com/#faq
+- **CTA principal**: https://admin.snappcheckout.com
+
+---
+
+*Este arquivo segue o padrão llms.txt (https://llmstxt.org/) para facilitar a compreensão do site por sistemas de inteligência artificial.*
