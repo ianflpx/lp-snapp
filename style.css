@@ -1852,6 +1852,11 @@ section.integrations-section {
   display: block;
 }
 
+.integration-logo-item img[src$="PayPal_Logo_Icon_2014.svg"] {
+  padding: 16px;
+  object-fit: contain;
+}
+
 @keyframes integration-marquee {
   0% {
     transform: translateX(0);
@@ -1917,6 +1922,10 @@ section.comparison-section {
 .col-snapp {
   background: #fafafa;
   font-weight: 700;
+}
+
+.mobile-col-label {
+  display: none;
 }
 
 .comp-table tbody tr:last-child td {
@@ -2414,7 +2423,7 @@ section.cta-section {
   }
 
   section {
-    margin-bottom: var(--section-space);
+    margin-bottom: var(--section-space) * 0.7;
   }
 
   .section-title {
@@ -2657,18 +2666,101 @@ section.cta-section {
   }
 
   .table-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .comp-table {
-    min-width: 590px;
+    display: block;
+    min-width: 0;
     font-size: 14px;
   }
 
-  .comp-table th,
-  .comp-table td {
-    padding: 16px 18px;
+  .comp-table thead {
+    display: none;
+  }
+
+  .comp-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+
+  .comp-table tbody tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0 10px;
+    padding: 16px 14px 14px;
+    text-align: left;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .comp-table tbody tr:hover td:first-child {
+    background: transparent;
+  }
+
+  .comp-table tbody tr:hover td:not(:first-child) {
+    background: var(--off-white);
+  }
+
+  .comp-table tbody tr:hover td.col-snapp {
+    background: var(--yellow-light);
+  }
+
+  .comp-table tbody td:first-child {
+    grid-column: 1 / -1;
+    padding: 0 2px 14px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--dark);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .comp-table tbody td:not(:first-child) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 6px;
+    min-width: 0;
+    min-height: 72px;
+    padding: 10px;
+    text-align: left;
+    border: 0;
+    border-radius: 12px;
+    background: var(--off-white);
+    line-height: 1.35;
+  }
+
+  .comp-table tbody td.col-snapp {
+    border: 1px solid rgba(230, 189, 20, 0.2);
+    background: var(--yellow-light);
+  }
+
+  .mobile-col-label {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+  }
+
+  .comp-table .yes,
+  .comp-table .no {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .comp-table .yes::before,
+  .comp-table .no::before {
+    margin-right: 4px;
   }
 
   .integration-logo-marquee {
