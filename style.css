@@ -722,7 +722,7 @@ body {
 /* ── SECTION HELPERS ── */
 section {
   padding: var(--section-inset) 0;
-  margin-bottom: var(--section-space);
+  margin-bottom: var(--section-space) * 0.9;
   position: relative;
 }
 
