@@ -52,15 +52,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://unpkg.com" />
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-  <link rel="preload" href="images/logo-snapp.png" as="image" />
+  <link rel="preload" href="images/logo-snapp.webp" as="image" />
 
-  <!-- ═══ FONTS ═══ -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
-    rel="stylesheet" />
+  <!-- ═══ CRITICAL CSS (inline to avoid render-blocking) ═══ -->
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{background:#fff}
+    body{font-family:-apple-system,sans-serif;color:#0a0a0b;background:#fff;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .container{max-width:1200px;margin:0 auto;padding:0 32px}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:999}
+  </style>
 
-  <!-- ═══ STYLES ═══ -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- ═══ FONTS (non-blocking) ═══ -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"></noscript>
+
+  <!-- ═══ STYLES (non-blocking) ═══ -->
+  <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="style.css"></noscript>
 
   <!-- ═══ STRUCTURED DATA ═══ -->
   <script type="application/ld+json">
@@ -233,7 +242,7 @@
   <header class="nav">
     <div class="container nav__inner">
       <div class="nav__left">
-        <a href="#" class="logo"><img src="images/logo-snapp.png" alt="Snapp" class="logo-img"
+        <a href="#" class="logo"><img src="images/logo-snapp.webp" alt="Snapp" class="logo-img" fetchpriority="high"
             style="height: 38px; width: auto;" /></a>
       </div>
       <nav class="nav__links">
@@ -261,7 +270,7 @@
                   class="hero-payment-logo__face"><img src="images/logo-stripe2.webp" alt="" /></span></span><span
                 class="hero-payment-plus" aria-hidden="true">+</span><span
                 class="hero-payment-logo hero-payment-logo--paypal" aria-hidden="true"><span
-                  class="hero-payment-logo__face"><img src="images/logo-paypal.png" alt="" /></span></span></span> <span data-i18n="hero_h1_post">em um checkout feito para conversão.</span></h1>
+                  class="hero-payment-logo__face"><img src="images/logo-paypal.webp" alt="" /></span></span></span> <span data-i18n="hero_h1_post">em um checkout feito para conversão.</span></h1>
         <p data-i18n="hero_p">Em menos de 10 minutos, conecte suas próprias contas, receba direto na sua <strong
             class="payment-brand payment-brand--stripe">Stripe</strong> ou no seu <strong
             class="payment-brand payment-brand--paypal">PayPal</strong> e comece a
@@ -441,7 +450,7 @@
             <p data-i18n="upsell_p">Crie ofertas pós-compra em sequência. Se o cliente recusar o upsell, apresente um downsell automaticamente — tudo em um clique, sem redigitar dados de pagamento.</p>
           </div>
           <div class="recurso-visual" aria-hidden="true">
-            <img src="images/feature-upsell-3d.png" alt="" />
+            <img src="images/feature-upsell-3d.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -451,7 +460,7 @@
             <p data-i18n="orderbump_p">Crie mais de uma oferta complementar no checkout e teste quais combinações aumentam mais o ticket médio.</p>
           </div>
           <div class="recurso-visual recurso-visual--order-bump" aria-hidden="true">
-            <img src="images/feature-order-bump-3d.png" alt="" />
+            <img src="images/feature-order-bump-3d.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -461,7 +470,7 @@
             <p data-i18n="abt_p">Compare diferentes layouts, ofertas e estruturas de checkout para descobrir o que gera mais vendas em cada produto.</p>
           </div>
           <div class="recurso-visual recurso-visual--ab" aria-hidden="true">
-            <img src="images/feature-ab-test-3d.png" alt="" />
+            <img src="images/feature-ab-test-3d.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -471,7 +480,7 @@
             <p data-i18n="subs_p">Crie planos mensais, trimestrais ou anuais com cobrança automática via Stripe ou PayPal.</p>
           </div>
           <div class="recurso-visual recurso-visual--subscriptions" aria-hidden="true">
-            <img src="images/feature-subscriptions-3d.png" alt="" />
+            <img src="images/feature-subscriptions-3d.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -481,7 +490,7 @@
             <p data-i18n="email_funnel_p">Sequências de boas-vindas, upsell e reativação — tudo dentro do Snapp, sem ferramentas extras.</p>
           </div>
           <div class="recurso-visual recurso-visual--email" aria-hidden="true">
-            <img src="images/feature-email-funnel-3d.png" alt="" />
+            <img src="images/feature-email-funnel-3d.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
 
@@ -491,7 +500,7 @@
             <p data-i18n="multicurrency_p">O checkout adapta idioma e moeda automaticamente pelo IP do comprador, reduzindo fricção para vender em diferentes países.</p>
           </div>
           <div class="recurso-visual recurso-visual--currency" aria-hidden="true">
-            <img src="images/feature-multi-currency-3d.png" alt="" />
+            <img src="images/feature-multi-currency-3d.webp" alt="" loading="lazy" decoding="async" />
           </div>
         </div>
       </div>
@@ -503,7 +512,7 @@
     <div class="container">
       <div class="global-flex">
         <div class="global-image">
-          <img src="images/logo3d-stripe-paypal.png" alt="Stripe + PayPal 3D" />
+          <img src="images/logo3d-stripe-paypal.webp" alt="Stripe + PayPal 3D" loading="lazy" decoding="async" />
         </div>
 
         <div class="global-content">
@@ -515,7 +524,7 @@
           <div class="global-mini-cards">
             <div class="mini-card">
               <div class="mini-card__icon stripe-bg">
-                <img src="images/logo-stripe.png" alt="Stripe" />
+                <img src="images/logo-stripe.webp" alt="Stripe" loading="lazy" decoding="async" />
               </div>
               <div class="mini-card__text">
                 <h3>Stripe</h3>
@@ -526,7 +535,7 @@
 
             <div class="mini-card">
               <div class="mini-card__icon paypal-bg">
-                <img src="images/logo-paypal.png" alt="PayPal" />
+                <img src="images/logo-paypal.webp" alt="PayPal" loading="lazy" decoding="async" />
               </div>
               <div class="mini-card__text">
                 <h3>PayPal</h3>
@@ -552,7 +561,7 @@
       </div>
 
       <div class="brand-visual">
-        <img src="images/checkout-layouts-3d.png" alt="Layouts de checkout Snapp em teste A/B" class="brand-image" />
+        <img src="images/checkout-layouts-3d.webp" alt="Layouts de checkout Snapp em teste A/B" class="brand-image" loading="lazy" decoding="async" />
         <ul class="brand-list">
           <li>
             <span class="brand-list__icon" aria-hidden="true">
@@ -811,18 +820,18 @@
 
       <div class="integration-logo-marquee" aria-label="Integrações disponíveis">
         <div class="integration-logo-track">
-          <div class="integration-logo-item"><img src="images/logo-paypal2.png" alt="PayPal" /></div>
-          <div class="integration-logo-item"><img src="images/logo-vturb.png" alt="VTurb" /></div>
-          <div class="integration-logo-item"><img src="images/logo-utmify.png" alt="UTMify" /></div>
-          <div class="integration-logo-item"><img src="images/logo-stripe2.webp" alt="Stripe" /></div>
-          <div class="integration-logo-item"><img src="images/logo-huskyapp.png" alt="Husky App" /></div>
-          <div class="integration-logo-item"><img src="images/logo-webhook.png" alt="Webhook" /></div>
-          <div class="integration-logo-item"><img src="images/logo-paypal2.png" alt="" aria-hidden="true" /></div>
-          <div class="integration-logo-item"><img src="images/logo-vturb.png" alt="" aria-hidden="true" /></div>
-          <div class="integration-logo-item"><img src="images/logo-utmify.png" alt="" aria-hidden="true" /></div>
-          <div class="integration-logo-item"><img src="images/logo-stripe2.webp" alt="" aria-hidden="true" /></div>
-          <div class="integration-logo-item"><img src="images/logo-huskyapp.png" alt="" aria-hidden="true" /></div>
-          <div class="integration-logo-item"><img src="images/logo-webhook.png" alt="" aria-hidden="true" /></div>
+          <div class="integration-logo-item"><img src="images/logo-paypal2.webp" alt="PayPal" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-vturb.webp" alt="VTurb" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-utmify.webp" alt="UTMify" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-stripe2.webp" alt="Stripe" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-huskyapp.webp" alt="Husky App" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-webhook.webp" alt="Webhook" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-paypal2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-vturb.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-utmify.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-stripe2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-huskyapp.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" /></div>
+          <div class="integration-logo-item"><img src="images/logo-webhook.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" /></div>
         </div>
       </div>
     </div>
@@ -886,8 +895,8 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__top">
-        <a href="#" class="logo footer-logo"><img src="images/logo-S.png" alt="Snapp" class="logo-img"
-            style="height: 58px; width: auto;" /></a>
+        <a href="#" class="logo footer-logo"><img src="images/logo-S.webp" alt="Snapp" class="logo-img"
+            loading="lazy" decoding="async" style="height: 58px; width: auto;" /></a>
         <nav class="footer__nav">
           <a href="#recursos" data-i18n="footer_recursos">Recursos</a>
           <a href="#precos" data-i18n="footer_precos">Preços</a>
