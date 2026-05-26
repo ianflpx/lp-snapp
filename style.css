@@ -1856,6 +1856,10 @@ section.integrations-section {
   padding: 16px;
   object-fit: contain;
 }
+.integration-logo-item img[src$="images/PayPal_Logo_Icon_2014.svg"] {
+  padding: 16px;
+  object-fit: contain;
+}
 
 @keyframes integration-marquee {
   0% {
