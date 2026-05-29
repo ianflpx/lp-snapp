@@ -1,7 +1,7 @@
 # Snapp Checkout — Documentação Completa para Sistemas de IA
 
 > Plataforma de checkout all-in-one para venda de infoprodutos globalmente.
-> URL: https://snappcheckout.com/
+> URL: https://www.snappcheckout.com/
 > Idioma: pt-BR
 > Contato: snappcheckout@gmail.com
 
@@ -106,12 +106,12 @@ Mais de 190 países via Stripe e PayPal. O checkout adapta moeda e idioma automa
 
 ## Informações de Contato e Links
 
-- **Homepage**: https://snappcheckout.com/
+- **Homepage**: https://www.snappcheckout.com/
 - **Plataforma (login / cadastro)**: https://admin.snappcheckout.com
 - **E-mail de suporte**: snappcheckout@gmail.com
-- **Seção de Recursos**: https://snappcheckout.com/#recursos
-- **Preços**: https://snappcheckout.com/#precos
-- **FAQ**: https://snappcheckout.com/#faq
+- **Seção de Recursos**: https://www.snappcheckout.com/#recursos
+- **Preços**: https://www.snappcheckout.com/#precos
+- **FAQ**: https://www.snappcheckout.com/#faq
 - **CTA principal**: https://admin.snappcheckout.com
 
 ---

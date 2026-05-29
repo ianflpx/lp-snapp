@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://snappcheckout.com/sitemap.xml
+Sitemap: https://www.snappcheckout.com/sitemap.xml
