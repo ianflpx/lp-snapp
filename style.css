@@ -394,10 +394,16 @@ body {
 .hero-payment-logos {
   display: inline-flex;
   align-items: center;
+  flex: 0 0 auto;
   gap: 0.16em;
   margin: 0 0.14em;
   vertical-align: -0.25em;
   perspective: 9em;
+  white-space: nowrap;
+}
+
+.hero-payment-logos .seo-only {
+  display: none !important;
 }
 
 .hero-payment-logo {
@@ -1865,17 +1871,15 @@ section.integrations-section {
   display: block;
 }
 
-#paypal-icon-slider {
-  padding: 16px;
-  object-fit: contain;
-}
-
-.integration-logo-item .paypal-icon-slider {
-  object-fit: contain;
-}
-
-.integration-logo-item:has(.paypal-icon-slider) {
+.integration-logo-item-paypal {
   padding: 12px;
+}
+
+.integration-logo-item-paypal .paypal-icon-slider {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
 }
 
 @keyframes integration-marquee {
