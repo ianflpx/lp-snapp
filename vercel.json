@@ -42,6 +42,14 @@
   ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        { "type": "host", "value": "snappcheckout.com" }
+      ],
+      "destination": "https://www.snappcheckout.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true
