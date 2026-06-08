@@ -3,9 +3,30 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.snappcheckout.com/</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-06-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.snappcheckout.com/" />
+  </url>
+  <url>
+    <loc>https://www.snappcheckout.com/snapp-vs-hotmart</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.snappcheckout.com/snapp-vs-hotmart" />
+  </url>
+  <url>
+    <loc>https://www.snappcheckout.com/snapp-vs-kiwify</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.snappcheckout.com/snapp-vs-kiwify" />
+  </url>
+  <url>
+    <loc>https://www.snappcheckout.com/casos-de-sucesso</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.snappcheckout.com/casos-de-sucesso" />
   </url>
 </urlset>
