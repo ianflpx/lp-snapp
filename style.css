@@ -1870,6 +1870,14 @@ section.integrations-section {
   object-fit: contain;
 }
 
+.integration-logo-item .paypal-icon-slider {
+  object-fit: contain;
+}
+
+.integration-logo-item:has(.paypal-icon-slider) {
+  padding: 12px;
+}
+
 @keyframes integration-marquee {
   0% {
     transform: translateX(0);
