@@ -131,8 +131,26 @@
       footer_recursos: "Recursos",
       footer_precos: "Preços",
       footer_integracoes: "Integrações",
+      footer_termos: "Termos de Uso",
+      footer_privacidade: "Privacidade",
+      footer_dados: "Proteção de Dados",
       footer_suporte: "Suporte",
-      footer_copy: "© 2025 Snapp Checkout. Todos os direitos reservados."
+      footer_copy: "© 2026 Snapp Checkout. Todos os direitos reservados.",
+      support_eyebrow: "SUPORTE SNAPP",
+      support_title: "Como podemos ajudar?",
+      support_intro: "Fale com a equipe da Snapp para receber ajuda com sua conta, checkout, pagamentos ou conexão com o ChatGPT.",
+      support_channels_title: "Fale com a gente",
+      support_whatsapp_copy: "Envie uma mensagem para conversar com nosso time de suporte.",
+      support_whatsapp_action: "Abrir WhatsApp",
+      support_email_action: "Enviar e-mail",
+      support_topics_eyebrow: "ATENDIMENTO",
+      support_topics_title: "Em que podemos ajudar",
+      support_topic_account: "Acesso à conta, cadastro e configurações",
+      support_topic_checkout: "Ofertas, checkout, vendas e assinaturas",
+      support_topic_gateway: "Integrações com gateways e ferramentas conectadas",
+      support_topic_mcp: "Conexão da sua conta Snapp ao ChatGPT via MCP",
+      support_security_title: "Mantenha suas informações seguras",
+      support_security_copy: "Nunca envie senhas, API keys, códigos de autenticação ou dados completos de cartão por WhatsApp, e-mail ou ChatGPT."
     },
 
     en: {
@@ -266,8 +284,26 @@
       footer_recursos: "Features",
       footer_precos: "Pricing",
       footer_integracoes: "Integrations",
+      footer_termos: "Terms of Service",
+      footer_privacidade: "Privacy",
+      footer_dados: "Data Protection",
       footer_suporte: "Support",
-      footer_copy: "© 2025 Snapp Checkout. All rights reserved."
+      footer_copy: "© 2026 Snapp Checkout. All rights reserved.",
+      support_eyebrow: "SNAPP SUPPORT",
+      support_title: "How can we help?",
+      support_intro: "Talk to the Snapp team for help with your account, checkout, payments, or ChatGPT connection.",
+      support_channels_title: "Get in touch",
+      support_whatsapp_copy: "Send a message to speak with our support team.",
+      support_whatsapp_action: "Open WhatsApp",
+      support_email_action: "Send email",
+      support_topics_eyebrow: "SUPPORT",
+      support_topics_title: "What we can help with",
+      support_topic_account: "Account access, registration, and settings",
+      support_topic_checkout: "Offers, checkout, sales, and subscriptions",
+      support_topic_gateway: "Payment-gateway and connected-tool integrations",
+      support_topic_mcp: "Connecting your Snapp account to ChatGPT through MCP",
+      support_security_title: "Keep your information secure",
+      support_security_copy: "Never send passwords, API keys, authentication codes, or full card details through WhatsApp, email, or ChatGPT."
     },
 
     es: {
@@ -401,8 +437,26 @@
       footer_recursos: "Funciones",
       footer_precos: "Precios",
       footer_integracoes: "Integraciones",
+      footer_termos: "Términos de Uso",
+      footer_privacidade: "Privacidad",
+      footer_dados: "Protección de Datos",
       footer_suporte: "Soporte",
-      footer_copy: "© 2025 Snapp Checkout. Todos los derechos reservados."
+      footer_copy: "© 2026 Snapp Checkout. Todos los derechos reservados.",
+      support_eyebrow: "SOPORTE SNAPP",
+      support_title: "¿Cómo podemos ayudarte?",
+      support_intro: "Habla con el equipo de Snapp para recibir ayuda con tu cuenta, checkout, pagos o conexión con ChatGPT.",
+      support_channels_title: "Habla con nosotros",
+      support_whatsapp_copy: "Envía un mensaje para hablar con nuestro equipo de soporte.",
+      support_whatsapp_action: "Abrir WhatsApp",
+      support_email_action: "Enviar correo",
+      support_topics_eyebrow: "ATENCIÓN",
+      support_topics_title: "En qué podemos ayudarte",
+      support_topic_account: "Acceso a la cuenta, registro y configuraciones",
+      support_topic_checkout: "Ofertas, checkout, ventas y suscripciones",
+      support_topic_gateway: "Integraciones con gateways y herramientas conectadas",
+      support_topic_mcp: "Conexión de tu cuenta Snapp a ChatGPT mediante MCP",
+      support_security_title: "Mantén tu información segura",
+      support_security_copy: "Nunca envíes contraseñas, API keys, códigos de autenticación o datos completos de tarjeta por WhatsApp, correo o ChatGPT."
     }
   };
 
@@ -436,9 +490,11 @@
       }
     });
 
-    document.title = t.meta_title;
-    var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', t.meta_desc);
+    if (!document.documentElement.hasAttribute('data-preserve-page-meta')) {
+      document.title = t.meta_title;
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', t.meta_desc);
+    }
 
   }
 

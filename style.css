@@ -1336,7 +1336,7 @@ section.brand-section {
 }
 
 .recurso-card--yellow h3 span {
-  color: rgba(10, 10, 11, 0.52);
+  color: var(--dark);
 }
 
 .recurso-card--dark h3 span {

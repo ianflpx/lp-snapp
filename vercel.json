@@ -53,6 +53,21 @@
       "source": "/index.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/politica-de-privacidade",
+      "destination": "/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/termos-de-uso",
+      "destination": "/terms-of-use",
+      "permanent": true
+    },
+    {
+      "source": "/protecao-de-dados",
+      "destination": "/data-protection",
+      "permanent": true
     }
   ]
 }

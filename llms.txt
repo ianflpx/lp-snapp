@@ -29,5 +29,9 @@ Snapp Checkout é uma plataforma SaaS de checkout all-in-one para criadores de i
 - Seção de Recursos: https://www.snappcheckout.com/#recursos
 - Preços: https://www.snappcheckout.com/#precos
 - FAQ: https://www.snappcheckout.com/#faq
+- Política de Privacidade: https://www.snappcheckout.com/privacy-policy/
+- Proteção de Dados (LGPD, papéis, subprocessadores): https://www.snappcheckout.com/data-protection/
+- Termos de Serviço: https://www.snappcheckout.com/terms-of-use/
+- Suporte: https://www.snappcheckout.com/support/
 - Contato: mailto:snappcheckout@gmail.com
 - llms-full.txt: https://www.snappcheckout.com/llms-full.txt

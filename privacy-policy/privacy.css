@@ -1,0 +1,289 @@
+:root {
+  --yellow: #fed217;
+  --yellow-dark: #e6bd14;
+  --ink: #0a0a0b;
+  --ink-soft: #313136;
+  --muted: #67676d;
+  --line: #e9e9eb;
+  --surface: #f7f7f6;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--white); }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--white);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+.shell {
+  width: min(100% - 48px, 1120px);
+  margin: 0 auto;
+}
+
+.policy-page main { padding-top: 90px; }
+
+.policy-document a:hover { color: var(--yellow-dark); }
+
+.policy-hero { background: var(--ink); color: var(--white); }
+
+.policy-hero__inner { padding: 88px 0 82px; }
+
+.eyebrow,
+.policy-summary__label {
+  margin: 0 0 15px;
+  color: var(--yellow);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+h1,
+h2,
+p { margin-top: 0; }
+
+h1 {
+  max-width: 720px;
+  margin-bottom: 16px;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.policy-hero__intro {
+  max-width: 680px;
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.updated {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.policy-content { padding: 72px 0 104px; }
+
+.policy-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  align-items: start;
+  gap: 96px;
+}
+
+.policy-summary {
+  position: sticky;
+  top: 32px;
+  border-top: 3px solid var(--yellow);
+  padding-top: 18px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.policy-summary p:last-child { margin-bottom: 0; }
+
+.policy-document { max-width: 700px; }
+
+.policy-document section {
+  padding: 0 0 38px;
+  margin-bottom: 38px;
+  border-bottom: 1px solid var(--line);
+}
+
+.policy-document section:last-child {
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.policy-document h2 {
+  margin-bottom: 14px;
+  color: var(--ink);
+  font-size: 21px;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.policy-document p,
+.policy-document li { color: var(--ink-soft); }
+
+.policy-document p { margin-bottom: 16px; }
+.policy-document p:last-child { margin-bottom: 0; }
+
+.policy-document ul {
+  padding-left: 20px;
+  margin: 0 0 16px;
+}
+
+.policy-document li { padding-left: 4px; margin-bottom: 8px; }
+.policy-document strong { color: var(--ink); }
+.policy-document a { color: var(--ink); font-weight: 700; text-underline-offset: 3px; }
+
+/* ── Cards de papéis (controlador × operador) ── */
+
+.policy-roles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 16px;
+}
+
+.policy-role {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--yellow);
+  border-radius: 4px;
+  padding: 18px 18px 16px;
+  background: var(--surface);
+}
+
+.policy-role__label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.policy-role__who {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.policy-role p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── Bloco "o que fazemos / o que nunca fazemos" ── */
+
+.policy-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  margin: 0 0 4px;
+}
+
+.policy-split h3 {
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.policy-split ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.policy-split li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.policy-split li::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 800;
+}
+
+.policy-split .is-do li::before {
+  content: "✓";
+  color: #1a7f4b;
+}
+
+.policy-split .is-dont li::before {
+  content: "✕";
+  color: #b42318;
+}
+
+/* ── Tabela de subprocessadores ── */
+
+.policy-table-wrap {
+  overflow-x: auto;
+  margin: 0 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.policy-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.policy-table th,
+.policy-table td {
+  padding: 11px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.policy-table th {
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.policy-table tr:last-child td { border-bottom: 0; }
+.policy-table td:first-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
+
+/* ── Destaque de aviso / dado a preencher ── */
+
+.policy-note {
+  border-left: 3px solid var(--yellow);
+  padding: 2px 0 2px 16px;
+  margin: 0 0 16px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.policy-note:last-child { margin-bottom: 0; }
+
+@media (max-width: 760px) {
+  .shell { width: min(100% - 36px, 1120px); }
+  .policy-page main { padding-top: 72px; }
+  .policy-hero__inner { padding: 62px 0 58px; }
+  .policy-hero__intro { font-size: 16px; }
+  .policy-content { padding: 48px 0 72px; }
+  .policy-layout { display: block; }
+  .policy-summary { position: static; margin-bottom: 48px; }
+  .policy-document section { padding-bottom: 30px; margin-bottom: 30px; }
+  .policy-document h2 { font-size: 19px; }
+  .policy-roles,
+  .policy-split { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
