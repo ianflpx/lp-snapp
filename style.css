@@ -1871,6 +1871,12 @@ section.integrations-section {
   display: block;
 }
 
+.integration-logo-item img.integration-logo-contain {
+  padding: 16px;
+  object-fit: contain;
+  border-radius: 0;
+}
+
 .integration-logo-item-paypal {
   padding: 12px;
 }
@@ -2806,6 +2812,10 @@ section.cta-section {
     width: 92px;
     height: 92px;
     border-radius: 22px;
+  }
+
+  .integration-logo-item img.integration-logo-contain {
+    padding: 14px;
   }
 
   .sub-cards {
