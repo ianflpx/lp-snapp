@@ -1,0 +1,45 @@
+- generic [ref=e2]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - combobox "Idioma" [ref=e6] [cursor=pointer]:
+        - generic: Português
+      - region [ref=e7]:
+        - generic [ref=e8]:
+          - img "Snapp Checkout" [ref=e9]
+          - generic [ref=e10]:
+            - heading "Crie sua conta" [level=1] [ref=e11]
+            - paragraph [ref=e12]: Comece a vender com o SnappCheckout!
+          - generic [ref=e13]:
+            - generic [ref=e14]:
+              - generic [ref=e15]: Nome Completo
+              - textbox "Nome Completo" [ref=e16]:
+                - /placeholder: Seu nome
+            - generic [ref=e17]:
+              - generic [ref=e18]: E-mail
+              - textbox "E-mail" [ref=e19]:
+                - /placeholder: seu@email.com
+            - generic [ref=e20]:
+              - generic [ref=e21]: Telefone
+              - generic [ref=e22]:
+                - 'button "País: Brasil (+55)" [ref=e23] [cursor=pointer]':
+                  - generic [ref=e25]: "+55"
+                - textbox "Telefone" [ref=e26]:
+                  - /placeholder: (00) 00000-0000
+            - generic [ref=e27]:
+              - generic [ref=e28]: Senha
+              - generic [ref=e29]:
+                - textbox "Senha" [ref=e30]:
+                  - /placeholder: ••••••••
+                - button "Mostrar senha" [ref=e31] [cursor=pointer]
+            - generic [ref=e36]:
+              - checkbox "Li e aceito as Políticas" [ref=e37]
+              - checkbox [aria-hidden]
+              - generic [ref=e38] [cursor=pointer]:
+                - text: Li e aceito as
+                - button "Políticas" [ref=e39]
+            - button "Criar conta" [ref=e40] [cursor=pointer]
+          - paragraph [ref=e41]:
+            - text: Já tem uma conta?
+            - link "Fazer login" [ref=e42] [cursor=pointer]:
+              - /url: /login
+  - region "Notifications alt+T"

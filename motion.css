@@ -1,0 +1,321 @@
+/* ══════════════════════════════════════════
+   SNAPP CHECKOUT — Camada de movimento
+   Reveals em scroll + seções "respiro" full-viewport
+   Toda animação usa só opacity/transform/filter (compostas na GPU).
+══════════════════════════════════════════ */
+
+:root {
+  --ease-snapp: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-dur: 900ms;
+  --breather-track: 190vh;
+}
+
+/* ──────────────────────────────────────────
+   1. REVEAL EM SCROLL
+   Só esconde o conteúdo depois que o JS confirma
+   que consegue revelar (.js-motion no <html>).
+   Sem JS / com reduced-motion, nada é escondido.
+   ────────────────────────────────────────── */
+
+.js-motion [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition:
+    opacity var(--reveal-dur) var(--ease-snapp),
+    transform var(--reveal-dur) var(--ease-snapp),
+    filter var(--reveal-dur) var(--ease-snapp);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-motion [data-reveal="fade"] {
+  transform: none;
+}
+
+.js-motion [data-reveal="scale"] {
+  transform: scale(0.95) translate3d(0, 20px, 0);
+  filter: blur(8px);
+}
+
+.js-motion [data-reveal="left"] {
+  transform: translate3d(-42px, 0, 0);
+}
+
+.js-motion [data-reveal="right"] {
+  transform: translate3d(42px, 0, 0);
+}
+
+.js-motion [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* filter só é resetado na variante que o usa, para não apagar
+   drop-shadow/mask que o elemento já tenha no style.css */
+.js-motion [data-reveal="scale"].is-revealed {
+  filter: none;
+}
+
+/* ──────────────────────────────────────────
+   2. SEÇÕES "RESPIRO" (full-viewport)
+   Trilho alto + conteúdo sticky: a frase sobe,
+   trava na tela enquanto você rola e depois solta.
+   ────────────────────────────────────────── */
+
+section.breather {
+  min-height: var(--breather-track);
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background: var(--white);
+  /* sem overflow aqui: overflow != visible quebra o position:sticky do stage */
+  view-timeline-name: --breather;
+  view-timeline-axis: block;
+}
+
+section.breather--dark {
+  background: var(--dark);
+  color: var(--white);
+}
+
+.breather__stage {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 32px;
+}
+
+.breather__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(1100px, 86vw);
+  height: min(1100px, 86vw);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 50% 50%, var(--yellow-glow) 0%, transparent 62%);
+  filter: blur(130px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.breather--dark .breather__glow {
+  opacity: 0.4;
+}
+
+.breather__content {
+  position: relative;
+  z-index: 1;
+  max-width: 1060px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+}
+
+.breather__eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.breather--dark .breather__eyebrow {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.breather__title {
+  font-size: clamp(38px, 7.4vw, 104px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.breather--dark .breather__title {
+  color: var(--white);
+}
+
+.breather__lead {
+  font-size: clamp(16px, 1.4vw, 21px);
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.breather--dark .breather__lead {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+/* ── Linha de números ── */
+.breather__stats {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(32px, 6vw, 88px);
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.breather__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 120px;
+}
+
+.breather__stat-value {
+  font-size: clamp(38px, 5.4vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--dark);
+}
+
+.breather--dark .breather__stat-value {
+  color: var(--yellow);
+}
+
+.breather__stat-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: -0.1px;
+}
+
+.breather--dark .breather__stat-label {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ──────────────────────────────────────────
+   3. SCROLL-DRIVEN (progressive enhancement)
+   Onde o browser suporta animation-timeline, o respiro
+   ganha o arco completo: entra, segura, sai.
+   Onde não suporta, o IntersectionObserver acima já
+   entregou a entrada — o sticky continua funcionando.
+   ────────────────────────────────────────── */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js-motion .breather__content {
+      animation: breather-arc linear both;
+      animation-timeline: --breather;
+      animation-range: cover 0% cover 100%;
+    }
+
+    /* o glow respira em contratempo com o texto */
+    .js-motion .breather__glow {
+      animation: breather-glow linear both;
+      animation-timeline: --breather;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes breather-arc {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 64px, 0) scale(0.94);
+    filter: blur(10px);
+  }
+  30% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+  68% {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -44px, 0) scale(0.985);
+    filter: blur(7px);
+  }
+}
+
+@keyframes breather-glow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  45% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* ──────────────────────────────────────────
+   4. RESPONSIVO
+   ────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  :root {
+    --breather-track: 145vh;
+    --reveal-dur: 720ms;
+  }
+
+  .breather__stage {
+    padding: 88px 20px;
+  }
+
+  .breather__title {
+    max-width: 100%;
+    letter-spacing: -0.03em;
+  }
+
+  /* três números em uma linha só: quebrar 2+1 desequilibra o bloco */
+  .breather__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+  }
+
+  .breather__stat {
+    min-width: 0;
+  }
+
+  .breather__stat-value {
+    font-size: clamp(30px, 8.6vw, 44px);
+  }
+
+  .breather__stat-label {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+/* ──────────────────────────────────────────
+   5. ACESSIBILIDADE
+   Com reduced-motion nada se move: tudo já nasce visível.
+   ────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  section.breather {
+    min-height: 100svh;
+  }
+
+  .breather__stage {
+    position: static;
+  }
+}

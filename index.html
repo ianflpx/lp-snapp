@@ -112,6 +112,7 @@
 
     <!-- ═══ STYLES AND FONTS (blocking to avoid first-paint layout shifts) ═══ -->
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="motion.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" />
     <script>
       (function () {
@@ -354,6 +355,19 @@
         ]
       }
     </script>
+    <!-- ═══ MOTION GUARD ═══ -->
+    <script>
+      // Só esconde conteúdo para revelar depois se o browser tiver IntersectionObserver
+      // e o usuário não pedir menos movimento. O timeout reexibe tudo caso motion.js falhe.
+      (function () {
+        var m = window.matchMedia("(prefers-reduced-motion: reduce)");
+        if (!("IntersectionObserver" in window) || m.matches) return;
+        document.documentElement.classList.add("js-motion");
+        window.__snappMotionFailsafe = setTimeout(function () {
+          document.documentElement.classList.remove("js-motion");
+        }, 2500);
+      })();
+    </script>
   </head>
 
   <body>
@@ -573,12 +587,12 @@
     <!-- ═══ RECURSOS ═══ -->
     <section class="recursos-section" id="recursos">
       <div class="container">
-        <h2 class="section-title" data-i18n="recursos_title">Tudo o que você precisa para <span class="yellow">maximizar sua receita.</span></h2>
-        <p class="section-sub" data-i18n="recursos_sub">
+        <h2 class="section-title" data-reveal data-i18n="recursos_title">Tudo o que você precisa para <span class="yellow">maximizar sua receita.</span></h2>
+        <p class="section-sub" data-reveal data-i18n="recursos_sub">
           Ferramentas integradas para aumentar seu ticket médio, recuperar carrinhos abandonados e escalar suas vendas — sem apps externos.
         </p>
 
-        <div class="recursos-grid">
+        <div class="recursos-grid" data-reveal-stagger>
           <div class="recurso-card recurso-card--light">
             <div class="recurso-copy">
               <h3 data-i18n="upsell_h3">Upsell + Downsell <span>One-Click</span></h3>
@@ -649,22 +663,39 @@
       </div>
     </section>
 
+    <!-- ═══ RESPIRO 1 — SETUP ═══ -->
+    <section class="breather" aria-labelledby="breather-setup-title">
+      <div class="breather__glow" aria-hidden="true"></div>
+      <div class="breather__stage">
+        <div class="breather__content">
+          <span class="breather__eyebrow" data-i18n="breather_setup_eyebrow">Do zero ao primeiro pagamento</span>
+          <h2 class="breather__title" id="breather-setup-title" data-i18n="breather_setup_title">
+            Seu checkout no ar em <span class="yellow">10 minutos.</span>
+          </h2>
+          <p class="breather__lead" data-i18n="breather_setup_lead">
+            Conecte suas próprias contas Stripe e PayPal, escolha um modelo de checkout e publique. Sem desenvolvedor, sem integração manual, sem
+            esperar aprovação.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══ GLOBAL ═══ -->
     <section class="global-section" id="global">
       <div class="container">
         <div class="global-flex">
-          <div class="global-image">
+          <div class="global-image" data-reveal="left">
             <img src="images/logo3d-stripe-paypal.webp" alt="Stripe + PayPal 3D" loading="lazy" decoding="async" />
           </div>
 
           <div class="global-content">
-            <h2 class="section-title" data-i18n="global_title">O poder da Stripe e PayPal, no <span class="yellow">mesmo checkout.</span></h2>
-            <p class="section-sub" data-i18n="global_sub">
+            <h2 class="section-title" data-reveal="right" data-i18n="global_title">O poder da Stripe e PayPal, no <span class="yellow">mesmo checkout.</span></h2>
+            <p class="section-sub" data-reveal="right" data-i18n="global_sub">
               Nem todo comprador quer pagar do mesmo jeito. Com Stripe + PayPal no mesmo checkout, você reduz abandono, aumenta confiança e dá mais
               caminhos para a venda acontecer.
             </p>
 
-            <div class="global-mini-cards">
+            <div class="global-mini-cards" data-reveal-stagger>
               <div class="mini-card">
                 <div class="mini-card__icon stripe-bg">
                   <img src="images/logo-stripe.webp" alt="Stripe" loading="lazy" decoding="async" />
@@ -697,7 +728,7 @@
     <!-- ═══ CHECKOUT / BRAND ═══ -->
     <section class="brand-section" id="checkout">
       <div class="container brand-section__inner">
-        <div class="brand-text">
+        <div class="brand-text" data-reveal>
           <h2 class="section-title white-title" data-i18n="brand_title">
             Escolha o checkout que combina com <span class="yellow">sua oferta.</span>
           </h2>
@@ -707,7 +738,7 @@
           </p>
         </div>
 
-        <div class="brand-visual">
+        <div class="brand-visual" data-reveal="scale">
           <img
             src="images/checkout-layouts-3d.webp"
             alt="Layouts de checkout Snapp em teste A/B"
@@ -756,16 +787,43 @@
       </div>
     </section>
 
+    <!-- ═══ RESPIRO 2 — ALCANCE ═══ -->
+    <section class="breather" aria-labelledby="breather-reach-title">
+      <div class="breather__glow" aria-hidden="true"></div>
+      <div class="breather__stage">
+        <div class="breather__content">
+          <span class="breather__eyebrow" data-i18n="breather_reach_eyebrow">Alcance</span>
+          <h2 class="breather__title" id="breather-reach-title" data-i18n="breather_reach_title">
+            Venda para o <span class="yellow">mundo inteiro</span> sem trocar de plataforma.
+          </h2>
+          <div class="breather__stats">
+            <div class="breather__stat">
+              <span class="breather__stat-value" data-count="195">195</span>
+              <span class="breather__stat-label" data-i18n="breather_reach_stat_countries">países atendidos</span>
+            </div>
+            <div class="breather__stat">
+              <span class="breather__stat-value" data-count="135" data-count-suffix="+">135+</span>
+              <span class="breather__stat-label" data-i18n="breather_reach_stat_currencies">moedas suportadas</span>
+            </div>
+            <div class="breather__stat">
+              <span class="breather__stat-value" data-count="1">1</span>
+              <span class="breather__stat-label" data-i18n="breather_reach_stat_checkout">checkout para tudo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══ EMAIL ═══ -->
     <section class="email-section" id="email">
       <div class="container">
-        <h2 class="section-title" data-i18n="email_title">Automação de e-mail <span class="yellow">sem ferramentas extras.</span></h2>
-        <p class="section-sub" data-i18n="email_sub">
+        <h2 class="section-title" data-reveal data-i18n="email_title">Automação de e-mail <span class="yellow">sem ferramentas extras.</span></h2>
+        <p class="section-sub" data-reveal data-i18n="email_sub">
           Crie e automatize cada e-mail que seu negócio precisa — confirmações de compra, recuperação de carrinho, upsells e mais — tudo dentro do
           Snapp.
         </p>
 
-        <div class="email-panel">
+        <div class="email-panel" data-reveal="scale">
           <div class="email-flow" aria-label="Exemplo visual de automação de e-mail">
             <div class="email-flow__step email-flow__step--trigger">
               <span class="email-flow__icon">
@@ -805,7 +863,7 @@
             <span class="email-flow__add" aria-hidden="true">+</span>
           </div>
 
-          <div class="email-feats">
+          <div class="email-feats" data-reveal-stagger>
             <div class="email-feat">
               <span class="email-feat__icon">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
@@ -856,12 +914,12 @@
     <!-- ═══ COMPARATIVO ═══ -->
     <section class="comparison-section">
       <div class="container">
-        <h2 class="section-title" data-i18n="comp_title">Veja como o Snapp <span class="yellow">se destaca.</span></h2>
-        <p class="section-sub" data-i18n="comp_sub">
+        <h2 class="section-title" data-reveal data-i18n="comp_title">Veja como o Snapp <span class="yellow">se destaca.</span></h2>
+        <p class="section-sub" data-reveal data-i18n="comp_sub">
           Venda global, mais conversão e controle no mesmo checkout.<br />Tudo para sua operação vender com mais liberdade.
         </p>
 
-        <div class="table-wrap">
+        <div class="table-wrap" data-reveal="scale">
           <table class="comp-table">
             <thead>
               <tr>
@@ -954,7 +1012,7 @@
     <!-- GLOBAL CTA -->
     <section class="world-section" aria-labelledby="world-title">
       <div class="container">
-        <div class="world-panel">
+        <div class="world-panel" data-reveal>
           <div class="world-copy">
             <h2 id="world-title" class="section-title" data-i18n="world_title">Venda facilmente para o <span class="yellow">mundo inteiro.</span></h2>
             <p data-i18n="world_p">Explore novos mercados com um checkout preparado para vender em diferentes países, moedas e idiomas.</p>
@@ -970,12 +1028,12 @@
     <!-- PRECOS -->
     <section class="pricing" id="precos">
       <div class="container">
-        <h2 class="section-title" data-i18n="pricing_title">Só pague <span class="yellow">quando vender.</span></h2>
-        <p class="section-sub" data-i18n="pricing_sub">
+        <h2 class="section-title" data-reveal data-i18n="pricing_title">Só pague <span class="yellow">quando vender.</span></h2>
+        <p class="section-sub" data-reveal data-i18n="pricing_sub">
           O Snapp cobra apenas 3% sobre cada venda aprovada. Sem mensalidade, sem valor fixo e sem letras miúdas.
         </p>
 
-        <div class="pricing-grid">
+        <div class="pricing-grid" data-reveal-stagger data-reveal-step="130">
           <div class="pricing-card pricing-card--highlight">
             <div class="pricing-card__tag" data-i18n="pricing_tag">Snapp Checkout</div>
             <div class="pricing-card__rate">3%</div>
@@ -1015,13 +1073,29 @@
       </div>
     </section>
 
+    <!-- ═══ RESPIRO 3 — RECEBIMENTO ═══ -->
+    <section class="breather breather--dark" aria-labelledby="breather-payout-title">
+      <div class="breather__glow" aria-hidden="true"></div>
+      <div class="breather__stage">
+        <div class="breather__content">
+          <span class="breather__eyebrow" data-i18n="breather_payout_eyebrow">Seu dinheiro</span>
+          <h2 class="breather__title" id="breather-payout-title" data-i18n="breather_payout_title">
+            O pagamento cai <span class="yellow">direto na sua conta.</span>
+          </h2>
+          <p class="breather__lead" data-i18n="breather_payout_lead">
+            A Stripe é sua. O PayPal é seu. O Snapp processa a venda e sai do caminho — nunca retemos o seu recebimento.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- ═══ INTEGRAÇÕES ═══ -->
     <section class="integrations-section">
       <div class="container">
-        <h2 class="section-title white-title" data-i18n="integrations_title">
+        <h2 class="section-title white-title" data-reveal data-i18n="integrations_title">
           <span class="yellow">Conecte-se</span> às principais<br />ferramentas do mercado.
         </h2>
-        <p class="section-sub" data-i18n="integrations_sub">
+        <p class="section-sub" data-reveal data-i18n="integrations_sub">
           O Snapp se integra com as ferramentas mais utilizadas para escalar seu negócio: análise de dados, trackeamento, automações, área de membros
           externa e muito mais.
         </p>
@@ -1112,8 +1186,8 @@
     <section class="faq-section" id="faq">
       <div class="container faq-section__inner">
         <div class="faq-copy">
-          <h2 class="section-title" data-i18n="faq_title">Perguntas <span class="yellow">frequentes.</span></h2>
-          <p class="section-sub" data-i18n="faq_sub">Tire as principais dúvidas antes de conectar suas contas e começar a vender com o Snapp.</p>
+          <h2 class="section-title" data-reveal data-i18n="faq_title">Perguntas <span class="yellow">frequentes.</span></h2>
+          <p class="section-sub" data-reveal data-i18n="faq_sub">Tire as principais dúvidas antes de conectar suas contas e começar a vender com o Snapp.</p>
           <a
             href="https://wa.me/554896320504?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20a%20Snapp%20Checkout."
             class="btn btn-primary faq-contact"
@@ -1125,7 +1199,7 @@
           </a>
         </div>
 
-        <div class="faq-list">
+        <div class="faq-list" data-reveal-stagger data-reveal-step="70">
           <details class="faq-item">
             <summary data-i18n="faq_q1">O Snapp processa o pagamento?</summary>
             <p data-i18n="faq_a1">
@@ -1170,7 +1244,7 @@
 
     <!-- ═══ CTA FINAL ═══ -->
     <section class="cta-section" id="comecar">
-      <div class="container cta-section__inner">
+      <div class="container cta-section__inner" data-reveal-stagger data-reveal-step="110">
         <h2 data-i18n="cta_quote">
           "A simplicidade é o último grau da sofisticação"<br /><span class="yellow cta-author">– Leonardo da Vinci</span>
         </h2>
@@ -1423,16 +1497,7 @@
       }
     </script>
 
-    <script>
-      window.addEventListener("scroll", () => {
-        const nav = document.querySelector(".nav");
-        if (window.scrollY > 20) {
-          nav.classList.add("scrolled");
-        } else {
-          nav.classList.remove("scrolled");
-        }
-      });
-    </script>
+    <script src="motion.js" defer></script>
 
     <script src="i18n.js"></script>
   </body>

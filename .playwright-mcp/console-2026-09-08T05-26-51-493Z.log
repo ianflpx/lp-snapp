@@ -1,0 +1,21 @@
+[  401763ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[  401767ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[  402773ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
+[  738457ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[  738458ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[  739465ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
+[ 1075141ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[ 1075141ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[ 1076151ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
+[ 1411815ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[ 1411816ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[ 1412825ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
+[ 1748392ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[ 1748393ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[ 1749402ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
+[ 2085044ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[ 2085045ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[ 2086056ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
+[ 2421678ms] [WARNING] WebGL: CONTEXT_LOST_WEBGL: loseContext: context lost @ http://localhost:4173/:0
+[ 2421679ms] [LOG] THREE.WebGLRenderer: Context Lost. @ https://unpkg.com/three@0.164.1/build/three.module.js:28868
+[ 2422686ms] [LOG] THREE.WebGLRenderer: Context Restored. @ https://unpkg.com/three@0.164.1/build/three.module.js:28876
