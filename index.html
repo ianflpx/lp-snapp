@@ -415,7 +415,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -.06em}}
 .hero .lead{margin:28px auto 40px;max-width:680px;font-size:clamp(16px,1.5vw,20px)}
 .hero .lead strong{color:var(--ink);font-weight:500}
-.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
+.hero .cta::before{content:"";position:absolute;left:50%;top:50%;width:140%;height:260%;translate:-50% -50%;background:radial-gradient(closest-side,rgba(5,5,5,.95),rgba(5,5,5,.6) 50%,transparent 100%);z-index:-1;pointer-events:none}
 .hero-fade{position:absolute;left:0;right:0;bottom:0;height:48%;background:linear-gradient(180deg,transparent,rgba(5,5,5,.6) 45%,var(--bg) 88%);z-index:1;pointer-events:none}
 .recursos{padding-top:clamp(60px,8vw,120px)}
 .ia.first{padding-top:clamp(20px,4vw,60px);z-index:3}
@@ -585,9 +586,15 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .marquee .label{text-align:center;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);margin-bottom:26px}
 .track{display:flex;gap:72px;width:max-content;will-change:transform}
 .track:hover{animation-play-state:paused}
-.track img{height:30px;width:auto;opacity:.5;filter:grayscale(1) brightness(1.8);transition:.4s}
-.track img:hover{opacity:1;filter:none}
-.track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px;opacity:.9;filter:none}.track.xl img:hover{transform:scale(1.08)}.track.rev{gap:64px}.track.rev img{height:30px;opacity:.35}
+.track img{height:30px;width:auto;opacity:.9;transition:transform .4s var(--ease),opacity .4s}
+.track img:hover{opacity:1;transform:scale(1.08)}
+.track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px}.track.rev{gap:72px}
+.tile{width:64px;height:64px;border-radius:15px;background:var(--tbg,#fff);display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.12);transition:transform .4s var(--ease)}
+.tile:hover{transform:scale(1.08)}
+.tile img{height:30px!important;width:auto;opacity:1!important;filter:brightness(0) invert(1)}
+.tile.light img{filter:none}
+.tile img.wm{height:14px!important}
+.tile img:hover{transform:none}
 .marquee-wrap{overflow:hidden;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
@@ -1213,10 +1220,8 @@ footer .copy{width:100%;padding-top:24px;border-top:1px solid var(--line);font-s
   </div>
   <div class="marquee-wrap" data-reveal style="--d:120ms">
     <div class="track rev">
-      <img src="/v2/images/logo-meta.svg" alt="Meta"><img src="/v2/images/logo-googleads.svg" alt="Google Ads"><img src="/v2/images/logo-tiktokads.svg" alt="TikTok Ads"><img src="/v2/images/logo-taboola.svg" alt="Taboola">
-      <img src="/v2/images/logo-meta.svg" alt=""><img src="/v2/images/logo-googleads.svg" alt=""><img src="/v2/images/logo-tiktokads.svg" alt=""><img src="/v2/images/logo-taboola.svg" alt="">
-      <img src="/v2/images/logo-meta.svg" alt=""><img src="/v2/images/logo-googleads.svg" alt=""><img src="/v2/images/logo-tiktokads.svg" alt=""><img src="/v2/images/logo-taboola.svg" alt="">
-      <img src="/v2/images/logo-meta.svg" alt=""><img src="/v2/images/logo-googleads.svg" alt=""><img src="/v2/images/logo-tiktokads.svg" alt=""><img src="/v2/images/logo-taboola.svg" alt="">
+      <span class="tile" style="--tbg:#0866FF"><img src="/v2/images/ic-meta.svg" alt="Meta"></span><span class="tile light"><img src="/v2/images/ic-googleads.svg" alt="Google Ads"></span><span class="tile" style="--tbg:#111"><img src="/v2/images/ic-tiktok.svg" alt="TikTok"></span><span class="tile" style="--tbg:#005A8C"><img class="wm" src="/v2/images/logo-taboola.svg" alt="Taboola"></span>
+      <span class="tile" style="--tbg:#0866FF"><img src="/v2/images/ic-meta.svg" alt=""></span><span class="tile light"><img src="/v2/images/ic-googleads.svg" alt=""></span><span class="tile" style="--tbg:#111"><img src="/v2/images/ic-tiktok.svg" alt=""></span><span class="tile" style="--tbg:#005A8C"><img class="wm" src="/v2/images/logo-taboola.svg" alt=""></span>
     </div>
   </div>
 </section>

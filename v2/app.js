@@ -144,9 +144,9 @@
       }
       /* luz de borda */
       const rim = ctx.createRadialGradient(CX, CY, R * 0.86, CX, CY, R);
-      rim.addColorStop(0, "rgba(0,0,0,0)"); rim.addColorStop(1, "rgba(254,210,23,.16)");
+      rim.addColorStop(0, "rgba(0,0,0,0)"); rim.addColorStop(1, opts.dim ? "rgba(254,210,23,.07)" : "rgba(254,210,23,.16)");
       ctx.fillStyle = rim; ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = "rgba(255,255,255,.1)"; ctx.lineWidth = 1; ctx.stroke();
+      ctx.strokeStyle = opts.dim ? "rgba(255,255,255,.04)" : "rgba(255,255,255,.1)"; ctx.lineWidth = 1; ctx.stroke();
     }
     frame();
   }
