@@ -6,6 +6,7 @@
 <title>Snapp Checkout</title>
 <meta name="description" content="Venda infoprodutos para o mundo inteiro com Stripe e PayPal no mesmo checkout. Sem mensalidade: 3% por venda aprovada.">
 <meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/v2/images/logo-s-mark.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -99,7 +100,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .hero .haze{position:absolute;inset:-20%;background:
   radial-gradient(40% 40% at 50% 60%,rgba(254,210,23,.12),transparent 70%),
   radial-gradient(60% 50% at 50% 100%,#000 30%,transparent 70%);pointer-events:none}
-.hero .chrome{position:absolute;right:-12vw;top:-24vh;width:clamp(240px,30vw,460px);opacity:.42;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8));
+.hero .chrome{position:absolute;right:-150px;top:-160px;width:clamp(260px,26vw,480px);opacity:.5;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8));
   animation:float 9s ease-in-out infinite;pointer-events:none;will-change:transform}
 .hero .chrome.b{right:auto;left:-10vw;top:auto;bottom:-18vh;width:clamp(220px,26vw,380px);opacity:.55;animation-duration:12s;animation-delay:-4s;transform:scaleX(-1)}
 @keyframes float{0%,100%{translate:0 0;rotate:-6deg}50%{translate:0 -22px;rotate:-2deg}}
@@ -133,14 +134,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .ia.first{padding-top:clamp(20px,4vw,60px);z-index:3}
 
 /* ---------- IA / janelas de chat ---------- */
-.ia{overflow:visible}
+.ia{overflow:visible;overflow-x:clip}
 .ia .wrap{position:relative;z-index:1}
-.ia .chrome-b{position:absolute;left:-15vw;top:-30vh;width:clamp(220px,26vw,380px);opacity:.45;transform:scaleX(-1);animation:float 12s ease-in-out infinite;pointer-events:none;z-index:0;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8))}
+.ia .chrome-b{position:absolute;left:-120px;top:-30vh;width:clamp(240px,22vw,400px);opacity:.5;transform:scaleX(-1);animation:float 12s ease-in-out infinite;pointer-events:none;z-index:0;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8))}
 .ia::before{content:"";position:absolute;left:50%;top:55%;width:1000px;height:900px;translate:-50% -50%;border-radius:50%;pointer-events:none;
   background:radial-gradient(closest-side,rgba(254,210,23,.08),transparent 70%);filter:blur(30px)}
 .ia-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-bottom:22px}
 .ia-tag::before{content:"";width:22px;height:1px;background:var(--yellow)}
-.ia-tabs{display:flex;justify-content:center;gap:6px;margin:-20px auto 34px;padding:6px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);width:max-content;position:relative;z-index:1}
+.ia-tabs{display:flex;justify-content:center;gap:6px;margin:-20px auto 34px;padding:6px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);width:max-content;max-width:100%;position:relative;z-index:1}
 .ia-tabs button{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;font-size:14px;color:var(--ink-3);transition:.3s}
 .ia-tabs button svg{width:16px;height:16px}
 .ia-tabs button:hover{color:#fff}
@@ -283,6 +284,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
   .ia-grid{grid-template-columns:1fr}
   .ia-cases{position:static;grid-template-columns:1fr 1fr}
   .ia-tabs{margin-top:0}
+  .ia-tabs button{padding:9px 12px;font-size:13px}
 }
 @media (max-width:720px){
   .win-body{grid-template-columns:1fr}
@@ -299,7 +301,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .track img{height:30px;width:auto;opacity:.5;filter:grayscale(1) brightness(1.8);transition:.4s}
 .track img:hover{opacity:1;filter:none}
 .track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px;opacity:.9;filter:none}.track.xl img:hover{transform:scale(1.08)}.track.rev{animation-direction:reverse;animation-duration:40s;gap:64px}.track.rev img{height:30px;opacity:.35}
-.marquee-wrap{-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee-wrap{overflow:hidden;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
 /* ---------- cards ---------- */
@@ -345,7 +347,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
   .story-visual{display:none}
   .step{min-height:0;opacity:1;transform:none;padding:28px 0;border-top:1px solid var(--line)}
   .step:first-child{border-top:0}
-  .step .m{display:block;width:62%;max-width:300px;height:auto;mix-blend-mode:lighten;margin:0 0 6px -6%}
+  .step .m{display:block;width:62%;max-width:300px;height:auto;mix-blend-mode:lighten;margin:0 0 6px 0}
 }
 
 /* ---------- breather (statement) ---------- */
@@ -386,6 +388,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 
 /* ---------- email: construtor aberto ---------- */
 .flow{position:relative;padding:60px 0 40px}
+#email{overflow-x:clip}
 .flow::before{content:"";position:absolute;inset:-40px -10% -20px;pointer-events:none;
   background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.09) 1px,transparent 1.6px) 0 0/22px 22px;
   -webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000 30%,transparent 78%);mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000 30%,transparent 78%)}
@@ -570,7 +573,10 @@ footer .copy{width:100%;padding-top:24px;border-top:1px solid var(--line);font-s
   .split2.rev>.art{order:0}
   .pricing-grid{grid-template-columns:1fr}
   .ia-grid{grid-template-columns:1fr}
-  .hero .chrome{right:-16vw;top:-12vh;opacity:.35}
+  .hero .chrome{right:-90px;top:-70px;width:240px;opacity:.4}
+  .split2 .art{margin-top:28px}
+  .split2 .art img{max-width:320px}
+  .cta .s3d{width:150px;right:-50px;top:-40px;opacity:.35}
   .faq-grid{grid-template-columns:1fr}
   .faq-grid .sticky{position:static}
 }
@@ -589,7 +595,7 @@ footer .copy{width:100%;padding-top:24px;border-top:1px solid var(--line);font-s
   .plan .badge{position:static;display:inline-block;margin-bottom:14px}
   footer .wrap{justify-content:flex-start}
   .breather .ring{display:none}
-  .sale{padding:7px 10px 7px 8px;gap:8px}.sale b{font-size:14px}.sale small{display:none}
+  .sale{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -1024,6 +1030,7 @@ function onScroll(){
   nav.classList.toggle("scrolled",y>20);
   progress.style.transform=`scaleX(${h?y/h:0})`;
   if(reduced)return;
+  if(innerWidth<=1000){par.forEach(el=>{el.style.translate=""});return}
   par.forEach(el=>{const r=el.getBoundingClientRect();const c=r.top+r.height/2-innerHeight/2;el.style.translate=`0 ${(-c*+el.dataset.parallax).toFixed(1)}px`});
 }
 addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
