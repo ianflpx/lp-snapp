@@ -51,7 +51,11 @@
     const sales = []; let lastSpawn = 0;
     function spawn(now) {
       const center = [-proj.rotate()[0], -proj.rotate()[1]];
-      const ok = KEYS.filter(k => d3.geoDistance(HUBS[k], center) < Math.PI / 2 - 0.5 && !sales.some(s => s.k === k));
+      const ok = KEYS.filter(k => {
+        if (d3.geoDistance(HUBS[k], center) >= Math.PI / 2 - 0.5 || sales.some(s => s.k === k)) return false;
+        const p = proj(HUBS[k]); if (!p) return false;
+        return !sales.some(s => { const q = proj(s.ll); return q && Math.hypot(q[0] - p[0], q[1] - p[1]) < 230; });
+      });
       if (!ok.length) return;
       const k = ok[Math.floor(Math.random() * ok.length)], h = HUBS[k];
       const amt = AMOUNTS[Math.floor(Math.random() * AMOUNTS.length)], prod = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
@@ -374,3 +378,31 @@
   new IntersectionObserver(es => { if (es[0].isIntersecting) auto(); else clearInterval(timer); }, { threshold: 0.3 }).observe(root);
 })();
 
+
+/* ===== MARQUEE sem buraco: clona até cobrir 2x e anima pela largura medida ===== */
+(function () {
+  "use strict";
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".track").forEach(track => {
+    const items = [...track.children]; const half = items.length / 2;
+    // o HTML já vem com o conjunto duplicado; manter só um conjunto e clonar sob medida
+    items.slice(half).forEach(e => e.remove());
+    const set = [...track.children];
+    function build() {
+      [...track.children].slice(set.length).forEach(e => e.remove());
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      const setW = set.reduce((a, e) => a + e.getBoundingClientRect().width, 0) + gap * set.length;
+      const need = Math.ceil((track.parentElement.clientWidth * 2) / setW) + 1;
+      for (let i = 1; i < need; i++) set.forEach(e => track.appendChild(e.cloneNode(true)));
+      const rev = track.classList.contains("rev"); const dur = Math.max(18, setW / (rev ? 28 : 40)) * 1000;
+      track.getAnimations().forEach(a => a.cancel());
+      if (reduced) return;
+      track.animate([{ transform: "translateX(0)" }, { transform: "translateX(" + (-setW) + "px)" }], { duration: dur, iterations: Infinity, easing: "linear", direction: rev ? "reverse" : "normal" });
+    }
+    const imgs = [...track.querySelectorAll("img")];
+    Promise.all(imgs.map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; }))).then(build);
+    addEventListener("resize", build);
+    track.addEventListener("pointerenter", () => track.getAnimations().forEach(a => a.pause()));
+    track.addEventListener("pointerleave", () => track.getAnimations().forEach(a => a.play()));
+  });
+})();
