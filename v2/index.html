@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snapp Checkout</title>
+<meta name="description" content="Venda infoprodutos para o mundo inteiro com Stripe e PayPal no mesmo checkout. Sem mensalidade: 3% por venda aprovada.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+:root{
+  --bg:#050505;--bg-2:#0b0b0c;--bg-3:#111113;
+  --ink:#f5f5f5;--ink-2:#c9c9cc;--ink-3:#8b8b92;--ink-4:#5c5c63;
+  --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);
+  --yellow:#fed217;--yellow-2:#ffdf5c;--yellow-dark:#e0b80f;--glow:rgba(254,210,23,.35);
+  --ease:cubic-bezier(.16,1,.3,1);--dur:1000ms;
+  --r:28px;--r-sm:16px;--max:1180px;--pad:clamp(20px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:"Outfit",system-ui,sans-serif;background:var(--bg);color:var(--ink);
+  line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(1200px 700px at 50% -10%,#1a1a1c 0%,rgba(26,26,28,0) 60%);
+}
+::selection{background:var(--yellow);color:#111}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:min(var(--max),100% - var(--pad)*2);margin-inline:auto}
+section{position:relative;padding:clamp(100px,13vw,190px) 0}
+h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1.02}
+h2{font-size:clamp(34px,5.2vw,64px)}
+h3{font-size:clamp(20px,2vw,26px);letter-spacing:-.02em;line-height:1.15}
+.lead{color:var(--ink-3);font-size:clamp(16px,1.35vw,19px);font-weight:300;max-width:60ch;line-height:1.6}
+.grad{background:linear-gradient(180deg,#fff 0%,#d9d9dd 55%,#8d8d95 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.y{color:var(--yellow)}
+.center{text-align:center}.center .lead{margin-inline:auto}
+.sec-head{max-width:760px;margin-bottom:clamp(40px,6vw,72px)}
+.sec-head .lead{margin-top:20px}
+
+/* ---------- noise + grain ---------- */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* ---------- progress + cursor ---------- */
+#progress{position:fixed;top:0;left:0;height:2px;width:100%;z-index:60;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--yellow),#fff)}
+#cursor{position:fixed;left:0;top:0;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(closest-side,rgba(254,210,23,.07),rgba(254,210,23,0));transform:translate(-50%,-50%);transition:opacity .4s;opacity:0}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:18px 0;transition:background .4s,padding .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(5,5,5,.72);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border-color:var(--line);padding:12px 0}
+.nav .wrap{display:flex;align-items:center;gap:36px}
+.nav .logo img{height:19px;width:auto}
+.nav ul{display:flex;gap:28px;list-style:none;margin-left:auto}
+.nav ul a{font-size:14px;color:var(--ink-2);position:relative;padding:4px 0}
+.nav ul a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--yellow);transition:right .4s var(--ease)}
+.nav ul a:hover::after{right:0}
+.nav .login{font-size:14px;color:var(--ink);font-weight:500}
+.nav .burger{display:none;width:40px;height:40px;border:1px solid var(--line-2);border-radius:12px;place-items:center;margin-left:auto}
+.nav .burger span{display:block;width:16px;height:1.5px;background:#fff;box-shadow:0 5px 0 #fff,0 -5px 0 #fff}
+
+/* ---------- buttons ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;padding:15px 24px 15px 28px;border-radius:999px;font-weight:600;font-size:15px;
+  color:#141004;background:linear-gradient(180deg,var(--yellow-2),var(--yellow));isolation:isolate;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(254,210,23,.25),0 8px 30px -10px var(--glow);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);transition:transform .9s var(--ease);z-index:-1}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(254,210,23,.5),0 18px 40px -12px var(--glow)}
+.btn:hover::before{transform:translateX(120%)}
+.btn .arr{width:30px;height:30px;border-radius:50%;background:#111;color:var(--yellow);display:grid;place-items:center;overflow:hidden}
+.btn .arr svg{transition:transform .5s var(--ease)}
+.btn:hover .arr svg{transform:translateX(3px)}
+.btn.sm{padding:11px 18px 11px 20px;font-size:14px}
+.btn.ghost{background:rgba(255,255,255,.04);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
+.btn.ghost:hover{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.btn.ghost .arr{background:rgba(255,255,255,.1);color:#fff}
+
+/* ---------- reveal ---------- */
+[data-reveal]{opacity:0;transform:translateY(34px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);transition-delay:var(--d,0ms);will-change:opacity,transform}
+[data-reveal="left"]{transform:translateX(-40px)}
+[data-reveal="right"]{transform:translateX(40px)}
+[data-reveal="scale"]{transform:scale(.92)}
+[data-reveal="blur"]{filter:blur(14px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),filter var(--dur) var(--ease)}
+.in[data-reveal]{opacity:1;transform:none;filter:none}
+.no-motion [data-reveal]{opacity:1;transform:none;filter:none;transition:none}
+.split .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding:.06em 0 .1em;margin:-.06em 0 -.1em}
+.split .w>span{display:inline-block;transform:translateY(110%) rotate(3deg);transition:transform 1.1s var(--ease);transition-delay:calc(var(--i)*55ms)}
+.split.in .w>span{transform:none}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:grid;place-items:center;padding:150px 0 60px;overflow:hidden}
+.hero .bg{position:absolute;inset:0;z-index:0}
+.hero canvas{position:absolute;left:0;top:0;width:100%;height:100%;opacity:1}
+.hero .haze{position:absolute;inset:-20%;background:
+  radial-gradient(40% 40% at 50% 60%,rgba(254,210,23,.12),transparent 70%),
+  radial-gradient(60% 50% at 50% 100%,#000 30%,transparent 70%);pointer-events:none}
+.hero .chrome{position:absolute;right:-12vw;top:-24vh;width:clamp(240px,30vw,460px);opacity:.42;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8));
+  animation:float 9s ease-in-out infinite;pointer-events:none;will-change:transform}
+.hero .chrome.b{right:auto;left:-10vw;top:auto;bottom:-18vh;width:clamp(220px,26vw,380px);opacity:.55;animation-duration:12s;animation-delay:-4s;transform:scaleX(-1)}
+@keyframes float{0%,100%{translate:0 0;rotate:-6deg}50%{translate:0 -22px;rotate:-2deg}}
+.hero .wrap{position:relative;z-index:2;text-align:center;max-width:980px}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 10px;border-radius:999px;font-size:13px;color:var(--ink-2);
+  background:rgba(255,255,255,.04);border:1px solid var(--line-2);backdrop-filter:blur(8px);margin-bottom:28px}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 0 var(--glow);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--glow)}70%{box-shadow:0 0 0 10px rgba(254,210,23,0)}100%{box-shadow:0 0 0 0 rgba(254,210,23,0)}}
+.hero h1{font-size:clamp(42px,7.4vw,96px);font-weight:600;letter-spacing:-.045em;line-height:.92}
+.hero h1 .w>span:not(.y):not(.pay){background:linear-gradient(180deg,#fff 0%,#fff 30%,#ececf0 55%,#9c9ca4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .pay{display:inline-flex;align-items:center;gap:.14em;margin:0 .1em;vertical-align:-.14em;perspective:9em;white-space:nowrap}
+.hero h1 .pay b{font-weight:600;color:var(--ink-3);font-size:.6em;line-height:1}
+.hero h1 .tile{position:relative;width:.92em;height:.92em;display:inline-flex;align-items:center;justify-content:center;transform-style:preserve-3d;animation:bob 6s ease-in-out infinite}
+.hero h1 .tile::before{content:"";position:absolute;inset:.09em -.035em -.11em .035em;border-radius:.32em;z-index:-1}
+.hero h1 .tile::after{content:"";position:absolute;inset:.075em .075em auto;height:.34em;border-radius:.27em .27em .14em .14em;background:linear-gradient(180deg,rgba(255,255,255,.48),transparent);pointer-events:none;z-index:2}
+.hero h1 .face{width:100%;height:100%;border-radius:.3em;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;
+  box-shadow:inset 0 .045em .11em rgba(255,255,255,.46),inset 0 -.08em .16em rgba(0,0,0,.11),0 0 0 1px rgba(255,255,255,.38),0 .3em .8em rgba(0,0,0,.6)}
+.hero h1 .face img{width:100%;height:100%;object-fit:cover;animation:none;box-shadow:none;border-radius:0}
+.hero h1 .tile.stripe{transform:rotate(-6deg) rotateY(-9deg) translateY(-.015em)}
+.hero h1 .tile.stripe::before{background:linear-gradient(135deg,#4b45d9 0%,#6d67ff 48%,#3e3bc9 100%)}
+.hero h1 .tile.paypal{transform:rotate(5deg) rotateY(-8deg) translateY(.015em);animation-delay:-3s}
+.hero h1 .tile.paypal::before{background:linear-gradient(145deg,#dde3eb 0%,#fafbfd 52%,#cfd5df 100%)}
+.hero h1 .tile.paypal .face{background:radial-gradient(circle at 22% 14%,#fff 0%,#fff 32%,#f3f5f9 100%);padding:.22em}
+.hero h1 .tile.paypal .face img{object-fit:contain}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -.06em}}
+.hero .lead{margin:28px auto 40px;max-width:680px;font-size:clamp(16px,1.5vw,20px)}
+.hero .lead strong{color:var(--ink);font-weight:500}
+.hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero-fade{position:absolute;left:0;right:0;bottom:0;height:48%;background:linear-gradient(180deg,transparent,rgba(5,5,5,.6) 45%,var(--bg) 88%);z-index:1;pointer-events:none}
+.recursos{padding-top:clamp(60px,8vw,120px)}
+.ia.first{padding-top:clamp(20px,4vw,60px);z-index:3}
+
+/* ---------- IA / janelas de chat ---------- */
+.ia{overflow:visible}
+.ia .wrap{position:relative;z-index:1}
+.ia .chrome-b{position:absolute;left:-9vw;top:-30vh;width:clamp(220px,26vw,380px);opacity:.5;transform:scaleX(-1);animation:float 12s ease-in-out infinite;pointer-events:none;z-index:0;filter:drop-shadow(0 40px 80px rgba(0,0,0,.8))}
+.ia::before{content:"";position:absolute;left:50%;top:55%;width:1000px;height:900px;translate:-50% -50%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(254,210,23,.08),transparent 70%);filter:blur(30px)}
+.ia-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-bottom:22px}
+.ia-tag::before{content:"";width:22px;height:1px;background:var(--yellow)}
+.ia-tabs{display:flex;justify-content:center;gap:6px;margin:-20px auto 34px;padding:6px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);width:max-content;position:relative;z-index:1}
+.ia-tabs button{display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;font-size:14px;color:var(--ink-3);transition:.3s}
+.ia-tabs button svg{width:16px;height:16px}
+.ia-tabs button:hover{color:#fff}
+.ia-tabs button.on{background:#fff;color:#111}
+.ia-grid{display:grid;grid-template-columns:1.6fr .8fr;gap:clamp(24px,4vw,56px);align-items:start;position:relative;z-index:1}
+.ia-more{display:flex;align-items:center;gap:12px;margin-top:18px;padding:0 14px;font-size:14px;color:var(--ink-3);font-weight:300}
+.ia-more span{font-size:20px;letter-spacing:.1em;color:var(--yellow);line-height:1}
+.ia-side{position:sticky;top:90px}
+.ia-cases{list-style:none;display:grid;gap:4px;counter-reset:c}
+.ia-cases li{display:flex;align-items:baseline;gap:12px;padding:9px 14px;border-radius:14px;border:1px solid transparent;cursor:pointer;transition:.4s;position:relative}
+.ia-cases li::before{counter-increment:c;content:counter(c,decimal-leading-zero);font-size:12px;color:var(--ink-4);letter-spacing:.1em;width:26px;flex:none}
+.ia-cases li b{font-weight:500;font-size:14.5px;color:var(--ink-2)}
+.ia-cases li.on{border-color:var(--line-2);background:rgba(255,255,255,.04)}
+.ia-cases li.on b{color:#fff}
+.ia-cases li.on::before{color:var(--yellow)}
+.ia-cases li.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,var(--yellow),transparent);transform-origin:0 50%;animation:bar var(--len,14s) linear forwards}
+@keyframes bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* janela genérica */
+.win{--bg:#262624;--side:#1f1e1b;--ink:#e8e6df;--mute:#9a978f;--line:rgba(255,255,255,.08);--bub:#3a3936;--acc:#d97757;--field:#30302d;--wmfont:"Georgia","Times New Roman",serif;
+  border-radius:16px;border:1px solid rgba(255,255,255,.12);overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-shadow:0 50px 120px -40px rgba(0,0,0,.95);font-size:13.5px;transition:background .4s,color .4s}
+.win-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.18);font-size:12px;color:var(--mute)}
+.win-bar i{width:10px;height:10px;border-radius:50%}
+.win-bar i:nth-child(1){background:#ff5f57}.win-bar i:nth-child(2){background:#febc2e}.win-bar i:nth-child(3){background:#28c840}
+.win-bar .url{margin:0 auto;display:inline-flex;align-items:center;gap:6px}
+.win-bar .url::before{content:"";width:9px;height:10px;border:1.5px solid currentColor;border-radius:3px 3px 2px 2px;opacity:.7}
+.win-body{display:grid;grid-template-columns:190px 1fr;min-height:540px}
+.side{background:var(--side);border-right:1px solid var(--line);padding:14px 12px;display:flex;flex-direction:column;gap:6px;font-size:12.5px}
+.side-head{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 14px;color:var(--mute)}
+.wm{display:inline-flex;align-items:center;gap:8px;color:var(--ink)}
+.wm-logo svg{width:22px;height:22px;display:block}
+.wm-text{font-family:var(--wmfont);font-weight:700;font-size:20px;letter-spacing:-.02em}
+.side ul{list-style:none;display:grid;gap:2px}
+.side .nav1 li{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:8px;color:var(--ink)}
+.side .nav1 li svg{width:14px;height:14px;opacity:.8}
+.side small{font-size:11px;color:var(--mute);margin:14px 8px 4px}
+.side .recent li{padding:7px 8px;border-radius:8px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .recent li.on{background:rgba(255,255,255,.08)}
+.side .me{margin-top:auto;display:flex;align-items:center;gap:9px;padding:8px 6px 0;border-top:1px solid var(--line);font-size:12px}
+.side .me i{width:26px;height:26px;border-radius:50%;background:#4b5563;color:#fff;font-style:normal;font-size:10px;display:grid;place-items:center;font-weight:600}
+.side .me small{display:block;margin:0;font-size:11px}
+.side .me b{margin-left:auto;color:var(--mute);font-weight:400}
+.main{display:flex;flex-direction:column;min-width:0}
+.main-head{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;font-size:13px;color:var(--ink);border-bottom:1px solid var(--line)}
+.main-head .acts{display:inline-flex;gap:14px;align-items:center;color:var(--mute)}
+.main-head .acts b{font-weight:400}
+.msgs{flex:1;padding:18px 18px 8px;display:flex;flex-direction:column;gap:12px;overflow:hidden;height:340px;position:relative}
+.msg{animation:msg .6s var(--ease) both;font-size:13.5px;line-height:1.55}
+@keyframes msg{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.msg.u{align-self:flex-end;max-width:88%;background:var(--bub);padding:10px 14px;border-radius:14px;color:var(--ink);white-space:pre-line}
+.msg.u .lnk{color:#8ab4ff;text-decoration:underline;text-underline-offset:3px}
+.msg.a{align-self:flex-start;max-width:96%;width:100%}
+.msg.a .alogo{width:18px;height:18px;color:var(--acc);margin-bottom:8px}
+.msg.a .alogo svg{width:18px;height:18px;display:block}
+.msg.a p{color:var(--ink)}
+.msg.a p b{font-weight:600}
+.think{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute);margin-bottom:8px}
+.think .sp{width:12px;height:12px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--acc);animation:spin 1s linear infinite}
+.think.done .sp{display:none}
+.tools{border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.15);margin:4px 0 12px;overflow:hidden}
+.tools .th{display:flex;align-items:center;gap:8px;padding:9px 12px;font-size:12.5px;color:var(--mute);border-bottom:1px solid var(--line)}
+.tools .th em{margin-left:auto;font-style:normal}
+.tools .t{display:flex;align-items:center;gap:9px;padding:8px 12px;font-size:12.5px;color:var(--ink);animation:msg .4s var(--ease) both;border-bottom:1px solid var(--line)}
+.tools .t:last-child{border-bottom:0}
+.tools .t code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;font-weight:600}
+.tools .t .arg{color:var(--mute)}
+.tools .t .st{margin-left:auto;width:12px;height:12px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--acc);animation:spin 1s linear infinite;flex:none}
+.tools .t.ok .st{animation:none;border:0;background:none;position:relative}
+.tools .t.ok .st::after{content:"";position:absolute;left:3px;top:-1px;width:4px;height:8px;border:solid var(--mute);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.tools .resp{padding:8px 12px;font-size:12px;color:var(--mute);background:rgba(0,0,0,.2);display:none}
+.tools .resp code{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
+.tools .done{display:none;padding:8px 12px;font-size:12px;color:var(--mute)}
+.tools.ok .resp,.tools.ok .done{display:block}
+.snp{width:14px;height:15px;flex:none}
+.rc{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:rgba(0,0,0,.18);animation:msg .6s var(--ease) both;font-size:13px}
+.rc .rh{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.rc .rh b{color:var(--acc);font-weight:600;letter-spacing:0;text-transform:none;font-size:12px}
+.rc table{width:100%;border-collapse:collapse}
+.rc td,.rc th{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:12.5px}
+.rc th{color:var(--mute);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.rc td:last-child,.rc th:last-child{text-align:right}
+.rc tr:last-child td{border:0}
+.rc .kv{display:grid;grid-template-columns:1fr 1fr}
+.rc .kv div{padding:10px 12px;border-bottom:1px solid var(--line)}
+.rc .kv div:nth-child(odd){border-right:1px solid var(--line)}
+.rc .kv small{display:block;font-size:10.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.rc .kv b{font-weight:600;font-size:13.5px}
+.rc .lnk{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;color:#8ab4ff;text-decoration:underline;text-underline-offset:3px}
+.rc .lnk span{font-size:11px;color:var(--mute);text-decoration:none}
+.rc .stats{display:grid;grid-template-columns:repeat(3,1fr)}
+.rc .stats div{padding:12px;border-right:1px solid var(--line)}
+.rc .stats div:last-child{border:0}
+.rc .stats b{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em}
+.rc .stats span{font-size:10.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;display:block;margin-top:2px}
+.rc .pill-ok{color:#2fd36e;font-size:12px}
+.composer{margin:8px 16px 6px;border:1px solid var(--line);border-radius:14px;background:var(--field);padding:12px 14px 10px}
+.field{min-height:22px;font-size:13.5px;color:var(--ink);position:relative;white-space:pre-wrap;word-break:break-word}
+.field .ph{color:var(--mute);position:absolute;left:0;top:0}
+.field.has .ph{display:none}
+.field .caret{display:inline-block;width:1.5px;height:15px;background:var(--ink);vertical-align:-3px;margin-left:1px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.composer .row{display:flex;align-items:center;gap:12px;margin-top:12px;color:var(--mute);font-size:12.5px}
+.composer .plus{font-size:18px;line-height:1}
+.composer .tune{display:inline-flex;align-items:center;gap:6px}
+.composer .tune .snp{width:12px;height:13px}
+.composer .model{margin-left:auto;color:var(--ink);display:inline-flex;align-items:center;gap:4px}
+.composer .model em{font-style:normal;color:var(--mute)}
+.composer .send{width:28px;height:28px;border-radius:8px;background:var(--acc);color:#fff;display:grid;place-items:center;transition:.3s}
+.composer .send.go{transform:scale(.85)}
+.foot{text-align:center;font-size:11px;color:var(--mute);padding:4px 14px 12px}
+
+/* skin: ChatGPT */
+.win.gpt{--bg:#212121;--side:#171717;--ink:#ececec;--mute:#9b9b9b;--line:rgba(255,255,255,.09);--bub:#303030;--acc:#fff;--field:#303030;--wmfont:inherit}
+.win.gpt .wm-text{font-size:15px;font-weight:600}
+.win.gpt .wm-logo svg{width:20px;height:20px}
+.win.gpt .msg.u{border-radius:18px}
+.win.gpt .composer{border-radius:22px}
+.win.gpt .composer .send{border-radius:50%;background:#fff;color:#111}
+.win.gpt .msg.a .alogo{display:none}
+.win.gpt .main-head span:first-child{font-weight:600}
+.win.gpt .rc .rh b{color:#ececec}
+
+/* skin: Cursor */
+.win.cursor{--bg:#1a1a1a;--side:#141414;--ink:#d6d6d6;--mute:#8a8a8a;--line:rgba(255,255,255,.08);--bub:#262626;--acc:#fff;--field:#202020;--wmfont:inherit;font-size:12.5px}
+.win.cursor .wm-text{font-size:14px;font-weight:600}
+.win.cursor .wm-logo svg{width:18px;height:18px}
+.win.cursor .side .nav1 li{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--mute);padding:4px 8px}
+.win.cursor .side .nav1 li.dir{color:var(--ink)}
+.win.cursor .side .nav1 li svg{display:none}
+.win.cursor .side .nav1 li.ind{padding-left:22px}
+.win.cursor .msg.u{border-radius:8px;border:1px solid var(--line);align-self:stretch;max-width:100%}
+.win.cursor .msg.a .alogo{display:none}
+.win.cursor .composer{border-radius:10px}
+.win.cursor .composer .send{border-radius:6px;background:#fff;color:#111;width:24px;height:24px}
+.win.cursor .tools{border-radius:6px}
+.win.cursor .rc{border-radius:6px}
+.win.cursor .main-head{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+@media (max-width:1000px){
+  .ia-grid{grid-template-columns:1fr}
+  .ia-cases{position:static;grid-template-columns:1fr 1fr}
+  .ia-tabs{margin-top:0}
+}
+@media (max-width:720px){
+  .win-body{grid-template-columns:1fr}
+  .side{display:none}
+  .ia-cases{grid-template-columns:1fr}
+  .msgs{height:360px;padding:14px}
+}
+
+/* ---------- marquee ---------- */
+.marquee{padding:36px 0;border-block:1px solid var(--line);overflow:hidden;background:var(--bg-2)}
+.marquee .label{text-align:center;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);margin-bottom:26px}
+.track{display:flex;gap:72px;width:max-content;animation:scroll 32s linear infinite}
+.track:hover{animation-play-state:paused}
+.track img{height:30px;width:auto;opacity:.5;filter:grayscale(1) brightness(1.8);transition:.4s}
+.track img:hover{opacity:1;filter:none}
+.track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px;opacity:.9;filter:none}.track.xl img:hover{transform:scale(1.08)}.track.rev{animation-direction:reverse;animation-duration:40s;gap:64px}.track.rev img{height:30px;opacity:.35}
+.marquee-wrap{-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- cards ---------- */
+.card{position:relative;border-radius:var(--r);background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  border:1px solid var(--line);overflow:hidden;transform-style:preserve-3d;transition:border-color .5s,transform .6s var(--ease)}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .5s;
+  background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(254,210,23,.14),transparent 45%)}
+.card:hover{border-color:var(--line-2)}
+.card:hover::before{opacity:1}
+
+/* ---------- recursos: scrollytelling ---------- */
+.story{display:grid;grid-template-columns:1.08fr 1fr;gap:clamp(32px,6vw,90px);align-items:start}
+.story-visual{position:sticky;top:96px}
+.panel{position:relative;aspect-ratio:1/1.02;border-radius:36px;overflow:visible}
+.panel::after{content:"";position:absolute;left:50%;top:55%;width:90%;height:70%;translate:-50% -50%;background:radial-gradient(closest-side,rgba(254,210,23,.16),transparent 70%);filter:blur(40px);pointer-events:none;z-index:-1}
+.pimgs{position:absolute;inset:0}
+.pimgs img{position:absolute;inset:2%;width:96%;height:96%;object-fit:contain;mix-blend-mode:lighten;opacity:0;transform:scale(.86) rotate(-5deg) translateY(30px);
+  transition:opacity .8s var(--ease),transform 1s var(--ease);filter:drop-shadow(0 30px 50px rgba(0,0,0,.8))}
+.pimgs img.on{opacity:1;transform:none;animation:drift 7s ease-in-out infinite}
+@keyframes drift{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -10px;rotate:1.2deg}}
+.pnum{display:none;position:absolute;left:28px;top:24px;font-size:13px;letter-spacing:.2em;color:var(--ink-4);height:16px;overflow:hidden;z-index:2}
+.pnum span{display:none}.pnum span.on{display:block;animation:msg .5s var(--ease) both}
+.plabel{display:none;position:absolute;left:28px;bottom:26px;z-index:2;font-size:13px;color:var(--ink-2);height:20px}
+.plabel span{display:none;padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);background:rgba(10,10,10,.7);backdrop-filter:blur(8px)}
+.plabel span.on{display:inline-block;animation:msg .5s var(--ease) both}
+.pdots{position:absolute;right:26px;top:50%;translate:0 -50%;display:grid;gap:8px;z-index:2}
+.pdots i{width:6px;height:6px;border-radius:50%;background:var(--line-2);transition:.4s}
+.pdots i.on{background:var(--yellow);box-shadow:0 0 12px var(--yellow);height:20px;border-radius:3px}
+.story-steps{display:flex;flex-direction:column}
+.step{min-height:62vh;display:flex;flex-direction:column;justify-content:center;padding:40px 0;opacity:.28;transition:opacity .6s var(--ease),transform .6s var(--ease);transform:translateX(16px)}
+.step.on{opacity:1;transform:none}
+.step:first-child{min-height:50vh;padding-top:0}
+.step .m{display:none}
+.step .idx{font-size:12px;letter-spacing:.2em;color:var(--yellow);margin-bottom:16px}
+.step h3{font-size:clamp(28px,3vw,40px);letter-spacing:-.03em;line-height:1}
+.step h3 small{display:block;font-weight:300;color:var(--ink-3);font-size:.62em;margin-top:6px}
+.step p{color:var(--ink-3);font-size:17px;font-weight:300;max-width:44ch;margin-top:18px;line-height:1.6}
+.step .tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.step .tags li{font-size:12.5px;padding:7px 12px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);background:rgba(255,255,255,.03)}
+.step.on .tags li{border-color:rgba(254,210,23,.3)}
+@media (max-width:1000px){
+  .story{grid-template-columns:1fr}
+  .story-visual{display:none}
+  .step{min-height:0;opacity:1;transform:none;padding:28px 0;border-top:1px solid var(--line)}
+  .step:first-child{border-top:0}
+  .step .m{display:block;width:62%;max-width:300px;height:auto;mix-blend-mode:lighten;margin:0 0 6px -6%}
+}
+
+/* ---------- breather (statement) ---------- */
+.breather{padding:clamp(100px,16vw,200px) 0;text-align:center;overflow:hidden}
+.breather h2{font-size:clamp(38px,6.4vw,84px);max-width:16ch;margin-inline:auto}
+.breather .lead{margin:26px auto 0;max-width:56ch}
+.breather .orb{position:absolute;left:50%;top:50%;width:min(900px,120vw);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;z-index:-1;
+  background:radial-gradient(closest-side,rgba(254,210,23,.13),rgba(254,210,23,.04) 40%,transparent 70%);filter:blur(20px)}
+.breather.gray .orb{background:radial-gradient(closest-side,rgba(255,255,255,.08),transparent 70%)}
+.breather .ring{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(1200px,140vw);aspect-ratio:1;border-radius:50%;border:1px solid var(--line);z-index:-1;pointer-events:none;animation:spin 60s linear infinite}
+.breather .ring::before{content:"";position:absolute;inset:14%;border-radius:50%;border:1px dashed var(--line)}
+.breather .ring::after{content:"";position:absolute;left:50%;top:-5px;width:10px;height:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 20px var(--yellow)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- split sections ---------- */
+.split2{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,7vw,100px);align-items:center}
+.split2.rev>.art{order:-1}
+.split2 .art{position:relative}
+.split2 .art img{width:100%;max-width:560px;margin-inline:auto;filter:drop-shadow(0 50px 80px rgba(0,0,0,.7));will-change:transform}
+.split2 .art .halo{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(closest-side,rgba(254,210,23,.18),transparent 70%);filter:blur(30px);z-index:-1}
+.split2 .lead{margin-top:22px}
+.list{display:grid;gap:14px;margin-top:32px}
+.list li{list-style:none;display:flex;gap:14px;align-items:flex-start;color:var(--ink-2);font-size:16px;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.025);transition:.4s}
+.list li:hover{border-color:var(--line-2);background:rgba(255,255,255,.05);transform:translateX(6px)}
+.list li i{flex:none;width:22px;height:22px;border-radius:50%;background:var(--yellow);color:#111;display:grid;place-items:center;margin-top:1px}
+.list li i svg{width:12px}
+.gw{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}
+.gw .card{padding:28px}
+.gw .card img{height:26px;width:auto;margin-bottom:18px;border-radius:7px}
+.gw .card p{color:var(--ink-3);font-size:15px;font-weight:300}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.stats .card{padding:40px 36px;text-align:left}
+.stats b{display:block;font-size:clamp(56px,7vw,96px);font-weight:600;letter-spacing:-.05em;line-height:.95}
+.stats span{display:block;margin-top:10px;color:var(--ink-3);font-size:15px}
+.stats .card::after{content:"";position:absolute;right:28px;top:28px;width:10px;height:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 18px var(--yellow)}
+
+/* ---------- email: construtor aberto ---------- */
+.flow{position:relative;padding:60px 0 40px}
+.flow::before{content:"";position:absolute;inset:-40px -10% -20px;pointer-events:none;
+  background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.09) 1px,transparent 1.6px) 0 0/22px 22px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000 30%,transparent 78%);mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000 30%,transparent 78%)}
+.flow::after{content:"";position:absolute;left:50%;top:50%;width:70%;height:60%;translate:-50% -50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(closest-side,rgba(254,210,23,.07),transparent 70%);filter:blur(30px)}
+.flow-bar{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase;margin:0 0 40px;position:relative;z-index:1}
+.flow-bar span{display:inline-flex;align-items:center;gap:8px}
+.flow-bar span i{width:8px;height:8px;border-radius:50%;background:#2fd36e;box-shadow:0 0 10px #2fd36e}
+.flow-bar em{font-style:normal;padding:4px 10px;border-radius:999px;border:1px solid rgba(47,211,110,.4);color:#2fd36e;font-size:11px}
+.lane{display:flex;align-items:stretch;margin-bottom:72px;position:relative;z-index:1}
+.lane:last-child{margin-bottom:0}
+.node{position:relative;flex:1 1 0;min-width:0;border-radius:18px;border:1px solid var(--line-2);background:rgba(16,16,18,.82);backdrop-filter:blur(6px);padding:40px 16px 16px;transition:border-color .4s,box-shadow .4s,transform .5s var(--ease)}
+.node small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:5px}
+.node b{display:block;font-size:15px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.node .meta{display:block;font-size:12px;color:var(--ink-3);margin-top:6px;min-height:16px}
+.badge{position:absolute;left:16px;top:-28px;width:56px;height:56px;border-radius:50%;background:#131315;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--ink-2);transition:.5s var(--ease);overflow:visible}
+.badge svg{width:24px;height:24px}
+.badge::before{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--yellow);opacity:0;transform:scale(1)}
+.node.on .badge{border-color:var(--yellow);color:var(--yellow);box-shadow:0 0 0 4px rgba(254,210,23,.12),0 0 30px rgba(254,210,23,.35);transform:translateY(-4px) scale(1.06)}
+.node.on .badge::before{animation:ripple 1.4s ease-out infinite}
+@keyframes ripple{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.9)}}
+.node.on{border-color:rgba(254,210,23,.7);box-shadow:0 30px 60px -30px var(--glow);transform:translateY(-4px)}
+.node.done{border-color:rgba(254,210,23,.4)}
+.node.done .badge{color:var(--yellow);border-color:rgba(254,210,23,.5)}
+.node.done .meta{color:var(--yellow)}
+.node.done.mail .meta::before{content:"✓ "}
+/* gatilho */
+.node.trig.on .badge svg{animation:zap .5s ease-in-out 3}
+@keyframes zap{50%{filter:drop-shadow(0 0 10px #fed217);transform:scale(1.2)}}
+/* e-mail: envelope abre e aviãozinho sai */
+.badge .env .flap{transform-origin:24px 18px;transition:transform .5s var(--ease)}
+.node.on .badge .env .flap,.node.done .badge .env .flap{transform:rotateX(180deg)}
+.badge .plane{position:absolute;width:16px;height:16px;left:30px;top:16px;opacity:0;pointer-events:none}
+.node.on .badge .plane{animation:fly 1.1s var(--ease) .35s forwards}
+@keyframes fly{0%{opacity:0;transform:translate(0,6px) scale(.6) rotate(-20deg)}30%{opacity:1}100%{opacity:0;transform:translate(48px,-46px) scale(1.1) rotate(-30deg)}}
+/* aguardar: anel + contagem + tracejado girando */
+.badge.timer svg{position:absolute;inset:-1px;width:58px;height:58px;transform:rotate(-90deg)}
+.badge.timer circle{fill:none;stroke:rgba(255,255,255,.08);stroke-width:3}
+.badge.timer .p{stroke:var(--yellow);stroke-dasharray:150.8;stroke-dashoffset:150.8;transition:stroke-dashoffset 1.3s linear}
+.node.on .badge.timer .p,.node.done .badge.timer .p{stroke-dashoffset:0}
+.badge.timer .cnt{font-size:12px;font-weight:600;color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.node.on .badge.timer::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px dashed rgba(254,210,23,.45);animation:spin 6s linear infinite}
+/* resultado: check desenha + verde */
+.badge .ck{stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .6s var(--ease) .1s}
+.node.on .badge .ck,.node.done .badge .ck{stroke-dashoffset:0}
+.node.end.on{border-color:#2fd36e;box-shadow:0 30px 60px -30px rgba(47,211,110,.5)}
+.node.end.on .badge{border-color:#2fd36e;color:#2fd36e;box-shadow:0 0 0 4px rgba(47,211,110,.12),0 0 30px rgba(47,211,110,.35)}
+.node.end.on .badge::before{border-color:#2fd36e}
+.node.end.done{border-color:rgba(47,211,110,.5)}.node.end.done .badge{color:#2fd36e;border-color:rgba(47,211,110,.5)}.node.end.done .meta{color:#2fd36e}
+.node .pop{position:absolute;right:12px;top:-12px;padding:5px 10px;border-radius:999px;background:var(--yellow);color:#111;font-size:11px;font-weight:600;opacity:0;transform:translateY(8px) scale(.9);transition:.5s var(--ease)}
+.node.end .pop{background:#2fd36e}
+.node.on .pop,.node.done .pop{opacity:1;transform:none}
+.node .prev{position:absolute;left:10px;right:10px;bottom:calc(100% + 14px);padding:10px 12px;border-radius:12px;background:#fff;color:#111;opacity:0;transform:translateY(10px) scale(.95);transition:.6s var(--ease);box-shadow:0 20px 40px -10px rgba(0,0,0,.8);z-index:3;pointer-events:none}
+.node .prev b{font-size:12.5px;font-weight:600;color:#111;margin-bottom:2px}
+.node .prev span{display:block;font-size:11px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node.on .prev{opacity:1;transform:none}
+.link{flex:0 0 40px;position:relative;align-self:center;height:2px;background:var(--line-2);overflow:visible;margin-top:12px}
+.link::after{content:"";position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left-color:var(--ink-4);border-right:0}
+.link i{position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--yellow);box-shadow:0 0 14px var(--yellow);opacity:0}
+.link.go i{animation:travel .55s linear forwards}
+.link.done{background:var(--yellow)}
+@keyframes travel{0%{opacity:1;left:0}100%{opacity:1;left:calc(100% - 10px)}}
+@media (max-width:1000px){
+  .lane{flex-direction:column;gap:0}
+  .node{margin-top:14px}
+  .link{flex:0 0 36px;width:2px;height:36px;align-self:flex-start;margin:0 0 0 43px}
+  .link::after{right:auto;left:-4px;top:auto;bottom:-1px;border:5px solid transparent;border-top-color:var(--ink-4);border-bottom:0}
+  .link.go i{animation:traveld .55s linear forwards}
+  @keyframes traveld{0%{opacity:1;top:0;left:-4px}100%{opacity:1;top:calc(100% - 10px);left:-4px}}
+  .node .prev{display:none}
+}
+
+/* ---------- comparison ---------- */
+.cmp{border-radius:var(--r);border:1px solid var(--line);overflow:hidden;background:var(--bg-2)}
+.cmp table{width:100%;border-collapse:collapse}
+.cmp th,.cmp td{padding:22px 28px;text-align:left;font-size:15px;border-bottom:1px solid var(--line)}
+.cmp th{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);font-weight:500;background:rgba(255,255,255,.02)}
+.cmp th:nth-child(2){color:var(--yellow)}
+.cmp td:first-child{color:var(--ink-2)}
+.cmp td:nth-child(2){color:var(--ink);font-weight:500;background:rgba(254,210,23,.04)}
+.cmp td:nth-child(3){color:var(--ink-3)}
+.cmp tr:last-child td{border-bottom:0}
+.cmp tbody tr{transition:background .3s}
+.cmp tbody tr:hover{background:rgba(255,255,255,.03)}
+.tag{display:inline-flex;align-items:center;gap:6px}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.tag.ok{color:var(--yellow)}.tag.no{color:var(--ink-4)}
+
+/* ---------- world ---------- */
+.world{text-align:center;overflow:hidden}
+.world .globe-wrap{position:relative;height:clamp(380px,60vw,720px);margin-top:36px;width:100%;
+  -webkit-mask-image:linear-gradient(180deg,#000 42%,rgba(0,0,0,.6) 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 42%,rgba(0,0,0,.6) 70%,transparent 100%)}
+.world .globe-wrap::after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;pointer-events:none;z-index:2;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);-webkit-mask-image:linear-gradient(180deg,transparent,#000 75%);mask-image:linear-gradient(180deg,transparent,#000 75%)}
+.world canvas{position:absolute;left:50%;top:0;transform:translateX(-50%);width:min(1100px,150vw);aspect-ratio:1;cursor:grab;touch-action:pan-y}
+.world canvas:active{cursor:grabbing}
+
+.world .sales{position:absolute;inset:0;pointer-events:none}
+.sale{position:absolute;display:flex;align-items:center;gap:10px;padding:9px 14px 9px 10px;border-radius:14px;white-space:nowrap;text-align:left;
+  background:rgba(12,12,14,.86);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);box-shadow:0 20px 50px -10px rgba(0,0,0,.9),0 0 0 1px rgba(254,210,23,.08);
+  transform:translate(-50%,calc(-100% - 22px)) scale(.6);opacity:0;transition:transform .7s var(--ease);will-change:left,top,opacity}
+.sale.on{transform:translate(-50%,calc(-100% - 22px)) scale(1)}
+.sale img{width:26px;height:auto;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.6)}
+.sale b{display:block;font-size:17px;font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1.05}
+.sale span{display:block;font-size:11px;color:#2fd36e;margin-top:2px}
+.sale small{display:block;font-size:11px;color:var(--ink-3)}
+.sale i{position:absolute;left:50%;bottom:-22px;width:1px;height:22px;background:linear-gradient(180deg,rgba(254,210,23,.8),transparent)}
+.flag-row{display:flex;justify-content:center;gap:clamp(10px,1.6vw,22px);flex-wrap:wrap;margin-top:30px}
+.flag-row span{display:flex;flex-direction:column;align-items:center;gap:7px;width:64px}
+.flag-row img{width:40px;height:auto;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.12);transition:transform .4s var(--ease)}
+.flag-row span:hover img{transform:translateY(-4px) scale(1.08)}
+.flag-row small{font-size:10.5px;color:var(--ink-3);white-space:nowrap}
+.flag-row .more b{display:grid;place-items:center;width:40px;height:28px;border-radius:6px;border:1px solid rgba(254,210,23,.4);color:var(--yellow);font-size:11px;font-weight:600}
+
+/* ---------- pricing ---------- */
+.pricing-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:start;margin-top:56px}
+.plan{position:relative;border-radius:var(--r);padding:44px;background:var(--bg-2);border:1px solid var(--line)}
+.plan.hot{background:linear-gradient(170deg,#161616,#0a0a0a);overflow:hidden}
+.plan.hot::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:1px;z-index:0;
+  background:conic-gradient(from var(--a,0deg),transparent 0 70%,var(--yellow) 85%,#fff 92%,transparent 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rot 6s linear infinite}
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes rot{to{--a:360deg}}
+.plan>*{position:relative;z-index:1}
+.plan .name{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.plan.hot .name{color:var(--yellow)}
+.plan .price{display:flex;align-items:baseline;gap:12px;margin:18px 0 6px}
+.plan .price b{font-size:clamp(64px,8vw,104px);font-weight:600;letter-spacing:-.06em;line-height:.9}
+.plan .price span{color:var(--ink-3);font-size:15px}
+.plan .sub{color:var(--ink-3);font-size:15px;margin-bottom:30px}
+.plan ul{list-style:none;display:grid;gap:12px;margin-bottom:34px}
+.plan li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--ink-2)}
+.plan li i{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;margin-top:1px;font-style:normal;font-size:12px}
+.plan.hot li i{background:var(--yellow);color:#111}
+.plan.cold li{color:var(--ink-3)}
+.plan.cold li i{border:1px solid var(--line-2);color:var(--ink-4)}
+.plan .badge{position:absolute;top:28px;right:28px;font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-3)}
+.plan.hot .badge{border-color:rgba(254,210,23,.4);color:var(--yellow);background:rgba(254,210,23,.08)}
+
+/* ---------- faq ---------- */
+.faq-grid{display:grid;grid-template-columns:.9fr 1.4fr;gap:clamp(40px,6vw,90px);align-items:start}
+.faq-grid .sticky{position:sticky;top:120px}
+.faq-grid .sticky .btn{margin-top:28px}
+details{border-bottom:1px solid var(--line)}
+details summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;font-size:clamp(18px,1.6vw,22px);font-weight:500;letter-spacing:-.01em;transition:color .3s}
+details summary::-webkit-details-marker{display:none}
+details summary:hover{color:var(--yellow)}
+details summary i{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;transition:.5s var(--ease)}
+details summary i::before,details summary i::after{content:"";position:absolute;width:12px;height:1.5px;background:currentColor;transition:.5s var(--ease)}
+details summary i::after{transform:rotate(90deg)}
+details[open] summary i{background:var(--yellow);border-color:var(--yellow);color:#111;transform:rotate(45deg)}
+details .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease)}
+details[open] .a{grid-template-rows:1fr}
+details .a>div{overflow:hidden}
+details .a p{color:var(--ink-3);padding:0 60px 26px 0;font-weight:300;font-size:16px;line-height:1.65}
+
+/* ---------- cta ---------- */
+.cta{text-align:center;overflow:hidden;padding-bottom:clamp(80px,10vw,140px)}
+.cta .box{position:relative;border-radius:40px;padding:clamp(60px,9vw,120px) var(--pad);border:1px solid var(--line);overflow:hidden;
+  background:radial-gradient(70% 90% at 50% 110%,rgba(254,210,23,.22),transparent 60%),linear-gradient(180deg,#0e0e10,#060606)}
+.cta .box::after{content:"";position:absolute;left:50%;bottom:-30%;width:120%;height:60%;translate:-50%;background:radial-gradient(closest-side,rgba(254,210,23,.25),transparent);filter:blur(40px);pointer-events:none}
+.cta .box>*{position:relative;z-index:1}
+.cta q{display:block;font-size:clamp(22px,2.6vw,34px);font-weight:300;letter-spacing:-.02em;color:var(--ink-2);quotes:"\201C" "\201D"}
+.cta cite{display:block;margin-top:12px;font-style:normal;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4)}
+.cta h2{margin:48px auto 22px;max-width:18ch}
+.cta .lead{margin:0 auto 40px}
+.cta .s3d{position:absolute;right:-4%;top:-10%;width:clamp(180px,26vw,360px);opacity:.9;animation:float 10s ease-in-out infinite;pointer-events:none;filter:drop-shadow(0 30px 60px rgba(0,0,0,.8))}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:48px 0 40px;color:var(--ink-3);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:space-between}
+footer img{height:22px;width:auto;opacity:.9}
+footer ul{display:flex;gap:22px;flex-wrap:wrap;list-style:none}
+footer a:hover{color:#fff}
+footer .copy{width:100%;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-4);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* ---------- responsive ---------- */
+@media (max-width:1000px){
+      .grid4{grid-template-columns:repeat(2,1fr)}
+  .timeline ol{grid-template-columns:repeat(2,1fr)}
+  .split2,.split2.rev{grid-template-columns:1fr}
+  .split2.rev>.art{order:0}
+  .pricing-grid{grid-template-columns:1fr}
+  .ia-grid{grid-template-columns:1fr}
+  .hero .chrome{right:-16vw;top:-12vh;opacity:.35}
+  .faq-grid{grid-template-columns:1fr}
+  .faq-grid .sticky{position:static}
+}
+@media (max-width:720px){
+  .nav ul,.nav .login,.nav .btn{display:none}
+  .nav .burger{display:grid}
+  .nav.open ul{display:flex;flex-direction:column;position:fixed;inset:70px 16px auto;padding:24px;border-radius:20px;background:#0c0c0d;border:1px solid var(--line-2);gap:16px;margin:0}
+  .hero{padding-top:120px}
+  .hero .chrome{right:-28vw;top:-6vh;width:60vw;opacity:.55}
+  .ia .chrome-b{display:none}
+        .chat-body{height:380px;padding:16px 14px}
+  .stats,.grid4,.gw{grid-template-columns:1fr}
+  .timeline ol{grid-template-columns:1fr}
+  .cmp th,.cmp td{padding:16px 14px;font-size:13.5px}
+  .plan{padding:32px 24px}
+  .plan .badge{position:static;display:inline-block;margin-bottom:14px}
+  footer .wrap{justify-content:flex-start}
+  .breather .ring{display:none}
+  .sale{padding:7px 10px 7px 8px;gap:8px}.sale b{font-size:14px}.sale small{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#"><img src="images/logo-snapp-white.svg" alt="Snapp"></a>
+    <ul>
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#email">E-mail</a></li>
+      <li><a href="#precos">Preço</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="login" href="https://admin.snappcheckout.com/login">Entrar</a>
+    <a class="btn sm" href="https://admin.snappcheckout.com/register">Começar agora <span class="arr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <button class="burger" aria-label="Menu" id="burger"><span></span></button>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="bg">
+    <canvas id="horizon"></canvas>
+    <div class="haze"></div>
+    <img class="chrome" src="images/login-silver.webp" alt="" data-parallax="0.06">
+  </div>
+  <div class="wrap">
+    <h1 class="split" id="h1">
+      <span class="w"><span>Venda</span></span>
+      <span class="w"><span class="y">globalmente</span></span>
+      <span class="w"><span>com</span></span>
+      <span class="w"><span class="pay"><span class="tile stripe"><span class="face"><img src="images/logo-stripe2.webp" alt="Stripe"></span></span><b>+</b><span class="tile paypal"><span class="face"><img src="images/logo-paypal.webp" alt="PayPal"></span></span></span></span>
+      <span class="w"><span>em</span></span>
+      <span class="w"><span>um</span></span>
+      <span class="w"><span>checkout</span></span>
+      <span class="w"><span>que</span></span>
+      <span class="w"><span>faz</span></span>
+      <span class="w"><span>o</span></span>
+      <span class="w"><span>trabalho</span></span>
+      <span class="w"><span class="grad">por</span></span>
+      <span class="w"><span class="grad">você.</span></span>
+    </h1>
+    <p class="lead" data-reveal style="--d:500ms">Em menos de 10 minutos, conecte sua Stripe e seu PayPal, publique um checkout com upsell, order bump e entrega por e-mail, e gerencie tudo por chat com a <strong>sua IA</strong>.</p>
+    <div class="cta" data-reveal style="--d:650ms">
+      <a class="btn" href="https://admin.snappcheckout.com/register">Começar agora <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="btn ghost" href="#ia">Ver a IA em ação <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></a>
+    </div>
+  </div>
+  <div class="scroll-cue"></div>
+  <div class="hero-fade"></div>
+</section>
+
+<!-- ============ IA / MCP ============ -->
+<section id="ia" class="ia first">
+  <img class="chrome-b" src="images/login-silver.webp" alt="" data-parallax="-0.05">
+  <div class="wrap">
+    <div class="sec-head center" style="margin-inline:auto">
+      <h2 class="grad" data-reveal style="--d:80ms">Use a IA nas tarefas do seu checkout.</h2>
+      <p class="lead" data-reveal style="--d:160ms">Conecte o Snapp ao Claude, ao ChatGPT ou ao Cursor e peça em linguagem natural. Relatórios do dia, checkout novo, pixel, entrega por e-mail, order bumps. A IA usa as ferramentas do Snapp e mostra o resultado.</p>
+    </div>
+    <div class="ia-tabs" id="iaTabs" data-reveal style="--d:220ms">
+      <button class="on" data-host="claude"><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</button>
+      <button data-host="gpt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg>ChatGPT</button>
+      <button data-host="cursor"><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>Cursor</button>
+    </div>
+    <div class="ia-grid">
+      <div class="win claude" id="win" data-reveal="scale" style="--d:260ms">
+        <div class="win-bar"><i></i><i></i><i></i><span class="url" id="winUrl">claude.ai</span><b>···</b></div>
+        <div class="win-body">
+          <aside class="side">
+            <div class="side-head"><span class="wm" id="wm"><span class="wm-logo"><svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span><span class="wm-text">Claude</span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></div>
+            <ul class="nav1" id="sideNav"></ul>
+            <small id="sideLabel">Conversas recentes</small>
+            <ul class="recent"><li class="on" id="recentTitle">Vendas de hoje</li><li>Ideias para meu lançamento</li><li>Organizar minha semana</li></ul>
+            <div class="me"><i>VC</i><div>Você<small>Conta pessoal</small></div><b>···</b></div>
+          </aside>
+          <main class="main">
+            <div class="main-head"><span id="winTitle">Vendas de hoje</span><span class="acts"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg><b>···</b></span></div>
+            <div class="msgs" id="chatBody"></div>
+            <div class="composer">
+              <div class="field" id="chatField"><span id="chatTyped"></span><i class="caret"></i><span class="ph" id="chatPh">Responda ao Claude…</span></div>
+              <div class="row">
+                <span class="plus">+</span><span class="tune" id="compMid"></span>
+                <span class="model" id="compModel">Sonnet <em>⌄</em></span>
+                <button class="send" id="chatSend" aria-label="Enviar"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+              </div>
+            </div>
+            <div class="foot" id="winFoot">Claude é uma IA e pode cometer erros.</div>
+          </main>
+        </div>
+      </div>
+      <div class="ia-side">
+      <ol class="ia-cases" id="iaCases" data-reveal style="--d:320ms">
+        <li data-case="0"><b>Vendas de hoje</b></li>
+        <li data-case="1"><b>Checkout novo</b></li>
+        <li data-case="2"><b>Criação de produto</b></li>
+        <li data-case="3"><b>Tradução de checkout</b></li>
+        <li data-case="4"><b>Melhor order bump</b></li>
+        <li data-case="5"><b>Trocar modelo + A/B</b></li>
+        <li data-case="6"><b>Funil upsell + downsell</b></li>
+        <li data-case="7"><b>Relatório do mês</b></li>
+        <li data-case="8"><b>Reembolsos</b></li>
+        <li data-case="9"><b>Assinatura com teste</b></li>
+        <li data-case="10"><b>Entrega por link</b></li>
+      </ol>
+      <p class="ia-more"><span>···</span>e mais infinitas possibilidades</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ RECURSOS ============ -->
+<section id="recursos" class="recursos">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="grad" data-reveal>Tudo o que você precisa para maximizar sua receita.</h2>
+      <p class="lead" data-reveal style="--d:120ms">Sete ferramentas dentro do mesmo checkout. Nenhum app externo, nenhuma integração manual.</p>
+    </div>
+    <div class="story">
+      <div class="story-visual" data-reveal="scale">
+        <div class="panel" id="panel">
+          <div class="pnum"><span data-i="0" class="on">01</span><span data-i="1">02</span><span data-i="2">03</span><span data-i="3">04</span><span data-i="4">05</span><span data-i="5">06</span><span data-i="6">07</span></div>
+          <div class="pimgs">
+      <img src="images/feat3/upsell-downsell.webp" alt="" data-i="0" class="on">
+      <img src="images/feat3/order-bump.webp" alt="" data-i="1">
+      <img src="images/feat3/ab-test.webp" alt="" data-i="2">
+      <img src="images/feat3/subscriptions.webp" alt="" data-i="3">
+      <img src="images/feat3/email-delivery.webp" alt="" data-i="4">
+      <img src="images/feat3/multi-currency.webp" alt="" data-i="5">
+      <img src="images/feat3/mcp-ai.webp" alt="" data-i="6">
+          </div>
+          <div class="plabel"><span data-i="0" class="on">Upsell + Downsell one click</span><span data-i="1">Order bump ilimitado</span><span data-i="2">Teste A/B de checkout</span><span data-i="3">Assinaturas recorrentes</span><span data-i="4">Entrega por e-mail</span><span data-i="5">Checkout multi-moeda</span><span data-i="6">IA por chat MCP nativo</span></div>
+          <div class="pdots" id="pdots"><i data-i="0" class="on"></i><i data-i="1"></i><i data-i="2"></i><i data-i="3"></i><i data-i="4"></i><i data-i="5"></i><i data-i="6"></i></div>
+        </div>
+      </div>
+      <div class="story-steps" id="steps">
+      <article class="step on" data-step="0">
+        <img class="m" src="images/feat3/upsell-downsell.webp" alt="">
+        <span class="idx">01</span>
+        <h3>Upsell + Downsell <small>one click</small></h3>
+        <p>Crie ofertas pós-compra em sequência. Se o cliente recusar o upsell, o downsell aparece sozinho. Tudo em um clique, sem redigitar cartão.</p>
+        <ul class="tags"><li>Sem redigitar cartão</li><li>Sequência automática</li><li>Ticket maior</li></ul>
+      </article>
+      <article class="step" data-step="1">
+        <img class="m" src="images/feat3/order-bump.webp" alt="">
+        <span class="idx">02</span>
+        <h3>Order bump <small>ilimitado</small></h3>
+        <p>Mais de uma oferta complementar dentro do checkout. Teste quais combinações sobem mais o ticket médio de cada produto.</p>
+        <ul class="tags"><li>Quantos quiser</li><li>Preço próprio</li><li>Entrega junto</li></ul>
+      </article>
+      <article class="step" data-step="2">
+        <img class="m" src="images/feat3/ab-test.webp" alt="">
+        <span class="idx">03</span>
+        <h3>Teste A/B <small>de checkout</small></h3>
+        <p>Compare layouts, ofertas e estruturas de checkout e descubra o que vende mais em cada produto, com números em tempo real.</p>
+        <ul class="tags"><li>Layouts validados</li><li>Divisão automática</li><li>Vencedor claro</li></ul>
+      </article>
+      <article class="step" data-step="3">
+        <img class="m" src="images/feat3/subscriptions.webp" alt="">
+        <span class="idx">04</span>
+        <h3>Assinaturas <small>recorrentes</small></h3>
+        <p>Planos mensais, trimestrais ou anuais com cobrança automática via Stripe ou PayPal, sem outra ferramenta no meio.</p>
+        <ul class="tags"><li>Stripe + PayPal</li><li>Ciclos flexíveis</li><li>Cobrança automática</li></ul>
+      </article>
+      <article class="step" data-step="4">
+        <img class="m" src="images/feat3/email-delivery.webp" alt="">
+        <span class="idx">05</span>
+        <h3>Entrega <small>por e-mail</small></h3>
+        <p>Acesso, confirmação, recuperação de carrinho e upsell saem sozinhos no momento certo. Sem Mailchimp, sem custo extra.</p>
+        <ul class="tags"><li>Acesso em 0 s</li><li>Recuperação</li><li>Upsell pós-compra</li></ul>
+      </article>
+      <article class="step" data-step="5">
+        <img class="m" src="images/feat3/multi-currency.webp" alt="">
+        <span class="idx">06</span>
+        <h3>Checkout <small>multi-moeda</small></h3>
+        <p>Idioma e moeda se adaptam sozinhos pelo IP do comprador. Menos fricção para vender em qualquer um dos 195 países.</p>
+        <ul class="tags"><li>135+ moedas</li><li>Idioma automático</li><li>195 países</li></ul>
+      </article>
+      <article class="step" data-step="6">
+        <img class="m" src="images/feat3/mcp-ai.webp" alt="">
+        <span class="idx">07</span>
+        <h3>IA por chat <small>MCP nativo</small></h3>
+        <p>Conecte o Snapp ao Claude, ao ChatGPT ou ao Cursor e peça em linguagem natural: relatórios, checkout novo, pixel, bumps, entrega. Sem abrir o painel.</p>
+        <ul class="tags"><li>Claude · ChatGPT · Cursor</li><li>Cria e edita checkouts</li><li>Relatórios na hora</li></ul>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STRIPE + PAYPAL ============ -->
+<section id="global">
+  <div class="wrap split2">
+    <div>
+      <h2 class="grad" data-reveal>O poder da Stripe e do PayPal, no mesmo checkout.</h2>
+      <p class="lead" data-reveal style="--d:120ms">Nem todo comprador quer pagar do mesmo jeito. Com os dois lado a lado você reduz abandono, aumenta a confiança e abre mais caminhos para a venda acontecer.</p>
+      <div class="gw" data-stagger="120">
+        <div class="card"><img src="images/logo-stripe2.webp" alt="Stripe"><p>Conecte sua conta Stripe e receba em mais de 135 moedas direto na sua conta, sem intermediário segurando o dinheiro.</p></div>
+        <div class="card"><img src="images/logo-paypal.webp" alt="PayPal"><p>Aceite PayPal e alcance quem prefere pagar por ele, principalmente nos EUA e na Europa.</p></div>
+      </div>
+    </div>
+    <div class="art" data-reveal="right"><div class="halo"></div><img src="images/logo3d-stripe-paypal.webp" alt="Stripe e PayPal" data-parallax="-0.08"></div>
+  </div>
+</section>
+
+<!-- ============ EMAIL ============ -->
+<section id="email">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="grad" data-reveal>Automação de e-mail sem ferramentas extras.</h2>
+      <p class="lead" data-reveal style="--d:120ms">Crie e automatize cada e-mail que o seu negócio precisa: confirmação de compra, recuperação de carrinho, upsell e mais. Tudo dentro do Snapp.</p>
+    </div>
+    <div class="flow" id="flow" data-reveal>
+      <div class="flow-bar"><span><i></i>Pós-venda</span><em>Ativa</em></div>
+      <div class="lane" data-lane>
+        <div class="node trig"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div><small>Gatilho</small><b>Venda aprovada</b><span class="meta">Inglês em 30 Dias · $27</span><div class="pop">Nova venda · $27</div></div>
+        <div class="link"><i></i></div>
+        <div class="node mail"><div class="badge"><svg class="env" viewBox="0 0 48 48" fill="none"><path class="flap" d="M8 18l16 11 16-11" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><rect x="8" y="18" width="32" height="22" rx="4" stroke="currentColor" stroke-width="2.2"/></svg><svg class="plane" viewBox="0 0 24 24" fill="#fed217"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></div><small>E-mail</small><b>Confirmação + acesso</b><span class="meta">Enviado em 0 s</span><div class="prev"><b>Seu acesso chegou</b><span>Olá, Ana! Aqui está o seu login…</span></div></div>
+        <div class="link"><i></i></div>
+        <div class="node wait"><div class="badge timer"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="24"/><circle class="p" cx="28" cy="28" r="24"/></svg><span class="cnt" data-to="24" data-unit="h">0h</span></div><small>Aguardar</small><b>24 horas</b><span class="meta">antes do upsell</span></div>
+        <div class="link"><i></i></div>
+        <div class="node mail"><div class="badge"><svg class="env" viewBox="0 0 48 48" fill="none"><path class="flap" d="M8 18l16 11 16-11" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><rect x="8" y="18" width="32" height="22" rx="4" stroke="currentColor" stroke-width="2.2"/></svg><svg class="plane" viewBox="0 0 24 24" fill="#fed217"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></div><small>E-mail</small><b>Oferta de upsell</b><span class="meta">Enviado</span><div class="prev"><b>Um presente para você</b><span>Complete com o Kit Avançado por $17…</span></div></div>
+        <div class="link"><i></i></div>
+        <div class="node end"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="ck" d="M5 12.5l4.5 4.5L19 7"/></svg></div><small>Resultado</small><b>Upsell aceito</b><span class="meta">+ $17 na mesma venda</span><div class="pop">+ $17</div></div>
+      </div>
+      <div class="flow-bar"><span><i></i>Recuperação</span><em>Ativa</em></div>
+      <div class="lane" data-lane>
+        <div class="node trig"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg></div><small>Gatilho</small><b>Checkout abandonado</b><span class="meta">Planner Financeiro · R$ 47</span><div class="pop">Carrinho parado</div></div>
+        <div class="link"><i></i></div>
+        <div class="node wait"><div class="badge timer"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="24"/><circle class="p" cx="28" cy="28" r="24"/></svg><span class="cnt" data-to="30" data-unit="m">0m</span></div><small>Aguardar</small><b>30 minutos</b><span class="meta">antes de lembrar</span></div>
+        <div class="link"><i></i></div>
+        <div class="node mail"><div class="badge"><svg class="env" viewBox="0 0 48 48" fill="none"><path class="flap" d="M8 18l16 11 16-11" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><rect x="8" y="18" width="32" height="22" rx="4" stroke="currentColor" stroke-width="2.2"/></svg><svg class="plane" viewBox="0 0 24 24" fill="#fed217"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></div><small>E-mail</small><b>Recuperação</b><span class="meta">Enviado</span><div class="prev"><b>Ficou faltando pouco</b><span>Seu Planner ainda está reservado. Finalize aqui…</span></div></div>
+        <div class="link"><i></i></div>
+        <div class="node wait"><div class="badge timer"><svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="24"/><circle class="p" cx="28" cy="28" r="24"/></svg><span class="cnt" data-to="24" data-unit="h">0h</span></div><small>Aguardar</small><b>24 horas</b><span class="meta">segunda tentativa</span></div>
+        <div class="link"><i></i></div>
+        <div class="node end"><div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path class="ck" d="M5 12.5l4.5 4.5L19 7"/></svg></div><small>Resultado</small><b>Venda recuperada</b><span class="meta">R$ 47 de volta</span><div class="pop">R$ 47</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORLD ============ -->
+<section class="world">
+  <div class="wrap">
+    <h2 class="grad" data-reveal>Venda facilmente para o mundo inteiro.</h2>
+    <p class="lead" data-reveal style="--d:120ms;margin:20px auto 0">Explore novos mercados com um checkout preparado para vender em diferentes países, moedas e idiomas. Cada venda aprovada cai direto na sua conta, na moeda do comprador.</p>
+    <div class="flag-row" data-reveal style="--d:200ms"><span><img src="images/flags/us.png" alt=""><small>Estados Unidos</small></span><span><img src="images/flags/gb.png" alt=""><small>Reino Unido</small></span><span><img src="images/flags/de.png" alt=""><small>Alemanha</small></span><span><img src="images/flags/fr.png" alt=""><small>França</small></span><span><img src="images/flags/it.png" alt=""><small>Itália</small></span><span><img src="images/flags/es.png" alt=""><small>Espanha</small></span><span><img src="images/flags/br.png" alt=""><small>Brasil</small></span><span><img src="images/flags/ca.png" alt=""><small>Canadá</small></span><span><img src="images/flags/au.png" alt=""><small>Austrália</small></span><span><img src="images/flags/mx.png" alt=""><small>México</small></span><span><img src="images/flags/pt.png" alt=""><small>Portugal</small></span><span><img src="images/flags/jp.png" alt=""><small>Japão</small></span><span><img src="images/flags/ae.png" alt=""><small>Emirados</small></span><span class="more"><b>+180</b><small>países</small></span></div>
+  </div>
+  <div class="globe-wrap" data-reveal="scale">
+    <canvas id="globe2"></canvas>
+    <div class="sales" id="sales"></div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="precos">
+  <div class="wrap">
+    <div class="sec-head center" style="margin-inline:auto">
+      <h2 class="grad" data-reveal>Só pague quando vender.</h2>
+      <p class="lead" data-reveal style="--d:120ms">O Snapp cobra 3% sobre cada venda aprovada. Sem mensalidade, sem valor fixo e sem letras miúdas.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan hot" data-reveal="left">
+        <div class="name">Snapp Checkout</div>
+        <div class="price"><b>3%</b><span>por transação aprovada</span></div>
+        <p class="sub">Vendeu, paga. Não vendeu, não paga nada.</p>
+        <ul data-stagger="60">
+          <li><i>✓</i>Stripe + PayPal no mesmo checkout</li>
+          <li><i>✓</i>Recebimento direto na sua conta</li>
+          <li><i>✓</i>Venda em mais de 135 moedas e até 195 países</li>
+          <li><i>✓</i>Checkouts personalizáveis com modelos prontos</li>
+          <li><i>✓</i>Order bumps ilimitados</li>
+          <li><i>✓</i>Upsell e downsell one click</li>
+          <li><i>✓</i>Assinaturas recorrentes</li>
+          <li><i>✓</i>Funil de e-mail nativo</li>
+          <li><i>✓</i>Sem mensalidade ou valor fixo</li>
+        </ul>
+        <a class="btn" href="https://admin.snappcheckout.com/register">Começar agora <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+      <div class="plan cold" data-reveal="right" style="--d:120ms">
+        <div class="name">Outros checkouts</div>
+        <div class="price"><b style="font-size:clamp(40px,5vw,64px)">4,9 a 10%+</b></div>
+        <p class="sub">por transação aprovada, e o resto vem na letra miúda</p>
+        <ul data-stagger="60">
+          <li><i>×</i>Apenas Stripe ou processadores limitados</li>
+          <li><i>×</i>Dinheiro pode ficar preso na plataforma</li>
+          <li><i>×</i>Menos moedas para vender fora</li>
+          <li><i>×</i>Venda internacional limitada</li>
+          <li><i>×</i>Poucos modelos de checkout para testar</li>
+          <li><i>×</i>Limite para criar order bumps</li>
+          <li><i>×</i>Sem funil de upsell + downsell one click</li>
+          <li><i>×</i>Assinaturas podem exigir outro plano ou ferramenta</li>
+          <li><i>×</i>Mensalidade, taxa fixa ou letras miúdas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BREATHER 2 ============ -->
+<section class="breather">
+  <div class="orb"></div><div class="ring"></div>
+  <div class="wrap">
+    <h2 class="grad" data-reveal="scale">O pagamento cai <span class="y">direto</span> na sua conta.</h2>
+    <p class="lead" data-reveal style="--d:150ms">A Stripe é sua. O PayPal é seu. O Snapp processa a venda e sai do caminho. Nunca retemos o seu recebimento.</p>
+  </div>
+</section>
+
+<!-- ============ INTEGRATIONS ============ -->
+<section>
+  <div class="wrap center">
+    <h2 class="grad" data-reveal>Conecte-se às principais ferramentas do mercado.</h2>
+    <p class="lead" data-reveal style="--d:120ms;margin:20px auto 48px">Análise de dados, tracking, automações, área de membros externa e muito mais, integrados ao seu checkout.</p>
+  </div>
+  <div class="marquee-wrap" data-reveal>
+    <div class="track xl">
+      <img src="images/PayPal_Logo_Icon_2014.svg" alt="PayPal"><img src="images/logo-stripe2.webp" alt="Stripe"><img src="images/logo-pagarme.webp" alt="Pagar.me"><img src="images/logo-efibank.webp" alt="Efí Bank"><img src="images/logo-mercadopago.svg" alt="Mercado Pago"><img src="images/logo-whop.png" alt="Whop">
+      <img src="images/PayPal_Logo_Icon_2014.svg" alt=""><img src="images/logo-stripe2.webp" alt=""><img src="images/logo-pagarme.webp" alt=""><img src="images/logo-efibank.webp" alt=""><img src="images/logo-mercadopago.svg" alt=""><img src="images/logo-whop.png" alt="">
+    </div>
+  </div>
+  <div class="marquee-wrap" data-reveal style="--d:120ms">
+    <div class="track rev">
+      <img src="images/logo-meta.svg" alt="Meta"><img src="images/logo-googleads.svg" alt="Google Ads"><img src="images/logo-tiktokads.svg" alt="TikTok Ads"><img src="images/logo-taboola.svg" alt="Taboola">
+      <img src="images/logo-meta.svg" alt=""><img src="images/logo-googleads.svg" alt=""><img src="images/logo-tiktokads.svg" alt=""><img src="images/logo-taboola.svg" alt="">
+      <img src="images/logo-meta.svg" alt=""><img src="images/logo-googleads.svg" alt=""><img src="images/logo-tiktokads.svg" alt=""><img src="images/logo-taboola.svg" alt="">
+      <img src="images/logo-meta.svg" alt=""><img src="images/logo-googleads.svg" alt=""><img src="images/logo-tiktokads.svg" alt=""><img src="images/logo-taboola.svg" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap faq-grid">
+    <div class="sticky">
+      <h2 class="grad" data-reveal>Perguntas frequentes.</h2>
+      <p class="lead" data-reveal style="--d:120ms;margin-top:20px">Tire as principais dúvidas antes de conectar suas contas e começar a vender com o Snapp.</p>
+      <a class="btn ghost" data-reveal style="--d:240ms" href="https://wa.me/554896320504?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20a%20Snapp%20Checkout.">Precisa de ajuda? <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+    <div data-stagger="90">
+      <details><summary>O Snapp processa o pagamento?<i></i></summary><div class="a"><div><p>Não. O Snapp é a camada de checkout, automação e gestão. O processamento é feito direto pela sua conta Stripe ou PayPal e o dinheiro cai direto na sua conta, sem intermediário.</p></div></div></details>
+      <details><summary>Preciso ter uma conta na Stripe ou no PayPal?<i></i></summary><div class="a"><div><p>Sim. Você conecta sua própria conta da Stripe e/ou do PayPal. Isso garante que você recebe direto, com toda a segurança e a infraestrutura dos melhores gateways do mundo.</p></div></div></details>
+      <details><summary>Posso vender assinaturas?<i></i></summary><div class="a"><div><p>Sim. O Snapp tem suporte completo a assinaturas com ciclos flexíveis: mensais, trimestrais, anuais ou personalizados. A cobrança é automática via Stripe ou PayPal.</p></div></div></details>
+      <details><summary>Tem mensalidade?<i></i></summary><div class="a"><div><p>Não. O modelo é simples: você paga apenas 3% por transação aprovada. Se não vender, não paga nada. Sem mensalidade, sem taxa de setup, sem custo oculto.</p></div></div></details>
+      <details><summary>Para quais países posso vender?<i></i></summary><div class="a"><div><p>Mais de 190 países via Stripe e PayPal. O checkout adapta moeda e idioma automaticamente pelo IP do comprador.</p></div></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="comecar">
+  <div class="wrap">
+    <div class="box" data-reveal="scale">
+      <img class="s3d" src="images/login-silver-trim.webp" alt="">
+      <q>A simplicidade é o último grau da sofisticação</q>
+      <cite>Leonardo da Vinci</cite>
+      <h2 class="grad" data-reveal style="--d:200ms">Checkout, pagamentos e automações em uma experiência simples.</h2>
+      <p class="lead" data-reveal style="--d:300ms">Para você vender mais, com menos complexidade.</p>
+      <a class="btn" data-reveal style="--d:400ms" href="https://admin.snappcheckout.com/register">Começar agora <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="images/logo-snapp-white.svg" alt="Snapp">
+    <ul>
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#precos">Preços</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="/terms-of-use/">Termos de uso</a></li>
+      <li><a href="/privacy-policy/">Privacidade</a></li>
+      <li><a href="/data-protection/">Proteção de dados</a></li>
+      <li><a href="/support/">Suporte</a></li>
+      <li><a href="https://www.instagram.com/snappcheckout/">Instagram</a></li>
+    </ul>
+    <div class="copy"><span>© 2026 Snapp Checkout. Todos os direitos reservados.</span><span>Feito para quem vende para o mundo.</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const root=document.documentElement;
+if(reduced) root.classList.add("no-motion");
+
+/* nav */
+const nav=document.getElementById("nav"),progress=document.getElementById("progress");
+const burger=document.getElementById("burger");
+burger.addEventListener("click",()=>nav.classList.toggle("open"));
+nav.querySelectorAll("ul a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
+
+/* cursor glow */
+const cur=document.getElementById("cursor");
+if(cur&&matchMedia("(pointer:fine)").matches&&!reduced){
+  let cx=innerWidth/2,cy=innerHeight/2,tx=cx,ty=cy;
+  addEventListener("pointermove",e=>{tx=e.clientX;ty=e.clientY;cur.style.opacity=1});
+  (function loop(){cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;cur.style.transform=`translate(${cx-260}px,${cy-260}px)`;requestAnimationFrame(loop)})();
+}
+
+/* stagger groups */
+document.querySelectorAll("[data-stagger]").forEach(g=>{
+  const step=+g.dataset.stagger||90;
+  [...g.children].forEach((c,i)=>{if(!c.hasAttribute("data-reveal"))c.setAttribute("data-reveal","");c.style.setProperty("--d",(i*step)+"ms")});
+});
+
+/* reveal */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+document.querySelectorAll("[data-reveal],.split,[data-watch]").forEach(el=>io.observe(el));
+
+/* counters */
+const fmt=(el,v)=>(el.dataset.prefix?el.dataset.prefix.replace("&lt;","<"):"")+v+(el.dataset.suffix||"");
+const cio=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,t=+el.dataset.count;cio.unobserve(el);
+  if(reduced){el.textContent=fmt(el,t);return}
+  const d=1600;let s=null;(function f(n){if(s===null)s=n;const p=Math.min((n-s)/d,1),ease=1-Math.pow(1-p,4);el.textContent=fmt(el,Math.round(t*ease));if(p<1)requestAnimationFrame(f)})(performance.now());
+})},{threshold:.6});
+document.querySelectorAll("[data-count]").forEach(el=>cio.observe(el));
+
+/* scroll: progress + parallax + nav */
+const par=[...document.querySelectorAll("[data-parallax]")];
+let ticking=false;
+function onScroll(){
+  ticking=false;
+  const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
+  nav.classList.toggle("scrolled",y>20);
+  progress.style.transform=`scaleX(${h?y/h:0})`;
+  if(reduced)return;
+  par.forEach(el=>{const r=el.getBoundingClientRect();const c=r.top+r.height/2-innerHeight/2;el.style.translate=`0 ${(-c*+el.dataset.parallax).toFixed(1)}px`});
+}
+addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
+onScroll();
+
+/* card spotlight + tilt */
+document.querySelectorAll(".card").forEach(card=>{
+  card.addEventListener("pointermove",e=>{
+    const r=card.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;
+    card.style.setProperty("--mx",x+"px");card.style.setProperty("--my",y+"px");
+    if(card.hasAttribute("data-tilt")&&!reduced){const rx=((y/r.height)-.5)*-6,ry=((x/r.width)-.5)*8;card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`}
+  });
+  card.addEventListener("pointerleave",()=>{card.style.transform=""});
+});
+
+/* FAQ: one open at a time */
+const ds=[...document.querySelectorAll("details")];
+ds.forEach(d=>d.addEventListener("toggle",()=>{if(d.open)ds.forEach(o=>{if(o!==d)o.open=false})}));
+
+})();
+</script>
+<script src="app.js"></script>
+</body>
+</html>
