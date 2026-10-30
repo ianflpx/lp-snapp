@@ -36,7 +36,7 @@
       proj.translate([W * (opts.cx || 0.5), H * (opts.cy || 0.5)]).scale(R);
     }
     size(); addEventListener("resize", size);
-    fetch("images/world-countries.json").then(r => r.json()).then(j => { world = j; });
+    fetch("/v2/images/world-countries.json").then(r => r.json()).then(j => { world = j; });
 
     let lon = opts.lon || -30, mx = 0, tmx = 0, visible = true, sx = 0, tsx = 0, lastY = scrollY;
     const lat = opts.lat || -22;
@@ -56,7 +56,7 @@
       const k = ok[Math.floor(Math.random() * ok.length)], h = HUBS[k];
       const amt = AMOUNTS[Math.floor(Math.random() * AMOUNTS.length)], prod = PRODUCTS[Math.floor(Math.random() * PRODUCTS.length)];
       const el = document.createElement("div"); el.className = "sale";
-      el.innerHTML = '<img src="images/flags/' + h[2] + '.png" alt=""><div><b>' + h[3] + " " + amt + '</b><span>Venda aprovada · ' + h[4] + "</span><small>" + prod + "</small></div><i></i>";
+      el.innerHTML = '<img src="/v2/images/flags/' + h[2] + '.png" alt=""><div><b>' + h[3] + " " + amt + '</b><span>Venda aprovada · ' + h[4] + "</span><small>" + prod + "</small></div><i></i>";
       opts.salesEl.appendChild(el);
       let country = null; if (world) for (const f of world.features) { if (d3.geoContains(f, h)) { country = f; break; } }
       sales.push({ k, ll: [h[0], h[1]], el, t0: now, country });
@@ -158,7 +158,7 @@
     cases = document.getElementById("iaCases"), win = document.getElementById("win"), tabs = document.getElementById("iaTabs");
   if (!body) return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const SNP = '<img class="snp" src="images/logo-s-mark.svg" alt="">';
+  const SNP = '<img class="snp" src="/v2/images/logo-s-mark.svg" alt="">';
   const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const ICO = {
     pen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>',
