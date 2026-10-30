@@ -21,11 +21,14 @@ Snapp Checkout é uma plataforma SaaS de checkout all-in-one para criadores de i
 - Assinaturas recorrentes (mensal, trimestral, anual) via Stripe e PayPal
 - Funis de e-mail integrados (sem ferramentas externas como Mailchimp)
 - Checkout multi-moeda com detecção automática por IP
+- Assistente de IA por chat (MCP nativo): conecta ao Claude, ChatGPT ou Cursor para criar checkouts, ligar pixel, ativar entrega por e-mail, criar order bumps, traduzir checkouts e puxar relatórios em linguagem natural
+- Modelos de checkout prontos (Clássico, Hotmart, Hubla, Kwify)
 
 ## Links
 
 - Homepage: https://www.snappcheckout.com/
 - Plataforma (login / cadastro): https://admin.snappcheckout.com
+- IA por chat (MCP): https://www.snappcheckout.com/#ia
 - Seção de Recursos: https://www.snappcheckout.com/#recursos
 - Preços: https://www.snappcheckout.com/#precos
 - FAQ: https://www.snappcheckout.com/#faq
