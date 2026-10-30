@@ -117,3 +117,11 @@ Mais de 190 países via Stripe e PayPal. O checkout adapta moeda e idioma automa
 ---
 
 *Este arquivo segue o padrão llms.txt (https://llmstxt.org/) para facilitar a compreensão do site por sistemas de inteligência artificial.*
+
+## Assistente de IA por chat (MCP nativo)
+
+O Snapp Checkout expõe suas ferramentas por MCP (Model Context Protocol). Conectado ao Claude, ao ChatGPT ou ao Cursor, o vendedor pede em linguagem natural e a IA executa no Snapp: consultar as vendas do dia, gerar relatórios por país e moeda, criar produto e checkout com entrega por e-mail, colocar o pixel do Facebook, criar um checkout em outro idioma a partir de um link (traduzindo nome, descrição e order bumps), comparar order bumps e remover o pior, trocar o modelo do checkout e abrir um teste A/B, montar funil de upsell e downsell, listar reembolsos, criar assinatura com período de teste e configurar entrega por link para área de membros.
+
+## Modelos de checkout
+
+Quatro modelos prontos (Clássico, Hotmart, Hubla, Kwify), trocáveis em poucos cliques e testáveis entre si por A/B.
