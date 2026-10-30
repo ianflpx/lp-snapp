@@ -414,7 +414,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .hero .lead{margin:28px auto 40px;max-width:680px;font-size:clamp(16px,1.5vw,20px)}
 .hero .lead strong{color:var(--ink);font-weight:500}
 .hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative}
-.hero .cta::before{content:"";position:absolute;left:50%;top:50%;width:140%;height:260%;translate:-50% -50%;background:radial-gradient(closest-side,rgba(5,5,5,.95),rgba(5,5,5,.6) 50%,transparent 100%);z-index:-1;pointer-events:none}
+.hero .cta::before{content:"";position:absolute;left:50%;top:50%;width:120%;height:220%;translate:-50% -50%;border-radius:50%;background:radial-gradient(closest-side,rgba(5,5,5,.85),rgba(5,5,5,.4) 55%,transparent 75%);z-index:-1;pointer-events:none}
 .hero-fade{position:absolute;left:0;right:0;bottom:0;height:48%;background:linear-gradient(180deg,transparent,rgba(5,5,5,.6) 45%,var(--bg) 88%);z-index:1;pointer-events:none}
 .recursos{padding-top:clamp(60px,8vw,120px)}
 .ia.first{padding-top:clamp(20px,4vw,60px);z-index:3}
@@ -586,12 +586,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .track img{height:30px;width:auto;opacity:.9;transition:transform .4s var(--ease),opacity .4s}
 .track img:hover{opacity:1;transform:scale(1.08)}
 .track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px}.track.rev{gap:72px}
-.tile{width:64px;height:64px;border-radius:15px;background:var(--tbg,#fff);display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.12);transition:transform .4s var(--ease)}
-.tile:hover{transform:scale(1.08)}
-.tile img{height:30px!important;width:auto;opacity:1!important;filter:brightness(0) invert(1)}
-.tile.light img{filter:none}
-.tile img.wm{height:14px!important}
-.tile img:hover{transform:none}
+.track .tile{width:64px;height:64px;border-radius:15px;background:var(--tbg,#fff);display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.12);transition:transform .4s var(--ease)}
+.track .tile:hover{transform:scale(1.08)}
+.track .tile img{height:30px!important;width:auto;opacity:1!important;filter:brightness(0) invert(1)}
+.track .tile.light img{filter:none}
+.track .tile img.wm{height:14px!important}
+.track .tile img:hover{transform:none}
 .marquee-wrap{overflow:hidden;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
