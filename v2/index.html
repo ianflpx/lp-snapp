@@ -21,7 +21,7 @@
   --r:28px;--r-sm:16px;--max:1180px;--pad:clamp(20px,4vw,48px);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
 body{
   font-family:"Outfit",system-ui,sans-serif;background:var(--bg);color:var(--ink);
   line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;
@@ -596,6 +596,7 @@ footer .copy{width:100%;padding-top:24px;border-top:1px solid var(--line);font-s
   footer .wrap{justify-content:flex-start}
   .breather .ring{display:none}
   .sale{display:none}
+  [data-reveal="left"]{transform:translateX(-18px)}[data-reveal="right"]{transform:translateX(18px)}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
