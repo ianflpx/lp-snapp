@@ -13,6 +13,15 @@
   const PRODUCTS = ["Curso Confeitaria Express", "Inglês em 30 Dias", "Planner Financeiro 2026", "Pack de Presets Lightroom", "E-book Receitas Fit", "Mentoria Tráfego do Zero", "Kit de Templates Canva"];
   const AMOUNTS = [17, 19, 27, 37, 47, 67, 97];
   const KEYS = Object.keys(HUBS);
+  const SYM = { br: "R$", us: "$", ca: "$", mx: "$", ar: "$", au: "$", gb: "£", jp: "¥", fr: "€", de: "€", es: "€", it: "€", pt: "€", nl: "€", ae: "$", za: "$" };
+  // pontos só das moedas do hero: os hubs + mais cidades, para as moedas saírem do globo todo
+  const COIN_SPOTS = Object.values(HUBS).map(h => [h[0], h[1], SYM[h[2]] || "$"]).concat([
+    [-87.6, 41.9, "$"], [-80.2, 25.8, "$"], [-122.3, 47.6, "$"], [-95.4, 29.8, "$"], [-104.9, 39.7, "$"], [-123.1, 49.3, "$"],
+    [-6.3, 53.3, "€"], [-2.2, 53.5, "£"], [-3.2, 55.9, "£"], [8.5, 47.4, "€"], [16.4, 48.2, "€"], [21, 52.2, "€"], [18.1, 59.3, "€"],
+    [10.8, 59.9, "€"], [12.6, 55.7, "€"], [24.9, 60.2, "€"], [4.4, 50.8, "€"], [11.6, 48.1, "€"], [9.2, 45.5, "€"], [2.2, 41.4, "€"],
+    [28.98, 41, "$"], [23.7, 38, "€"], [14.4, 50.1, "€"], [19, 47.5, "€"], [46.7, 24.7, "$"], [72.9, 19.1, "$"], [103.8, 1.35, "$"],
+    [127, 37.6, "$"], [114.2, 22.3, "$"], [121.5, 25, "$"], [-43.2, -22.9, "R$"], [-74.1, 4.7, "$"], [-70.7, -33.4, "$"], [-77, -12, "$"]
+  ]);
 
   function globe(canvas, opts) {
     if (!canvas || !window.d3) return;
@@ -28,10 +37,13 @@
       let b = KEYS[Math.floor(Math.random() * KEYS.length)]; if (b === a) b = KEYS[(KEYS.indexOf(a) + 3) % KEYS.length];
       return { a: HUBS[a], b: HUBS[b], ip: d3.geoInterpolate(HUBS[a], HUBS[b]), t: t === undefined ? -0.3 : t, s: 0.0028 + Math.random() * 0.0022 };
     }
+    // moedas numa camada própria acima da névoa do hero, para não ficarem apagadas
+    const cc = opts.coinCanvas ? opts.coinCanvas.getContext("2d") : ctx;
     function size() {
       dpr = Math.min(devicePixelRatio || 1, 2);
       const r = canvas.getBoundingClientRect(); W = r.width; H = r.height;
       canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (cc !== ctx) { cc.canvas.width = W * dpr; cc.canvas.height = H * dpr; cc.setTransform(dpr, 0, 0, dpr, 0, 0); }
       R = opts.rh ? H * opts.rh : Math.min(W, H) * (opts.radius || 0.45);
       proj.translate([W * (opts.cx || 0.5), H * (opts.cy || 0.5)]).scale(R);
     }
@@ -47,6 +59,7 @@
       canvas.addEventListener("pointermove", e => { if (!dragging) return; tsx += (e.clientX - lx) * 0.35; sx = tsx; lx = e.clientX; });
       ["pointerup", "pointercancel", "lostpointercapture"].forEach(ev => canvas.addEventListener(ev, () => { dragging = false; }));
     }
+    const coins = []; let lastCoin = 0;
     /* vendas: chips DOM presos ao ponto do país */
     const sales = []; let lastSpawn = 0;
     function spawn(now) {
@@ -142,7 +155,39 @@
         ctx.fillStyle = "rgba(254,210,23,.95)"; ctx.beginPath(); ctx.arc(p[0], p[1], 2, 0, Math.PI * 2); ctx.fill();
         ctx.strokeStyle = "rgba(254,210,23,.3)"; ctx.beginPath(); ctx.arc(p[0], p[1], 6 + pulse, 0, Math.PI * 2); ctx.stroke();
       }
+      /* moedas subindo dos países (vendas acontecendo, só como fundo) */
+      if (opts.coins && !reduced) {
+        if (now - lastCoin > opts.coins) {
+          lastCoin = now;
+          const ok = COIN_SPOTS.filter(s => {
+            if (d3.geoDistance(s, center) > Math.PI / 2 - 0.12) return false;
+            const p = proj(s); return p && p[0] > 30 && p[0] < W - 30 && p[1] > 60 && p[1] < H - 20 && !coins.some(c => c.s === s);
+          });
+          if (ok.length && coins.length < 8) { const s = ok[Math.floor(Math.random() * ok.length)]; coins.push({ s, t0: now, sym: s[2], dx: (Math.random() - 0.5) * 14 }); }
+        }
+        if (cc !== ctx) cc.clearRect(0, 0, W, H);
+        cc.globalAlpha = 1; cc.textAlign = "center"; cc.textBaseline = "middle";
+        for (let i = coins.length - 1; i >= 0; i--) {
+          const c = coins[i], age = (now - c.t0) / 2600;
+          if (age >= 1) { coins.splice(i, 1); continue; }
+          const p = proj(c.s); if (!p || d3.geoDistance(c.s, center) > Math.PI / 2 - 0.05) continue;
+          const e = 1 - Math.pow(1 - age, 3), a = Math.min(1, age / 0.15) * (1 - Math.max(0, (age - 0.55) / 0.45));
+          // moedinha cartoon: borda mais escura embaixo (espessura), face amarela, aro claro, brilho e símbolo branco
+          const pop = age < 0.18 ? 0.4 + 0.75 * Math.sin((age / 0.18) * Math.PI / 2) : 1 + 0.15 * Math.max(0, 1 - (age - 0.18) / 0.1);
+          const x = p[0] + c.dx * e, y = p[1] - 12 - e * 40, r = (c.sym.length > 1 ? 12 : 11) * Math.min(pop, 1.15);
+          cc.globalAlpha = a;
+          cc.beginPath(); cc.arc(x, y + r * 0.2, r, 0, Math.PI * 2); cc.fillStyle = "#b88a00"; cc.fill();
+          cc.beginPath(); cc.arc(x, y, r, 0, Math.PI * 2); cc.fillStyle = "#f5c400"; cc.fill();
+          cc.beginPath(); cc.arc(x, y, r * 0.84, 0, Math.PI * 2); cc.fillStyle = "#fed217"; cc.fill();
+          cc.beginPath(); cc.arc(x, y, r * 0.84, Math.PI * 1.12, Math.PI * 1.42); cc.strokeStyle = "rgba(255,255,255,.8)"; cc.lineWidth = r * 0.12; cc.lineCap = "round"; cc.stroke();
+          cc.font = "800 " + Math.round(r * (c.sym.length > 1 ? 1.05 : 1.45)) + "px Outfit, system-ui, sans-serif";
+          cc.lineJoin = "round"; cc.lineWidth = Math.max(2, r * 0.2); cc.strokeStyle = "#a87d00"; cc.strokeText(c.sym, x, y + 1);
+          cc.fillStyle = "#fff"; cc.fillText(c.sym, x, y + 1);
+          cc.globalAlpha = 1;
+        }
+      }
       /* luz de borda */
+      ctx.globalAlpha = opts.dim || 1;
       const rim = ctx.createRadialGradient(CX, CY, R * 0.86, CX, CY, R);
       rim.addColorStop(0, "rgba(0,0,0,0)"); rim.addColorStop(1, opts.dim ? "rgba(254,210,23,.07)" : "rgba(254,210,23,.16)");
       ctx.fillStyle = rim; ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.fill();
@@ -150,7 +195,7 @@
     }
     frame();
   }
-  globe(document.getElementById("horizon"), { rh: 1.05, cx: 0.5, cy: 1.42, dim: 0.42, speed: 0.025, lat: -8, lon: -70, arcs: 4, mouse: true });
+  globe(document.getElementById("horizon"), { rh: 1.05, cx: 0.5, cy: 1.42, dim: 0.42, speed: 0.025, lat: -8, lon: -70, arcs: 4, mouse: true, coins: 520, coinCanvas: document.getElementById("horizonCoins") });
   globe(document.getElementById("globe2"), { radius: 0.47, lat: -18, lon: 20, arcs: 5, speed: 0.045, scroll: true, salesEl: document.getElementById("sales"), every: 1300, drag: true });
 })();
 
@@ -344,6 +389,74 @@
   }
   new IntersectionObserver(es => { if (es[0].isIntersecting) loop(); }, { threshold: 0.25 }).observe(flow);
 })();
+
+/* ===== RECURSOS: mini-telas animadas no lugar das imagens (painel no desktop, cada passo no mobile) ===== */
+(function () {
+  "use strict";
+  const P = {
+    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/>',
+    gift: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/>',
+    repeat: '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+    spark: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>',
+    zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
+    trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+    up: '<path d="M12 19V5M5 12l7-7 7 7"/>'
+  };
+  const CLAUDE = (document.querySelector('#iaTabs [data-host="claude"] svg') || { outerHTML: "" }).outerHTML;
+  const ic = (n, w) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + P[n] + "</svg>";
+  const CUR = '<svg class="sc-cur" viewBox="0 0 24 24"><path d="M5 3l14 7-6 2-2 6z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  const OK = t => '<span class="sc-st">' + ic("check", 3) + t + "</span>";
+  const prod = (th, name, sub, price) => '<div class="sc-row"><span class="sc-th' + (th[1] ? " " + th[1] : "") + '">' + ic(th[0]) + "</span><div><b>" + name + "</b><small>" + sub + "</small></div>" + (price ? '<span class="sc-pr">' + price + "</span>" : "") + "</div>";
+  const CY = [["br", "R$ 97", "Comprar agora", "Brasil"], ["us", "$19", "Buy now", "Estados Unidos"], ["de", "19 €", "Jetzt kaufen", "Alemanha"], ["fr", "19 €", "Acheter", "França"], ["gb", "£16", "Buy now", "Reino Unido"]];
+  const S = [
+    // 1 upsell + downsell
+    '<div class="sc-card a1">' + prod(["book"], "Planner Digital", "Pagamento único", "$27") + '<div class="sc-btn"><span>Pagar agora</span><span class="ok">' + ic("check", 3) + 'Pago</span>' + CUR + "</div></div>" +
+    '<div class="sc-card a2"><span class="sc-tag">Oferta única</span>' + prod(["gift", "dk"], "Pacote Bônus", "Só nesta página", "+$17") + '<div class="sc-btn"><span>Sim, quero adicionar</span><span class="ok">Adicionado ao pedido</span>' + CUR + '</div><div class="sc-link">Não, obrigado</div></div>' +
+    '<div class="sc-pill"><b>+$17</b> no pedido com 1 clique, sem digitar o cartão</div>',
+    // 2 order bump
+    '<div class="sc-card">' + prod(["book"], "Planner Digital", "Produto principal", "$27") +
+    '<div class="sc-bump"><span class="sc-chk">' + ic("check", 3.5) + '</span><div><b>Sim! Adicionar o Guia Rápido</b><small>Oferta só aqui no checkout</small></div><span class="sc-pr">+$7</span>' + CUR + "</div>" +
+    '<div class="sc-hr"></div><div class="sc-tot"><span>Total</span><span class="sc-stack"><span class="old">$27</span><span class="new">$34</span></span></div><span class="fly">+$7</span>' +
+    '<div class="sc-btn"><span>Finalizar compra</span></div></div>' +
+    '<div class="sc-pill">Oferta extra <b>dentro do checkout</b></div>',
+    // 3 teste a/b
+    '<div class="sc-ab">' + ["a", "b"].map(v => '<div class="sc-card v' + v + '">' + (v === "b" ? '<span class="sc-win">' + ic("trophy") + "Vencedor</span>" : "") + '<span class="sc-ver">Versão ' + v.toUpperCase() + '</span><div class="sc-sk m"></div><div class="sc-sk s"></div><div class="sc-sk"></div><div class="sc-btn"><span>' + (v === "a" ? "Comprar" : "Comprar agora") + '</span></div><div class="sc-conv"><span>Conversão</span><b>' + (v === "a" ? "2,9%" : "4,6%") + '</b></div><div class="sc-bar"><i></i></div></div>').join("") + "</div>" +
+    '<div class="sc-pill">Tráfego dividido <b>50/50</b>, vencedor em números</div>',
+    // 4 assinaturas
+    '<div class="sc-card">' + prod(["repeat", "dk"], "Plano Mensal", "Renova sozinho", "$19<small>/mês</small>") +
+    ["Outubro", "Novembro", "Dezembro"].map((m, k) => '<div class="sc-li r' + (k + 1) + '"><span>' + m + " · $19</span>" + OK("Cobrado") + "</div>").join("") + "</div>" +
+    '<div class="sc-pill">Cobrança automática via <b>Stripe</b> ou <b>PayPal</b></div>',
+    // 5 entrega por e-mail
+    '<div class="sc-card a1">' + prod(["check", "gr"], "Pagamento aprovado", "Planner Digital · $27") + "</div>" +
+    '<span class="env">' + ic("mail") + "</span>" +
+    '<div class="sc-card a2"><div class="sc-app"><img src="/v2/images/logo-S.webp" alt="">Snapp · E-mail<em>agora</em></div><b>Seu acesso chegou!</b><p>O Planner Digital já está liberado para você.</p><div class="sc-btn"><span>Acessar conteúdo</span></div></div>' +
+    '<div class="sc-pill">Acesso no e-mail <b>em segundos</b></div>',
+    // 6 multi-moeda
+    '<div class="sc-card"><div class="sc-row"><span class="sc-flag sc-cy">' + CY.map((c, k) => '<img src="/v2/images/flags/' + c[0] + '.png" alt="" style="--k:' + k + '">').join("") + "</span><div><b>Planner Digital</b>" +
+    '<small style="display:grid">' + '<span class="sc-cy" style="display:grid">' + CY.map((c, k) => '<span style="grid-area:1/1;--k:' + k + '">Comprador no(a) ' + c[3] + "</span>").join("") + "</span></small></div>" +
+    '<span class="sc-pr sc-cy" style="display:grid;text-align:right">' + CY.map((c, k) => '<span style="grid-area:1/1;--k:' + k + '">' + c[1] + "</span>").join("") + "</span></div>" +
+    '<div class="sc-btn sc-cy">' + CY.map((c, k) => '<span style="--k:' + k + '">' + c[2] + "</span>").join("") + "</div></div>" +
+    '<div class="sc-pill">Moeda e idioma pelo <b>IP do comprador</b></div><div class="sc-ips">135+ moedas · 195 países</div>',
+    // 7 ia por chat
+    '<div class="sc-cl"><div class="sc-clbar"><i></i><i></i><i></i><span>claude.ai</span></div>' +
+    '<div class="sc-clhead">' + CLAUDE + "<b>Claude</b></div>" +
+    '<div class="sc-msgs"><div class="sc-u">Quanto vendi hoje no Snapp?</div><span class="sc-alogo">' + CLAUDE + "</span>" +
+    '<div class="sc-mid"><div class="sc-think"><i></i>Consultando o Snapp…</div><div class="sc-tool"><img src="/v2/images/logo-S.webp" alt=""><code>get_metrics</code>Snapp · hoje' + ic("check", 2.5).replace("<svg", '<svg class="ck"') + "</div></div>" +
+    '<div class="sc-a">Hoje você vendeu <b>$1.284</b> em <b>37 pedidos</b>. O pico foi às 20h.<div class="sc-chart">' + [30, 45, 38, 60, 52, 74, 100].map(h => '<i style="--h:' + h + '%"></i>').join("") + "</div></div></div>" +
+    '<div class="sc-comp"><span>Responder ao Claude…</span><i>' + ic("up", 2.5) + "</i></div></div>" +
+    '<div class="sc-pill">Você pede no chat, a IA <b>faz no Snapp</b></div>'
+  ];
+  const make = (i, extra) => {
+    const d = document.createElement("div"); d.className = "sc s" + (i + 1) + (extra ? " " + extra : ""); d.dataset.i = i; d.setAttribute("aria-hidden", "true");
+    d.innerHTML = '<div class="sc-in">' + S[i] + "</div>"; return d;
+  };
+  document.querySelectorAll("#panel .pimgs img").forEach((img, i) => { const d = make(i); if (img.classList.contains("on")) d.classList.add("on"); img.replaceWith(d); });
+  const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("on", e.isIntersecting)), { threshold: 0.35 });
+  document.querySelectorAll(".step img.m").forEach(img => { const d = make(+img.closest(".step").dataset.step, "m"); img.after(d); io.observe(d); });
+})();
+
 
 /* ===== RECURSOS: scrollytelling ===== */
 (function () {
