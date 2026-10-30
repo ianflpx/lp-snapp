@@ -585,13 +585,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .track:hover{animation-play-state:paused}
 .track img{height:30px;width:auto;opacity:.9;transition:transform .4s var(--ease),opacity .4s}
 .track img:hover{opacity:1;transform:scale(1.08)}
-.track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px}.track.rev{gap:72px}
-.track .tile{width:64px;height:64px;border-radius:15px;background:var(--tbg,#fff);display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.12);transition:transform .4s var(--ease)}
-.track .tile:hover{transform:scale(1.08)}
-.track .tile img{height:30px!important;width:auto;opacity:1!important;filter:brightness(0) invert(1)}
-.track .tile.light img{filter:none}
-.track .tile img.wm{height:14px!important}
-.track .tile img:hover{transform:none}
+.track.xl{gap:96px;padding:10px 0 44px}.track.xl img{height:74px}.track.rev{gap:80px}.track.rev img{height:36px}
 .marquee-wrap{overflow:hidden;width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
@@ -846,7 +840,7 @@ details .a p{color:var(--ink-3);padding:0 60px 26px 0;font-weight:300;font-size:
 .cta cite{display:block;margin-top:12px;font-style:normal;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4)}
 .cta h2{margin:48px auto 22px;max-width:18ch}
 .cta .lead{margin:0 auto 40px}
-.cta .s3d{position:absolute;right:-4%;top:-10%;width:clamp(180px,26vw,360px);opacity:.9;animation:float 10s ease-in-out infinite;pointer-events:none;filter:drop-shadow(0 30px 60px rgba(0,0,0,.8))}
+.cta .s3d{position:absolute;right:-8%;top:-14%;width:clamp(160px,20vw,280px);opacity:.85;animation:float 10s ease-in-out infinite;pointer-events:none;filter:drop-shadow(0 30px 60px rgba(0,0,0,.8))}
 
 /* ---------- footer ---------- */
 footer{border-top:1px solid var(--line);padding:48px 0 40px;color:var(--ink-3);font-size:14px}
@@ -1212,8 +1206,8 @@ footer .copy{width:100%;padding-top:24px;border-top:1px solid var(--line);font-s
   </div>
   <div class="marquee-wrap" data-reveal style="--d:120ms">
     <div class="track rev">
-      <span class="tile" style="--tbg:#0866FF"><img src="/v2/images/ic-meta.svg" alt="Meta"></span><span class="tile light"><img src="/v2/images/ic-googleads.svg" alt="Google Ads"></span><span class="tile" style="--tbg:#111"><img src="/v2/images/ic-tiktok.svg" alt="TikTok"></span><span class="tile" style="--tbg:#005A8C"><img class="wm" src="/v2/images/logo-taboola.svg" alt="Taboola"></span>
-      <span class="tile" style="--tbg:#0866FF"><img src="/v2/images/ic-meta.svg" alt=""></span><span class="tile light"><img src="/v2/images/ic-googleads.svg" alt=""></span><span class="tile" style="--tbg:#111"><img src="/v2/images/ic-tiktok.svg" alt=""></span><span class="tile" style="--tbg:#005A8C"><img class="wm" src="/v2/images/logo-taboola.svg" alt=""></span>
+      <img src="/v2/images/logo-meta-color.svg" alt="Meta"><img src="/v2/images/logo-googleads-color.svg" alt="Google Ads"><img src="/v2/images/logo-tiktokads-color.svg" alt="TikTok Ads"><img src="/v2/images/logo-taboola-color.svg" alt="Taboola">
+      <img src="/v2/images/logo-meta-color.svg" alt=""><img src="/v2/images/logo-googleads-color.svg" alt=""><img src="/v2/images/logo-tiktokads-color.svg" alt=""><img src="/v2/images/logo-taboola-color.svg" alt="">
     </div>
   </div>
 </section>
