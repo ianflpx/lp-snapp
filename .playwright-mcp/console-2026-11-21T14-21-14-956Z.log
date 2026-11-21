@@ -1,0 +1,4 @@
+[      78ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5174/node_modules/.vite/deps/react-dom_client.js?v=ba832e20:20102
+[     115ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ http://localhost:5174/register?lang=en:0
+[     536ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://ipapi.co/json/:0
+[     536ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://ipapi.co/json/:0

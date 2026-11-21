@@ -467,10 +467,15 @@
     steps.forEach((s, k) => s.classList.toggle("on", k === i));
     sets.forEach(e => e.classList.toggle("on", +e.dataset.i === i));
   }
-  const io = new IntersectionObserver(es => {
-    es.forEach(e => { if (e.isIntersecting) go(+e.target.dataset.step); });
-  }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
-  steps.forEach(s => io.observe(s));
+  // passo ativo = último cujo topo passou da linha de 55% da tela (antes do 1º, vale o 1º);
+  // calculado a cada rolagem para não ficar com cena velha depois de salto pelo menu
+  let cur = -1;
+  function sync() {
+    const line = innerHeight * 0.55; let i = 0;
+    steps.forEach((s, k) => { if (s.getBoundingClientRect().top < line) i = k; });
+    if (i !== cur) { cur = i; go(i); }
+  }
+  addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); sync();
   document.getElementById("pdots")?.addEventListener("click", e => {
     const i = e.target.dataset.i; if (i !== undefined) steps[+i].scrollIntoView({ behavior: "smooth", block: "center" });
   });
