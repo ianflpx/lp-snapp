@@ -1,127 +1,578 @@
-# Snapp Checkout — Documentação Completa para Sistemas de IA
+# Snapp Checkout
 
-> Plataforma de checkout all-in-one para venda de infoprodutos globalmente.
-> URL: https://www.snappcheckout.com/
-> Idioma: pt-BR
-> Contato: snappcheckout@gmail.com
+> Snapp Checkout é uma plataforma brasileira de checkout e link de pagamento para quem vende infoprodutos e outros produtos digitais, no Brasil e no exterior. O vendedor conecta a própria conta de pagamento, recebe direto nela e paga 3% por venda aprovada, sem mensalidade.
 
----
+Fatos principais:
 
-## O que é o Snapp Checkout
+- **O que é**: checkout, link de pagamento, área de membros e automação de pós-venda sobre a conta de gateway do vendedor. O Snapp não segura o valor da venda, que cai direto na conta do vendedor no gateway.
+- **Preço**: 3% por venda aprovada. Sem mensalidade e sem taxa de adesão.
+- **Gateways**: Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go. Mais de um gateway pode ficar ligado na mesma oferta.
+- **Formas de pagamento**: cartão, Apple Pay, Google Pay, Pix, boleto, PayPal e formas locais como Klarna, Affirm, Amazon Pay, Cash App Pay, Bancontact, BLIK, EPS, Satispay, MB WAY, Multibanco, Pay by Bank, OXXO e SPEI.
+- **Alcance**: oferta em 16 moedas e checkout em 17 idiomas, com detecção opcional de idioma e moeda pelo país do comprador.
+- **Recursos**: order bump, upsell e downsell em um clique, assinaturas (diária, semanal, mensal ou anual), teste A/B, seis modelos de checkout, recuperação de carrinho por e-mail, cupom de desconto, domínio próprio, checkout embutido por iframe, área de membros, Pixel e API de Conversões (Meta, TikTok, Google Ads e Taboola), webhooks e chaves de API.
+- **Inteligência artificial**: servidor MCP para Claude e ChatGPT em `https://mcp.snappcheckout.com/mcp`, Criação com IA (a oferta pronta a partir de um pedido no chat), Assistente Snapp, Meta Ads com a venda real e Conquistas. Os quatro últimos são liberados conta a conta pela equipe do Snapp.
+- **Para quem**: produtores digitais e lojistas que vendem curso, e-book, mentoria, comunidade e assinatura, em especial quem anuncia na Meta, no TikTok e no Google e vende em mais de um idioma.
+- **Nome**: o produto se chama Snapp Checkout, com dois "p", e fica em snappcheckout.com. Não tem relação com produtos de outras empresas chamados "Snap Checkout", com um "p".
+- **Idioma do site**: português do Brasil.
 
-O Snapp Checkout é uma plataforma SaaS brasileira de checkout para criadores de conteúdo digital, infoprodutores e vendedores de produtos digitais que desejam vender globalmente. Diferente de plataformas tradicionais que processam o pagamento por conta própria (retendo o dinheiro do vendedor), o Snapp atua como camada de checkout e automação — o processamento real ocorre diretamente pela conta Stripe ou PayPal do próprio vendedor.
-
-## Modelo de Negócio e Preços
-
-- **Taxa**: 3% por transação aprovada
-- **Mensalidade**: Nenhuma
-- **Taxa de setup**: Nenhuma
-- **Custos ocultos**: Nenhum
-- **Modelo**: Pay-as-you-sell. Se não vender, não paga.
-- **Comparativo de mercado**: Concorrentes cobram de 4,9% a 10%+ por transação além de mensalidades
-
-O vendedor conecta sua própria conta Stripe e/ou PayPal. O dinheiro de cada venda vai diretamente para a conta do vendedor, sem ficar retido na plataforma.
-
-## Recursos Detalhados
-
-### 1. Upsell + Downsell One-Click
-
-Após a compra aprovada, o comprador é apresentado a uma oferta adicional (upsell). Se recusar, pode ser apresentado a uma oferta de menor valor (downsell). Tudo ocorre sem que o comprador precise redigitar dados de pagamento — um clique confirma. Vendedores podem criar sequências de múltiplos upsells.
-
-### 2. Order Bump
-
-Ofertas complementares exibidas dentro do próprio formulário de checkout, antes da confirmação da compra. O Snapp permite criar order bumps ilimitados e testar quais combinações aumentam mais o ticket médio.
-
-### 3. Teste A/B de Checkout
-
-Permite comparar dois ou mais layouts, estruturas de oferta ou designs de checkout para identificar qual versão converte melhor para cada produto específico. Os dados são coletados automaticamente pela plataforma.
-
-### 4. Assinaturas Recorrentes
-
-Criação de planos de cobrança automática com ciclos configuráveis:
-- Mensal
-- Trimestral
-- Anual
-- Personalizado
-
-Funciona via Stripe e PayPal. O vendedor não precisa de ferramenta externa para gerenciar assinantes.
-
-### 5. Automação de E-mail (Funis de E-mail)
-
-Sistema de e-mail integrado nativamente ao Snapp, sem necessidade de Mailchimp, ActiveCampaign ou similar. Suporta:
-- E-mail de confirmação de compra (disparo imediato)
-- Entrega de acesso ao produto
-- Recuperação de carrinho abandonado
-- Sequências de upsell pós-compra
-- Reativação de clientes inativos
-
-### 6. Checkout Multi-Moeda
-
-O checkout detecta o IP do comprador e adapta automaticamente:
-- Moeda exibida (ex: USD para americanos, EUR para europeus, BRL para brasileiros)
-- Idioma do checkout
-
-Suporta 135+ moedas e vendas para 195 países.
-
-## Integrações Disponíveis
-
-- **Gateways de pagamento**: Stripe, PayPal
-- **Rastreamento de anúncios**: Meta Ads (Facebook/Instagram), TikTok Ads, Google Ads, Taboola
-- **Analytics**: UTMify
-- **Vídeo de vendas**: VTurb
-- **Área de membros**: Husky App
-- **Automações externas**: Webhooks (integração com qualquer ferramenta via HTTP)
-
-## Layouts de Checkout
-
-A plataforma oferece múltiplos modelos de checkout inspirados em layouts validados no mercado. O vendedor pode:
-- Alternar entre modelos em poucos cliques
-- Realizar testes A/B entre layouts diferentes
-- Não estar preso a um único design de plataforma
-
-## Público-Alvo
-
-- Infoprodutores brasileiros que vendem globalmente
-- Criadores de cursos online, e-books, memberships
-- Vendedores digitais que usam tráfego pago (Meta, Google, TikTok)
-- Negócios que querem aceitar PayPal além de cartão de crédito via Stripe
-- Vendedores que precisam de assinaturas recorrentes sem complexidade
-
-## Perguntas Frequentes
-
-**O Snapp processa o pagamento?**
-Não. O Snapp é a camada de checkout, automação e gestão. O processamento é feito pela conta Stripe ou PayPal do próprio vendedor — o dinheiro cai diretamente na conta do vendedor, sem intermediário.
-
-**Preciso ter conta na Stripe ou no PayPal?**
-Sim. O vendedor conecta sua própria conta Stripe e/ou PayPal. Isso garante recebimento direto com a segurança dos melhores gateways do mundo.
-
-**Posso vender assinaturas?**
-Sim. O Snapp suporta assinaturas com ciclos flexíveis (mensais, trimestrais, anuais ou personalizados) com cobrança automática via Stripe ou PayPal.
-
-**Tem mensalidade?**
-Não. Apenas 3% por transação aprovada. Se não vender, não paga nada. Sem mensalidade, sem taxa de setup, sem custo oculto.
-
-**Para quais países posso vender?**
-Mais de 190 países via Stripe e PayPal. O checkout adapta moeda e idioma automaticamente pelo IP do comprador.
-
-## Informações de Contato e Links
-
-- **Homepage**: https://www.snappcheckout.com/
-- **Plataforma (login / cadastro)**: https://admin.snappcheckout.com
-- **E-mail de suporte**: snappcheckout@gmail.com
-- **Seção de Recursos**: https://www.snappcheckout.com/#recursos
-- **Preços**: https://www.snappcheckout.com/#precos
-- **FAQ**: https://www.snappcheckout.com/#faq
-- **CTA principal**: https://admin.snappcheckout.com
+Contato: snappcheckout@gmail.com · Site: https://www.snappcheckout.com/ · Painel: https://admin.snappcheckout.com/register
+Atualizado em 2026-11-24.
 
 ---
 
-*Este arquivo segue o padrão llms.txt (https://llmstxt.org/) para facilitar a compreensão do site por sistemas de inteligência artificial.*
+## Link de pagamento com checkout completo
 
-## Assistente de IA por chat (MCP nativo)
+> Crie um link de pagamento com cartão, Pix, boleto e PayPal, em 17 idiomas, e receba direto na sua conta do gateway. 3% por venda aprovada, sem mensalidade.
 
-O Snapp Checkout expõe suas ferramentas por MCP (Model Context Protocol). Conectado ao Claude, ao ChatGPT ou ao Cursor, o vendedor pede em linguagem natural e a IA executa no Snapp: consultar as vendas do dia, gerar relatórios por país e moeda, criar produto e checkout com entrega por e-mail, colocar o pixel do Facebook, criar um checkout em outro idioma a partir de um link (traduzindo nome, descrição e order bumps), comparar order bumps e remover o pior, trocar o modelo do checkout e abrir um teste A/B, montar funil de upsell e downsell, listar reembolsos, criar assinatura com período de teste e configurar entrega por link para área de membros.
+Página: https://www.snappcheckout.com/link-de-pagamento
 
-## Modelos de checkout
+No Snapp, cada oferta que você cria gera um link de pagamento. Você manda o link por anúncio, WhatsApp, Instagram ou e-mail, o comprador paga com cartão, Pix, boleto ou PayPal e o dinheiro cai direto na sua conta do gateway.
 
-Quatro modelos prontos (Clássico, Hotmart, Hubla, Kwify), trocáveis em poucos cliques e testáveis entre si por A/B.
+### O que é um link de pagamento
+
+Um link de pagamento é um endereço que abre uma página de checkout pronta para cobrar. Quem vende não precisa de site nem de loja virtual. O comprador clica, preenche os dados e paga.
+
+No Snapp o link tem o formato `pay.snappcheckout.com/c/codigo`. Se preferir, você conecta um domínio seu e o link passa a abrir no seu endereço.
+
+### Como criar um link de pagamento no Snapp
+
+1. Crie a sua conta em [admin.snappcheckout.com](https://admin.snappcheckout.com/register).
+2. Em Adquirentes, conecte a conta onde você quer receber: Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag ou dLocal Go.
+3. Crie uma oferta com nome, preço, moeda e o que o comprador recebe depois de pagar.
+4. Copie o link do checkout e compartilhe.
+
+Antes de anunciar, faça uma compra teste pelo próprio painel para conferir o caminho inteiro, do pagamento à entrega.
+
+### O que o link de pagamento do Snapp já traz
+
+O link abre um checkout completo, com recursos que normalmente pedem ferramenta à parte:
+
+- **Order bump** na tela do pagamento e [upsell em um clique](https://www.snappcheckout.com/upsell-e-order-bump) depois da compra.
+- **Entrega automática**, com e-mail de confirmação que leva o arquivo ou o link do produto, ou com acesso à [área de membros](https://www.snappcheckout.com/area-de-membros).
+- **Checkout em 17 idiomas**, com opção de detectar o idioma e a moeda pelo país do comprador.
+- **Rastreamento de anúncios** com Pixel e API de Conversões da Meta, TikTok, Google Ads e Taboola.
+- **Recuperação de carrinho** por e-mail para quem preencheu os dados e não pagou.
+- **Cupom de desconto** com validade e limite de usos.
+
+### Formas de pagamento em cada gateway
+
+Você pode ligar mais de um gateway na mesma oferta. O comprador vê as formas de pagamento lado a lado e escolhe.
+
+| Gateway | Formas de pagamento |
+|---|---|
+| Stripe | Cartão, Apple Pay, Google Pay e Link. Conforme o país e a moeda, também Klarna, Affirm, Amazon Pay, Cash App Pay, MB WAY, Bancontact, BLIK, EPS, Satispay, Pay by Bank e Pix |
+| PayPal | PayPal |
+| Mercado Pago | Pix, cartão em até 12x e boleto |
+| Efí | Pix e cartão em até 12x |
+| Pagar.me | Pix |
+| XPag | Pix e SPEI (México) |
+| Whop | Cartão, Pix, boleto, OXXO, Multibanco, MB WAY, Cash App, PayPal e cripto |
+| dLocal Go | Pix, boleto, cartão e transferência, na página do dLocal Go |
+
+### Onde usar o link
+
+- **Anúncios.** Aponte o anúncio direto para o link. A venda fica registrada com a origem que veio nos parâmetros da URL.
+- **WhatsApp, direct e e-mail.** Cole o link na conversa. A prévia mostra o nome da oferta.
+- **Página de vendas.** Use o link no botão de compra ou embuta o checkout na página, dentro de um iframe, com o código que o painel entrega.
+
+### Quanto custa
+
+O Snapp cobra 3% por venda aprovada e não tem mensalidade. A taxa do gateway é cobrada pelo próprio gateway, na tabela dele. Os detalhes estão na página de [preços](https://www.snappcheckout.com/precos).
+
+### Perguntas frequentes
+
+#### O link de pagamento aceita Pix?
+
+Sim. O Pix funciona pela Efí, Pagar.me, XPag, Mercado Pago, Whop e, quando disponível na sua conta, pela Stripe. O QR Code aparece dentro do próprio checkout.
+
+#### Posso receber em dólar ou euro pelo link?
+
+Sim. A oferta pode ser criada em 16 moedas, entre elas real, dólar e euro. Veja como [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+
+#### Posso usar o meu domínio no link?
+
+Sim. Em Integrações, na aba Domínios, você aponta um subdomínio seu para o Snapp com um registro CNAME e o checkout passa a abrir nele.
+
+#### O link de pagamento expira?
+
+Não. O link funciona enquanto a oferta estiver ativa. Para tirar do ar, basta desativar a oferta no painel.
+
+#### Dá para vender assinatura por link?
+
+Sim. A oferta pode cobrar por dia, semana, mês ou ano, com renovação automática pela Stripe ou pelo PayPal.
+
+#### Em quanto tempo o dinheiro da venda cai?
+
+O prazo é o do gateway que você conectou. O Snapp não segura o valor da venda, que vai direto para a sua conta no gateway.
+
+---
+
+## Checkout para infoprodutos que vendem no Brasil e fora dele
+
+> Checkout para cursos, e-books e assinaturas com upsell em um clique, order bump, área de membros e entrega automática. Você recebe direto na sua conta.
+
+Página: https://www.snappcheckout.com/checkout-para-infoprodutos
+
+O Snapp Checkout é uma plataforma brasileira de checkout para quem vende curso, e-book, mentoria, assinatura e outros produtos digitais. Você conecta a sua conta de pagamento, monta a oferta e recebe direto no gateway, pagando 3% por venda aprovada.
+
+### O que o Snapp faz
+
+O Snapp é o checkout e a automação em cima da sua conta de pagamento. Ele cuida da página onde o comprador paga, do que acontece logo depois da compra e dos números que você acompanha no painel. O dinheiro da venda fica com o gateway que você conectou, na sua conta.
+
+Cada oferta gera um [link de pagamento](https://www.snappcheckout.com/link-de-pagamento) que você usa no anúncio, na página de vendas ou na conversa com o cliente.
+
+### Recursos para vender mais na mesma visita
+
+- **Order bump.** Ofertas complementares na tela do pagamento, cada uma com preço e entrega próprios.
+- **Upsell e downsell.** Ofertas depois da compra aprovada, aceitas em um clique no cartão. Veja como funciona o [upsell em um clique](https://www.snappcheckout.com/upsell-e-order-bump).
+- **Teste A/B.** Um link divide o tráfego entre ofertas diferentes e mostra visitas, vendas e faturamento de cada uma.
+- **Seis modelos de checkout.** Você troca o layout da oferta sem refazer nada e pode comparar dois deles num teste A/B.
+
+### Pagamento no Brasil e fora
+
+O mesmo checkout aceita cartão, Pix, boleto, PayPal, Apple Pay e Google Pay, conforme os gateways que você ligar: Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go. A lista por gateway está na página de [link de pagamento](https://www.snappcheckout.com/link-de-pagamento).
+
+Para vender fora do Brasil, a oferta aceita 16 moedas e o checkout abre em 17 idiomas. Os detalhes estão em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+
+### Entrega e pós-venda
+
+- **E-mail de confirmação** com o arquivo ou o link do produto, enviado no idioma do checkout.
+- **[Área de membros](https://www.snappcheckout.com/area-de-membros)** própria, liberada quando o pagamento é confirmado.
+- **Recuperação de carrinho** com até dois lembretes por e-mail.
+- **E-mail de venda recusada**, para o comprador tentar de novo.
+- **Assinaturas** com cobrança diária, semanal, mensal ou anual pela Stripe e pelo PayPal.
+
+### Rastreamento e integrações
+
+O checkout envia os eventos de compra para o Pixel e a API de Conversões da Meta, para o TikTok, o Google Ads e a Taboola. Também há integração com UTMify, vTurb, Discord e Resend, além de webhooks e chaves de API para o que você quiser ligar por conta própria.
+
+### Inteligência artificial no Snapp
+
+- **Snapp no Claude e no ChatGPT.** O Snapp tem um servidor MCP em `https://mcp.snappcheckout.com/mcp`. Conectado ao Claude ou ao ChatGPT, você pede em texto e a IA cria ofertas, monta o funil de upsell, consulta as vendas e gera relatórios na sua conta.
+- **Criação com IA.** Você descreve o produto no chat do painel e recebe a oferta pronta, com link, imagens, order bump, e-mail de entrega e PDF do entregável.
+- **Assistente Snapp.** Responde dúvidas dentro do painel, consulta os dados da sua conta e leva você até a tela certa.
+- **Meta Ads.** Mostra campanhas, conjuntos e anúncios com a venda real registrada no Snapp, e permite pausar, ajustar orçamento e corrigir UTMs com confirmação.
+- **Conquistas.** Insígnias que marcam os seus números de vendas, faturamento e clientes.
+
+Criação com IA, Assistente, Meta Ads e Conquistas são liberados conta a conta pela equipe do Snapp.
+
+### Quanto custa
+
+O Snapp cobra 3% por venda aprovada e não tem mensalidade. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+### Perguntas frequentes
+
+#### O Snapp é um gateway de pagamento?
+
+Não. O Snapp é o checkout. Quem processa o pagamento e guarda o saldo é o gateway que você conecta, como Stripe, PayPal ou Mercado Pago, e o valor da venda cai direto na sua conta nele.
+
+#### Quais produtos posso vender?
+
+Produtos digitais como cursos, e-books, mentorias, comunidades e assinaturas. O checkout também coleta endereço completo quando a entrega é de produto físico.
+
+#### O Snapp tem área de membros?
+
+Sim. A [área de membros](https://www.snappcheckout.com/area-de-membros) faz parte de toda conta e libera o acesso quando o pagamento é confirmado.
+
+#### Posso embutir o checkout na minha página de vendas?
+
+Sim. O painel entrega o código do botão e do iframe para colar na página.
+
+#### Posso usar mais de um gateway?
+
+Sim. Dá para ligar mais de um gateway na mesma oferta. Na maioria deles você também conecta várias contas e escolhe qual cobra cada oferta.
+
+#### Tem mensalidade?
+
+Não. O Snapp cobra 3% por venda aprovada.
+
+---
+
+## Checkout para Stripe com upsell em um clique
+
+> Conecte a sua conta Stripe a um checkout com upsell em um clique, order bump, Apple Pay, Google Pay e assinaturas. 3% por venda aprovada, sem mensalidade.
+
+Página: https://www.snappcheckout.com/checkout-stripe
+
+O Snapp liga a sua conta Stripe a um checkout pronto para vender produto digital. O cartão é cobrado na sua Stripe, o valor cai no seu saldo da Stripe e o comprador vê a página no idioma dele.
+
+### Como conectar a sua conta Stripe
+
+1. No painel do Snapp, abra Adquirentes e escolha Stripe.
+2. Cole a chave publicável e a chave de API da sua conta. A chave restrita (`rk_`) é aceita.
+3. Cadastre na Stripe a URL de webhook que o painel mostra e cole de volta o segredo de assinatura.
+4. Na oferta, escolha a conta Stripe que vai cobrar.
+
+Você pode conectar várias contas Stripe, por país ou por marca, e cada oferta usa a conta que você indicar. As chaves ficam criptografadas no Snapp.
+
+### O que o comprador pode usar
+
+- Cartão de crédito e débito
+- Apple Pay e Google Pay
+- Link, o preenchimento automático da Stripe
+- Klarna, Affirm, Amazon Pay, Cash App Pay, MB WAY, Bancontact, BLIK, EPS, Satispay, Pay by Bank e Pix
+
+Cada forma tem liga e desliga na oferta. As formas da última linha valem para pagamento único e aparecem quando estão disponíveis na sua conta Stripe e o pagamento cabe nas regras de país, moeda e valor de cada uma.
+
+### Upsell em um clique e assinaturas
+
+Depois de uma compra no cartão pela Stripe, o comprador aceita o upsell com um clique, sem digitar o cartão de novo. O upsell pode ser pagamento único ou assinatura. Se o banco pedir autenticação 3D Secure, ela acontece na própria página do upsell.
+
+A oferta principal também pode ser assinatura, com cobrança diária, semanal, mensal ou anual. Veja o [funil de upsell e order bump](https://www.snappcheckout.com/upsell-e-order-bump).
+
+### Moedas e imposto
+
+A oferta pode ser criada em 16 moedas, e o checkout pode detectar o país do comprador para mostrar o preço na moeda dele. Quem vende para a Europa pode ligar o Stripe Tax na oferta. O VAT é somado ao preço, registrado por venda e sai em relatório por período e país. Mais em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+
+### Quanto custa
+
+O Snapp cobra 3% por venda aprovada e não tem mensalidade. A Stripe cobra a taxa dela na sua conta, pela tabela do seu país. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+### Perguntas frequentes
+
+#### Preciso ter conta na Stripe?
+
+Sim. A conta é sua e é nela que o dinheiro cai. O Snapp usa as suas chaves para criar a cobrança.
+
+#### O Snapp segura o dinheiro da venda?
+
+Não. O valor vai direto para o seu saldo na Stripe e o prazo de repasse é o da própria Stripe.
+
+#### Funciona com conta Stripe de fora do Brasil?
+
+Funciona com a conta Stripe que você tiver. As formas de pagamento disponíveis dependem do país da conta.
+
+#### Posso usar Stripe e PayPal na mesma oferta?
+
+Sim. Os dois aparecem no mesmo checkout e o comprador escolhe. Veja o [checkout com PayPal](https://www.snappcheckout.com/checkout-paypal).
+
+#### O checkout aceita Apple Pay e Google Pay?
+
+Sim, pela Stripe. Os botões aparecem quando o aparelho e o navegador do comprador têm a carteira configurada.
+
+#### Dá para usar Pix com a Stripe?
+
+Sim, quando o Pix está disponível na sua conta Stripe. Na mesma oferta você também pode receber Pix pela Efí, Pagar.me, XPag ou Mercado Pago.
+
+---
+
+## Checkout com PayPal ao lado do cartão
+
+> Aceite PayPal no mesmo checkout do cartão e do Pix, com assinaturas, order bump e entrega automática. O valor da venda cai direto no seu saldo do PayPal.
+
+Página: https://www.snappcheckout.com/checkout-paypal
+
+No Snapp você conecta a sua conta PayPal e o botão do PayPal aparece no mesmo checkout do cartão. O comprador escolhe como pagar e o valor cai no seu saldo do PayPal.
+
+### Por que colocar PayPal no checkout
+
+Parte dos compradores, principalmente nos Estados Unidos e na Europa, prefere pagar com PayPal porque já tem saldo ou cartão salvo ali. Com o PayPal ao lado do cartão, esse comprador conclui a compra na mesma tela.
+
+### Como conectar o PayPal
+
+1. No painel de desenvolvedor do PayPal, crie um app e copie o Client ID e o Client Secret.
+2. No Snapp, abra Adquirentes, escolha PayPal e cole as duas chaves.
+3. Cadastre no PayPal a URL de webhook que o painel mostra. É por ela que chegam recusas, reembolsos e reversões.
+4. Na oferta, ligue o PayPal e escolha a conta que recebe.
+
+O Snapp aceita várias contas PayPal e cada oferta usa a que você indicar.
+
+### O que funciona com PayPal
+
+- **Pagamento único e assinatura**, com a cobrança recorrente criada na sua conta PayPal.
+- **Order bump** no mesmo pagamento.
+- **Upsell depois da compra.** Com a compra em um clique do PayPal ligada, o comprador aceita o upsell de pagamento único sem aprovar de novo. Sem ela, ele conclui o upsell num checkout alternativo.
+- **Entrega automática** por e-mail e acesso à [área de membros](https://www.snappcheckout.com/area-de-membros).
+
+### PayPal e Stripe juntos
+
+Para vender fora do Brasil, uma combinação comum é cartão pela Stripe e PayPal na mesma oferta. O comprador que desiste do cartão ainda encontra o PayPal na mesma tela. Veja o [checkout para Stripe](https://www.snappcheckout.com/checkout-stripe) e como [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+
+### Quanto custa
+
+O Snapp cobra 3% por venda aprovada e não tem mensalidade. O PayPal cobra a taxa dele direto na sua conta. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+### Perguntas frequentes
+
+#### O dinheiro da venda passa pelo Snapp?
+
+Não. O pagamento é feito na sua conta PayPal e o saldo fica disponível ali, nas regras do PayPal.
+
+#### Posso vender assinatura pelo PayPal?
+
+Sim. O Snapp cria o plano na sua conta PayPal e a renovação é automática.
+
+#### O PayPal aparece junto com cartão e Pix?
+
+Sim. Todas as formas de pagamento ligadas na oferta aparecem no mesmo checkout.
+
+#### Posso ter mais de uma conta PayPal?
+
+Sim. Você conecta várias contas e escolhe qual recebe em cada oferta.
+
+#### O upsell funciona para quem pagou com PayPal?
+
+Sim. Com a compra em um clique do PayPal ligada, o upsell de pagamento único é aceito em um clique. Nos outros casos o comprador é levado a um checkout alternativo para concluir.
+
+---
+
+## Venda no exterior em dólar, euro e mais 14 moedas
+
+> Venda em dólar, euro e mais 14 moedas com checkout em 17 idiomas, Stripe e PayPal. O Snapp mostra o preço na moeda e a página no idioma do comprador.
+
+Página: https://www.snappcheckout.com/vender-no-exterior
+
+Com o Snapp você cria a oferta na moeda do país onde quer vender e o checkout abre no idioma do comprador. O pagamento passa pela sua Stripe ou pelo seu PayPal e cai direto na sua conta.
+
+### O que muda quando você vende para fora
+
+O comprador de outro país espera ver o preço na moeda dele, ler a página no idioma dele e pagar do jeito que já paga no dia a dia. O Snapp resolve os três pontos no checkout, e você continua anunciando e entregando como faz hoje.
+
+### Moedas
+
+A oferta pode ser criada em 16 moedas: real, dólar americano, euro, zloty polonês, coroa tcheca, florim húngaro, leu romeno, lira turca, peso mexicano, peso argentino, peso colombiano, sol peruano, peso uruguaio, boliviano, iene e won sul-coreano.
+
+Com a detecção de moeda ligada na oferta, o checkout identifica o país do comprador e mostra o preço na moeda local sempre que a Stripe aceita aquela moeda.
+
+### Idiomas
+
+O checkout está traduzido para 17 idiomas: português, inglês, espanhol, francês, italiano, alemão, polonês, tcheco, eslovaco, húngaro, romeno, búlgaro, grego, croata, sérvio, japonês e coreano.
+
+Você escolhe o idioma da oferta ou deixa o checkout detectar pelo país do comprador. Os e-mails da compra saem no mesmo idioma, e a [área de membros](https://www.snappcheckout.com/area-de-membros) tem uma versão para cada um deles.
+
+### Formas de pagamento de cada região
+
+Além de cartão, Apple Pay, Google Pay e PayPal, o checkout aceita formas de pagamento locais:
+
+| Região | Formas de pagamento |
+|---|---|
+| Estados Unidos | Affirm, Cash App Pay, Amazon Pay e Klarna |
+| Europa | Klarna, Amazon Pay, Bancontact (Bélgica), BLIK (Polônia), EPS (Áustria), Satispay (Itália), MB WAY e Multibanco (Portugal), Pay by Bank (Reino Unido) |
+| México | OXXO e SPEI |
+| Brasil | Pix e boleto |
+
+Cada forma aparece para o comprador quando está ligada na oferta, disponível na sua conta do gateway e compatível com a moeda da venda. Veja a lista por gateway em [link de pagamento](https://www.snappcheckout.com/link-de-pagamento).
+
+### Imposto e endereço
+
+Quem vende para a Europa pela Stripe pode ligar o Stripe Tax na oferta. O VAT do país do comprador é somado ao preço, fica registrado em cada venda e sai em relatório por período e país.
+
+Na coleta de endereço há dois modos. O endereço completo serve para produto físico. Para produto digital basta pedir país e código postal, que é o que a Stripe usa para conferir o cartão.
+
+### Perguntas frequentes
+
+#### Em quais países posso vender?
+
+Em qualquer país onde a Stripe ou o PayPal aceitem pagamento, o que hoje passa de 190 países.
+
+#### O checkout é traduzido automaticamente?
+
+Os textos do checkout já vêm traduzidos nos 17 idiomas. O nome e a descrição do produto você escreve no idioma da oferta.
+
+#### Posso vender a mesma oferta em vários idiomas?
+
+Sim. Você pode criar uma oferta para cada idioma, com nome e descrição traduzidos, ou ligar a detecção de idioma numa oferta só, que traduz os textos do checkout.
+
+#### Preciso de empresa fora do Brasil?
+
+O Snapp usa a conta de gateway que você já tem. As regras de abertura de conta e de saque são do gateway.
+
+#### Como recebo o dinheiro das vendas internacionais?
+
+Na sua conta Stripe ou PayPal, na moeda da venda. A conversão e o saque para o seu banco seguem as regras do gateway.
+
+#### O Snapp cobra mais por venda internacional?
+
+Não. A taxa do Snapp é de 3% por venda aprovada em qualquer moeda. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+---
+
+## Upsell em um clique, downsell e order bump
+
+> Aumente o ticket médio com order bump no checkout e funil de upsell e downsell depois da compra, em um clique no cartão e com Pix novo para quem pagou no Pix.
+
+Página: https://www.snappcheckout.com/upsell-e-order-bump
+
+O Snapp tem as três ferramentas de aumento de ticket no mesmo checkout. O order bump aparece na tela do pagamento, e o upsell e o downsell aparecem logo depois da compra, cobrados em um clique no cartão que o comprador acabou de usar.
+
+### Order bump, upsell e downsell
+
+- **Order bump** é uma oferta complementar que o comprador marca na tela do pagamento. Entra na mesma cobrança do produto principal.
+- **Upsell** é uma oferta mostrada depois da compra aprovada, numa página só dela. O comprador aceita sem digitar os dados de novo.
+- **Downsell** é a oferta mais barata que aparece para quem recusou o upsell.
+
+### Como funciona o order bump no Snapp
+
+Cada oferta aceita vários order bumps. Cada um tem nome, preço, imagem, chamada e entregável próprios, e você arrasta para mudar a ordem. O comprador marca os que quiser e paga tudo de uma vez.
+
+### Como funciona o funil de upsell
+
+O funil roda em sequência depois da compra aprovada. Cada upsell pode ter um downsell, e o downsell pode ter um segundo downsell. Você pode encadear vários upsells, e no fim o comprador chega à página de obrigado.
+
+A página do upsell é sua, feita no construtor que você já usa. O Snapp entrega um script e o código dos botões de aceitar e recusar. Uma mesma página pode oferecer mais de um produto para o comprador escolher, e o preço é sempre definido no servidor do Snapp.
+
+### Onde o upsell é em um clique
+
+| Como o comprador pagou | O que acontece no upsell |
+|---|---|
+| Cartão pela Stripe | Um clique, em pagamento único ou assinatura |
+| Amazon Pay, Cash App Pay ou Klarna pela Stripe | Um clique em pagamento único |
+| PayPal | Um clique em pagamento único, com a compra em um clique ligada |
+| Cartão pelo Mercado Pago | Um clique em pagamento à vista |
+| Pix | Um Pix novo com os dados do comprador já preenchidos |
+| Outras formas | O comprador conclui num checkout alternativo que você define |
+
+### Upsell para quem pagou no Pix
+
+Quem comprou no Pix e clica em comprar no upsell recebe um Pix novo no mesmo gateway, com nome, e-mail e CPF já preenchidos e QR Code válido por 30 minutos. Pago o Pix, o funil segue para o próximo passo. Vale para Pix pela Efí, Pagar.me, XPag, Mercado Pago e Stripe.
+
+### Perguntas frequentes
+
+#### Qual a diferença entre order bump e upsell?
+
+O order bump é escolhido antes de pagar, na mesma tela e na mesma cobrança. O upsell é oferecido depois da compra aprovada, em outra página.
+
+#### Quantos order bumps posso colocar numa oferta?
+
+Vários. O painel mostra quantos estão ativos e você reordena arrastando.
+
+#### Preciso de uma página para o upsell?
+
+Sim. A página é sua e pode ser feita em qualquer construtor. Você cola nela o script do Snapp e o código dos botões.
+
+#### O upsell pode ser uma assinatura?
+
+Sim. Pela Stripe, o upsell de assinatura também é cobrado em um clique.
+
+#### E se o cartão for recusado no upsell?
+
+O comprador é levado ao checkout alternativo daquele passo para tentar de novo com outra forma de pagamento.
+
+#### O upsell em um clique tem custo extra?
+
+Não. Vale a mesma taxa de 3% por venda aprovada. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+---
+
+## Área de membros que libera o acesso quando a venda é aprovada
+
+> Entregue cursos e arquivos numa área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
+
+Página: https://www.snappcheckout.com/area-de-membros
+
+A área de membros do Snapp é onde o comprador assiste às aulas e baixa os arquivos do produto. Ela faz parte de toda conta, e o acesso é liberado sozinho quando o pagamento é confirmado.
+
+### Como funciona
+
+Você monta a área no painel do Snapp, com módulos, aulas em vídeo e arquivos, e diz qual oferta libera cada conteúdo. Produto principal, order bump e upsell podem liberar conteúdos diferentes.
+
+Quando a venda é aprovada, o comprador recebe um e-mail com o link pessoal de acesso. Em reembolso total ou chargeback, o acesso é retirado. Em assinatura cancelada, o aluno continua com acesso até o fim do período que já pagou.
+
+### O que dá para entregar
+
+- **Vídeo** hospedado no Vimeo, Panda Video, Bunny, Wistia ou vTurb.
+- **Arquivos** como PDF e planilhas, guardados em armazenamento privado. Cada download usa um link temporário, que vale por 10 minutos.
+- **Ofertas dentro da área.** A aba Shopping mostra outros produtos seus, e o checkout abre com os dados do aluno já preenchidos.
+
+Cada arquivo pode ter até 100 MB e a conta tem 10 GB de armazenamento. Vídeo do YouTube não é aceito.
+
+### Acesso do aluno
+
+O aluno entra pelo link pessoal que chega por e-mail e pode usar até 3 aparelhos. No quarto, a área pede um código enviado para o e-mail dele. Você escolhe o modo de acesso de cada área entre código por e-mail, só o e-mail ou área aberta.
+
+### Uma área por idioma
+
+A área de membros tem versões por idioma, nos 17 idiomas do checkout. Quem vende a mesma oferta em português e em inglês entrega cada comprador na versão dele.
+
+### Com a sua marca
+
+Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir num domínio seu.
+
+### Discord e outras plataformas
+
+Se a sua comunidade fica no Discord, o Snapp libera o cargo do comprador junto com a área. Quem já usa outra plataforma de membros pode continuar com ela, porque o checkout também entrega o acesso por link no e-mail e avisa outras ferramentas por webhook.
+
+### Perguntas frequentes
+
+#### A área de membros tem custo extra?
+
+Não. Ela faz parte de toda conta do Snapp. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+#### Quando o acesso é liberado?
+
+Assim que o gateway confirma o pagamento, sem ação sua.
+
+#### Posso usar vídeo do YouTube?
+
+Não. A área aceita vídeo do Vimeo, Panda Video, Bunny, Wistia e vTurb.
+
+#### O que acontece quando eu reembolso a venda?
+
+No reembolso total e no chargeback, o acesso do aluno é retirado automaticamente.
+
+#### Em quantos aparelhos o aluno pode entrar?
+
+Em até 3. A partir do quarto, a área pede um código enviado para o e-mail do aluno.
+
+#### Posso ter a área em mais de um idioma?
+
+Sim. Cada área pode ter versões nos 17 idiomas do checkout.
+
+---
+
+## 3% por venda aprovada, sem mensalidade
+
+> O Snapp cobra 3% por venda aprovada e não tem mensalidade nem taxa de adesão. Veja como a taxa é cobrada e o que faz parte de toda conta.
+
+Página: https://www.snappcheckout.com/precos
+
+O Snapp cobra 3% sobre cada venda aprovada. Não há mensalidade nem taxa de adesão, então o custo só existe quando a venda acontece.
+
+### O que faz parte de toda conta
+
+- [Link de pagamento](https://www.snappcheckout.com/link-de-pagamento) e checkout em 17 idiomas, com seis modelos de layout
+- Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go
+- Order bump e [upsell e downsell em um clique](https://www.snappcheckout.com/upsell-e-order-bump)
+- Assinaturas recorrentes
+- [Área de membros](https://www.snappcheckout.com/area-de-membros)
+- E-mails de confirmação, entrega e recuperação de carrinho
+- Teste A/B, cupom de desconto e domínio próprio
+- Pixel e API de Conversões, webhooks e chaves de API
+- Conexão com Claude e ChatGPT por MCP
+
+### As duas taxas de uma venda
+
+1. **Taxa do gateway.** É cobrada pela Stripe, pelo PayPal ou pelo gateway que você conectou, na tabela dele. O Snapp não recebe nada dessa taxa.
+2. **Taxa do Snapp.** São os 3% sobre o valor da venda aprovada.
+
+Numa venda de R$ 100,00, a taxa do Snapp é de R$ 3,00.
+
+### Como a taxa do Snapp é cobrada
+
+O valor da venda vai direto para a sua conta do gateway. A taxa do Snapp acumula e é debitada do cartão que você cadastra no painel sempre que o total pendente chega a R$ 5,00. A cobrança é uma só, somando as vendas de todos os gateways.
+
+### Onde acompanhar
+
+Em Taxas e Pagamentos você vê, por venda, o valor, a taxa do Snapp, a taxa do gateway e o lucro líquido, além de um resumo por gateway para comparar custos. O relatório pode ser exportado.
+
+### Perguntas frequentes
+
+#### Tem mensalidade ou taxa de adesão?
+
+Não. O Snapp cobra apenas os 3% por venda aprovada.
+
+#### Venda recusada ou não paga gera taxa?
+
+Não. A taxa incide só sobre venda aprovada.
+
+#### A taxa muda conforme a forma de pagamento?
+
+A taxa do Snapp é a mesma no cartão, no Pix, no boleto e no PayPal. O que varia é a taxa do gateway.
+
+#### Preciso pagar para testar?
+
+Não. Criar a conta, montar a oferta e fazer a compra teste não têm custo.
+
+#### Onde vejo quanto paguei de taxa?
+
+No painel, em Taxas e Pagamentos, com o detalhe de cada venda e o total por gateway.
