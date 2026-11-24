@@ -157,10 +157,6 @@
     </noscript>
 
     <!-- ═══ STRUCTURED DATA ═══ -->
-    <!-- ⚠️ DADOS DE EXEMPLO: o "aggregateRating" e os "review" abaixo (e a seção de
-         depoimentos no <body>) contêm conteúdo de demonstração. Substitua por avaliações
-         REAIS e verificáveis antes de publicar — review markup falso viola as diretrizes
-         do Google e pode gerar penalização. -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -169,9 +165,15 @@
             "@type": "Organization",
             "@id": "https://www.snappcheckout.com/#organization",
             "name": "Snapp Checkout",
-            "alternateName": ["Snapp", "snappcheckout", "Snapp Checkout Brasil"],
+            "alternateName": [
+              "Snapp",
+              "snappcheckout",
+              "Snapp Checkout Brasil"
+            ],
             "url": "https://www.snappcheckout.com/",
-            "sameAs": ["https://www.instagram.com/snappcheckout/"],
+            "sameAs": [
+              "https://www.instagram.com/snappcheckout/"
+            ],
             "logo": {
               "@type": "ImageObject",
               "url": "https://www.snappcheckout.com/images/logo-snapp.png",
@@ -180,12 +182,15 @@
             },
             "description": "Plataforma de checkout all-in-one para venda de infoprodutos globalmente, com Stripe e PayPal integrados, upsell one-click, order bump, A/B testing, assinaturas recorrentes e automação de e-mail.",
             "foundingDate": "2025",
-            "sameAs": ["https://www.instagram.com/snappcheckout/"],
             "contactPoint": {
               "@type": "ContactPoint",
               "email": "snappcheckout@gmail.com",
               "contactType": "customer support",
-              "availableLanguage": ["Portuguese", "English", "Spanish"]
+              "availableLanguage": [
+                "Portuguese",
+                "English",
+                "Spanish"
+              ]
             }
           },
           {
@@ -193,12 +198,20 @@
             "@id": "https://www.snappcheckout.com/#website",
             "url": "https://www.snappcheckout.com/",
             "name": "Snapp Checkout",
-            "alternateName": ["SnappCheckout", "snappcheckout", "snappcheckout.com"],
+            "alternateName": [
+              "SnappCheckout",
+              "snappcheckout",
+              "snappcheckout.com"
+            ],
             "description": "O checkout mais poderoso do mercado para venda de infoprodutos globalmente",
             "publisher": {
               "@id": "https://www.snappcheckout.com/#organization"
             },
-            "inLanguage": ["pt-BR", "en", "es"],
+            "inLanguage": [
+              "pt-BR",
+              "en",
+              "es"
+            ],
             "potentialAction": {
               "@type": "SearchAction",
               "target": {
@@ -215,10 +228,16 @@
             "name": "SnappCheckout | Checkout para infoprodutos com Stripe + PayPal",
             "description": "SnappCheckout é a plataforma Snapp Checkout para vender infoprodutos globalmente com Stripe + PayPal, upsell, order bump, assinaturas e automação de e-mail.",
             "keywords": "snappcheckout, Snapp Checkout, checkout para infoprodutos, Stripe PayPal checkout, checkout global",
-            "isPartOf": { "@id": "https://www.snappcheckout.com/#website" },
-            "about": { "@id": "https://www.snappcheckout.com/#organization" },
+            "isPartOf": {
+              "@id": "https://www.snappcheckout.com/#website"
+            },
+            "about": {
+              "@id": "https://www.snappcheckout.com/#organization"
+            },
             "inLanguage": "pt-BR",
-            "breadcrumb": { "@id": "https://www.snappcheckout.com/#breadcrumb" }
+            "breadcrumb": {
+              "@id": "https://www.snappcheckout.com/#breadcrumb"
+            }
           },
           {
             "@type": "BreadcrumbList",
@@ -236,7 +255,10 @@
             "@type": "SoftwareApplication",
             "@id": "https://www.snappcheckout.com/#software",
             "name": "Snapp Checkout",
-            "alternateName": ["SnappCheckout", "snappcheckout"],
+            "alternateName": [
+              "SnappCheckout",
+              "snappcheckout"
+            ],
             "url": "https://www.snappcheckout.com/",
             "applicationCategory": "BusinessApplication",
             "applicationSubCategory": "Payment Checkout Platform",
@@ -271,35 +293,9 @@
                 }
               }
             },
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.9",
-              "bestRating": "5",
-              "worstRating": "1",
-              "ratingCount": "127",
-              "reviewCount": "127"
+            "provider": {
+              "@id": "https://www.snappcheckout.com/#organization"
             },
-            "review": [
-              {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-                "author": { "@type": "Person", "name": "João Mendes" },
-                "reviewBody": "Migrei meus cursos para o Snapp e finalmente consigo vender em dólar com Stripe e PayPal no mesmo checkout. Recebo direto na minha conta, sem dinheiro preso na plataforma."
-              },
-              {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-                "author": { "@type": "Person", "name": "Camila Rocha" },
-                "reviewBody": "Os order bumps e o upsell one-click aumentaram meu ticket médio sem eu precisar de nenhuma ferramenta externa. A automação de e-mail já vem dentro do Snapp."
-              },
-              {
-                "@type": "Review",
-                "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
-                "author": { "@type": "Person", "name": "Rafael Lima" },
-                "reviewBody": "Sem mensalidade e pagando só 3% por venda aprovada, minha margem no tráfego pago melhorou bastante. Configurei tudo em menos de um dia."
-              }
-            ],
-            "provider": { "@id": "https://www.snappcheckout.com/#organization" },
             "inLanguage": "pt-BR",
             "availableOnDevice": "Desktop, Mobile",
             "potentialAction": {
@@ -356,7 +352,7 @@
           }
         ]
       }
-    </script>
+      </script>
     <!-- ═══ MOTION GUARD ═══ -->
     <script>
       // Só esconde conteúdo para revelar depois se o browser tiver IntersectionObserver
