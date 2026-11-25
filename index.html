@@ -255,7 +255,7 @@
      "name": "Para quais países posso vender?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Mais de 190 países via Stripe e PayPal. O checkout abre em 17 idiomas e pode adaptar idioma e moeda pelo país do comprador."
+      "text": "Mais de 190 países com gateways internacionais como Stripe e PayPal. O checkout abre em 17 idiomas e pode adaptar idioma e moeda pelo país do comprador."
      }
     },
     {
@@ -374,18 +374,18 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .hero h1 .w>span:not(.y):not(.pay){background:linear-gradient(180deg,#fff 0%,#fff 30%,#ececf0 55%,#9c9ca4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero h1 .pay{display:inline-flex;align-items:center;gap:.14em;margin:0 .1em;vertical-align:-.14em;perspective:9em;white-space:nowrap}
 .hero h1 .pay b{font-weight:600;color:var(--ink-3);font-size:.6em;line-height:1}
-.hero h1 .tile{position:relative;width:.92em;height:.92em;display:inline-flex;align-items:center;justify-content:center;transform-style:preserve-3d;animation:bob 6s ease-in-out infinite}
-.hero h1 .tile::before{content:"";position:absolute;inset:.09em -.035em -.11em .035em;border-radius:.32em;z-index:-1}
+.hero h1 .tile{position:relative;width:.92em;height:.92em;display:inline-block;border-radius:.3em;overflow:hidden;transform-style:preserve-3d;animation:bob 6s ease-in-out infinite}
 .hero h1 .tile::after{content:"";position:absolute;inset:.075em .075em auto;height:.34em;border-radius:.27em .27em .14em .14em;background:linear-gradient(180deg,rgba(255,255,255,.48),transparent);pointer-events:none;z-index:2}
-.hero h1 .face{width:100%;height:100%;border-radius:.3em;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;
-  box-shadow:inset 0 .045em .11em rgba(255,255,255,.46),inset 0 -.08em .16em rgba(0,0,0,.11),0 0 0 1px rgba(255,255,255,.38),0 .3em .8em rgba(0,0,0,.6)}
+.hero h1 .face{position:absolute;inset:0;border-radius:.3em;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  box-shadow:inset 0 .045em .11em rgba(255,255,255,.46),inset 0 -.08em .16em rgba(0,0,0,.11);
+  transition:transform .55s cubic-bezier(.65,0,.35,1)}
 .hero h1 .face img{width:100%;height:100%;object-fit:cover;animation:none;box-shadow:none;border-radius:0}
-.hero h1 .tile.stripe{transform:rotate(-6deg) rotateY(-9deg) translateY(-.015em)}
-.hero h1 .tile.stripe::before{background:linear-gradient(135deg,#4b45d9 0%,#6d67ff 48%,#3e3bc9 100%)}
-.hero h1 .tile.paypal{transform:rotate(5deg) rotateY(-8deg) translateY(.015em);animation-delay:-3s}
-.hero h1 .tile.paypal::before{background:linear-gradient(145deg,#dde3eb 0%,#fafbfd 52%,#cfd5df 100%)}
-.hero h1 .tile.paypal .face{background:radial-gradient(circle at 22% 14%,#fff 0%,#fff 32%,#f3f5f9 100%);padding:.22em}
-.hero h1 .tile.paypal .face img{object-fit:contain}
+.hero h1 .face.pad{background:radial-gradient(circle at 22% 14%,#fff 0%,#fff 32%,#f3f5f9 100%);padding:.22em;box-sizing:border-box}
+.hero h1 .face.pad img{object-fit:contain}
+.hero h1 .face.pre{transform:translateY(105%)}
+.hero h1 .face.out{transform:translateY(-105%)}
+.hero h1 .tile.l{transform:rotate(-6deg) rotateY(-9deg) translateY(-.015em)}
+.hero h1 .tile.r{transform:rotate(5deg) rotateY(-8deg) translateY(.015em);animation-delay:-3s}
 @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -.06em}}
 .hero .lead{margin:28px auto 40px;max-width:680px;font-size:clamp(16px,1.5vw,20px)}
 .hero .lead strong{color:var(--ink);font-weight:500}
@@ -641,6 +641,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opa
 .gw .card{padding:28px}
 .gw .card img{height:26px;width:auto;margin-bottom:18px;border-radius:7px}
 .gw .card p{color:var(--ink-3);font-size:15px;font-weight:300}
+.gw .card.more{grid-column:1/-1}
+.gw .card.more .logos{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:18px}
+.gw .card.more .logos img{margin:0}
 
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
@@ -1100,7 +1103,7 @@ html.lenis,html.lenis body{height:auto}
       <span class="w"><span>Venda</span></span>
       <span class="w"><span class="y">globalmente</span></span>
       <span class="w"><span>com</span></span>
-      <span class="w"><span class="pay"><span class="tile stripe"><span class="face"><img src="/v2/images/logo-stripe2.webp" alt="Stripe"></span></span><b>+</b><span class="tile paypal"><span class="face"><img src="/v2/images/logo-paypal.webp" alt="PayPal"></span></span></span></span>
+      <span class="w"><span class="pay"><span class="tile l"><span class="face"><img src="/v2/images/logo-stripe2.webp" alt="Stripe"></span></span><b>+</b><span class="tile r"><span class="face pad"><img src="/v2/images/logo-paypal.webp" alt="PayPal"></span></span></span></span>
       <span class="w"><span>em</span></span>
       <span class="w"><span>um</span></span>
       <span class="w"><span>checkout</span></span>
@@ -1111,7 +1114,7 @@ html.lenis,html.lenis body{height:auto}
       <span class="w"><span class="grad">por</span></span>
       <span class="w"><span class="grad">você.</span></span>
     </h1>
-    <p class="lead" data-reveal style="--d:500ms">Em menos de 10 minutos, conecte sua Stripe e seu PayPal, publique um checkout com upsell, order bump e entrega por e-mail, compartilhe o <a class="tl" href="/link-de-pagamento">link de pagamento</a> e gerencie tudo por chat com a <strong>sua IA</strong>.</p>
+    <p class="lead" data-reveal style="--d:500ms">Em menos de 10 minutos, conecte os seus gateways de pagamento, publique um checkout com upsell, order bump e entrega por e-mail, compartilhe o <a class="tl" href="/link-de-pagamento">link de pagamento</a> e gerencie tudo por chat com a <strong>sua IA</strong>.</p>
     <div class="cta" data-reveal style="--d:650ms">
       <a class="btn" href="https://admin.snappcheckout.com/register">Começar agora <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
       <a class="btn ghost" href="#ia">Ver a IA em ação <span class="arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></a>
@@ -1260,15 +1263,16 @@ html.lenis,html.lenis body{height:auto}
   </div>
 </section>
 
-<!-- ============ STRIPE + PAYPAL ============ -->
+<!-- ============ GATEWAYS ============ -->
 <section id="global">
   <div class="wrap split2">
     <div>
-      <h2 class="grad" data-reveal>O poder da Stripe e do PayPal, no mesmo checkout.</h2>
-      <p class="lead" data-reveal style="--d:120ms">Nem todo comprador quer pagar do mesmo jeito. Com os dois lado a lado você reduz abandono, aumenta a confiança e abre mais caminhos para a venda acontecer.</p>
+      <h2 class="grad" data-reveal>Todos os seus gateways, no mesmo checkout.</h2>
+      <p class="lead" data-reveal style="--d:120ms">Nem todo comprador quer pagar do mesmo jeito. Com vários gateways lado a lado você reduz abandono, aumenta a confiança e abre mais caminhos para a venda acontecer.</p>
       <div class="gw" data-stagger="120">
         <div class="card"><img src="/v2/images/logo-stripe2.webp" alt="Stripe"><p>Conecte sua conta Stripe e receba em mais de 135 moedas direto na sua conta, sem intermediário segurando o dinheiro. <a class="tl" href="/checkout-stripe">Checkout para Stripe</a></p></div>
         <div class="card"><img src="/v2/images/logo-paypal.webp" alt="PayPal"><p>Aceite PayPal e alcance quem prefere pagar por ele, principalmente nos EUA e na Europa. <a class="tl" href="/checkout-paypal">Checkout com PayPal</a></p></div>
+        <div class="card more"><div class="logos"><img src="/v2/images/logo-whop.png" alt="Whop"><img src="/v2/images/logo-mercadopago.svg" alt="Mercado Pago"><img src="/v2/images/logo-pagarme.webp" alt="Pagar.me"><img src="/v2/images/logo-efibank.webp" alt="Efí Bank"><img src="/v2/images/logo-dlocalgo.webp" alt="dLocal Go"></div><p>E também Whop, Mercado Pago, Pagar.me, Efí, XPag e dLocal Go, com Pix, boleto e as formas de pagamento locais de cada um.</p></div>
       </div>
     </div>
     <div class="art" data-reveal="right"><div class="halo"></div><img src="/v2/images/logo3d-stripe-paypal.webp" alt="Stripe e PayPal" data-parallax="-0.08"></div>
@@ -1337,7 +1341,7 @@ html.lenis,html.lenis body{height:auto}
         <div class="price"><b>3%</b><span>por transação aprovada</span></div>
         <p class="sub">Vendeu, paga. Não vendeu, não paga nada.</p>
         <ul data-stagger="60">
-          <li><i>✓</i>Stripe + PayPal no mesmo checkout</li>
+          <li><i>✓</i>Vários gateways no mesmo checkout</li>
           <li><i>✓</i>Recebimento direto na sua conta</li>
           <li><i>✓</i>Venda em mais de 135 moedas e até 195 países</li>
           <li><i>✓</i>Checkouts personalizáveis com modelos prontos</li>
@@ -1354,7 +1358,7 @@ html.lenis,html.lenis body{height:auto}
         <div class="price"><b style="font-size:clamp(40px,5vw,64px)">4,9 a 10%+</b></div>
         <p class="sub">por transação aprovada, e o resto vem na letra miúda</p>
         <ul data-stagger="60">
-          <li><i>×</i>Apenas Stripe ou processadores limitados</li>
+          <li><i>×</i>Um gateway só ou processadores limitados</li>
           <li><i>×</i>Dinheiro pode ficar preso na plataforma</li>
           <li><i>×</i>Menos moedas para vender fora</li>
           <li><i>×</i>Venda internacional limitada</li>
@@ -1374,7 +1378,7 @@ html.lenis,html.lenis body{height:auto}
   <div class="orb"></div><div class="ring"></div>
   <div class="wrap">
     <h2 data-words>O pagamento cai <span class="y">direto</span> na sua conta.</h2>
-    <p class="lead" data-reveal style="--d:150ms">A Stripe é sua. O PayPal é seu. Nunca retemos o seu recebimento.</p>
+    <p class="lead" data-reveal style="--d:150ms">O gateway é seu. A conta é sua. Nunca retemos o seu recebimento.</p>
   </div>
 </section>
 
@@ -1415,7 +1419,7 @@ html.lenis,html.lenis body{height:auto}
       <details><summary>Posso vender assinaturas?<i></i></summary><div class="a"><div><p>Sim. A cobrança pode ser diária, semanal, mensal ou anual, com renovação automática pela Stripe ou pelo PayPal.</p></div></div></details>
       <details><summary>O Snapp tem área de membros?<i></i></summary><div class="a"><div><p>Sim. A área de membros faz parte de toda conta e libera o acesso do comprador quando o pagamento é confirmado.</p></div></div></details>
       <details><summary>Tem mensalidade?<i></i></summary><div class="a"><div><p>Não. O modelo é simples: você paga apenas 3% por transação aprovada. Se não vender, não paga nada. Sem mensalidade, sem taxa de setup, sem custo oculto.</p></div></div></details>
-      <details><summary>Para quais países posso vender?<i></i></summary><div class="a"><div><p>Mais de 190 países via Stripe e PayPal. O checkout abre em 17 idiomas e pode adaptar idioma e moeda pelo país do comprador.</p></div></div></details>
+      <details><summary>Para quais países posso vender?<i></i></summary><div class="a"><div><p>Mais de 190 países com gateways internacionais como Stripe e PayPal. O checkout abre em 17 idiomas e pode adaptar idioma e moeda pelo país do comprador.</p></div></div></details>
       <details><summary>Dá para usar o Snapp com o ChatGPT ou o Claude?<i></i></summary><div class="a"><div><p>Sim. O Snapp tem um servidor MCP. Conectado ao Claude, ao ChatGPT ou ao Cursor, você pede em texto e a IA cria ofertas, consulta as vendas e gera relatórios na sua conta.</p></div></div></details>
     </div>
   </div>
@@ -1591,5 +1595,21 @@ ds.forEach(d=>d.addEventListener("toggle",()=>{if(d.open)ds.forEach(o=>{if(o!==d
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="/v2/app.js"></script>
+<script>
+/* hero: troca os pares de formas de pagamento nos tiles (roleta) */
+(()=>{const pay=document.querySelector('.hero h1 .pay');if(!pay||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const I='/v2/images/',B={stripe:['logo-stripe2.webp','Stripe'],whop:['logo-whop.png','Whop'],paypal:['logo-paypal.webp','PayPal',1],
+cashapp:['pay/tile-cashapp.svg','Cash App'],klarna:['pay/tile-klarna.svg','Klarna'],pix:['pay/tile-pix.svg','Pix'],
+applepay:['pay/tile-applepay.svg','Apple Pay'],googlepay:['pay/tile-googlepay.svg','Google Pay']};
+Object.values(B).forEach(b=>{new Image().src=I+b[0]});
+const seq=[['stripe','paypal'],['stripe','cashapp'],['whop','paypal'],['whop','pix'],['stripe','klarna'],['stripe','applepay'],['stripe','googlepay']];
+const tiles=[pay.querySelector('.tile.l'),pay.querySelector('.tile.r')];let cur=seq[0],i=0;
+const mk=k=>{const f=document.createElement('span'),im=document.createElement('img'),b=B[k];f.className='face pre'+(b[2]?' pad':'');im.src=I+b[0];im.alt=b[1];f.appendChild(im);return f};
+const swap=(t,k)=>{const old=t.querySelector('.face:not(.out)'),nw=mk(k);t.appendChild(nw);nw.getBoundingClientRect();
+  requestAnimationFrame(()=>{if(old)old.classList.add('out');nw.classList.remove('pre')});setTimeout(()=>{if(old)old.remove()},700)};
+const step=()=>{if(document.hidden)return;i=(i+1)%seq.length;const nx=seq[i];
+  nx.forEach((k,j)=>{if(k!==cur[j])setTimeout(()=>swap(tiles[j],k),j*140)});cur=nx};
+setTimeout(()=>setInterval(step,2400),2400)})();
+</script>
 </body>
 </html>
