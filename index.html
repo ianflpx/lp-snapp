@@ -1609,7 +1609,7 @@ const swap=(t,k)=>{const old=t.querySelector('.face:not(.out)'),nw=mk(k);t.appen
   requestAnimationFrame(()=>{if(old)old.classList.add('out');nw.classList.remove('pre')});setTimeout(()=>{if(old)old.remove()},700)};
 const step=()=>{if(document.hidden)return;i=(i+1)%seq.length;const nx=seq[i];
   nx.forEach((k,j)=>{if(k!==cur[j])setTimeout(()=>swap(tiles[j],k),j*140)});cur=nx};
-setTimeout(()=>setInterval(step,2400),2400)})();
+setTimeout(()=>{step();setInterval(step,2400)},1500)})();
 </script>
 </body>
 </html>
