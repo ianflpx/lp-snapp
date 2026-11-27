@@ -1,3 +1,7 @@
 # Fontes e gerador das páginas internas: só o HTML gerado vai ao ar.
 content
 tools
+# Documentos de trabalho de design (specs, screenshots de referência, parciais).
+.design
+# Configuração local do verificador de design.
+.impeccable

@@ -1,0 +1,5 @@
+/* ───────── 20 · Por que vender com o Snapp ─────────
+   Só primitivas do sistema (.sec-head--solo, .cards, .card, .ico-sq). */
+/* os títulos têm até 37 caracteres e quebram em 2 linhas: sem palavra órfã na segunda */
+#por-que .t-title { text-wrap: balance; }
+#por-que .card__text { text-wrap: pretty; }

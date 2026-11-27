@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Checkpoint Fase 2 · Snapp v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/v3/style.css">
+<style>
+  body { padding-block: var(--s9); }
+  .note { color: var(--muted); max-width: 70ch; }
+  .sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s4); }
+  .sw > div { border-radius: var(--r-md); padding: var(--s5); min-height: 150px; display: grid; align-content: space-between; gap: var(--s4); }
+  .sw b { font: 800 var(--fs-label)/1 var(--font); text-transform: uppercase; }
+  .sw code { font: 400 12px/1.5 var(--mono); }
+  .alt { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4); }
+  .alt .banner { padding-bottom: var(--s5); }
+  .media-demo { display: grid; justify-items: center; align-items: start; padding-top: 4cqw; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s5) 0; text-align: center; }
+  @media (min-width: 800px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .cta { border-radius: var(--r-md) var(--r-md) 0 0; padding: var(--s7) var(--s6) var(--s10); text-align: center; display: grid; justify-items: center; gap: var(--s6); }
+</style>
+</head>
+<body>
+<div id="sprite"></div>
+
+<div class="wrap">
+  <p class="t-mono t-muted">Checkpoint · Fase 2</p>
+  <h1 class="t-h1" style="margin-top:var(--s4)">Família do amarelo</h1>
+  <p class="t-lead note" style="margin-top:var(--s4)">Amarelo, preto e grafite da marca, mais três cores de apoio: creme (o amarelo clareado), laranja queimado (o vizinho quente do amarelo) e índigo (o complementar, que é a cor que mais faz o amarelo vibrar). O número em cada cor é o contraste do texto do corpo; todos passam de 4,5:1 (AA).</p>
+
+  <div class="sw section">
+    <div style="background:#fed217;color:#0a0a0b"><b style="color:#5c4a00">Amarelo</b><code>#fed217<br>texto #0a0a0b · 13,6:1<br>rótulo #5c4a00 · 5,9:1</code></div>
+    <div style="background:#0a0a0b;color:#f5f5f5;box-shadow:inset 0 0 0 1px var(--line)"><b style="color:#fed217">Preto</b><code>#0a0a0b<br>texto #f5f5f5 · 18,2:1<br>rótulo #fed217 · 13,6:1</code></div>
+    <div style="background:#1c1c1f;color:#f5f5f5;box-shadow:inset 0 0 0 1px var(--line)"><b style="color:#fed217">Grafite</b><code>#1c1c1f<br>texto #f5f5f5 · 15,6:1<br>rótulo #fed217 · 11,7:1</code></div>
+    <div style="background:#f3ebcd;color:#0a0a0b"><b style="color:#6a5a1c">Creme</b><code>#f3ebcd · apoio<br>texto #0a0a0b · 16,6:1<br>rótulo #6a5a1c · 5,7:1</code></div>
+    <div style="background:#b34509;color:#fff"><b style="color:#ffe9dc">Laranja</b><code>#b34509 · apoio<br>texto #ffffff · 5,6:1<br>rótulo #ffe9dc · 4,8:1</code></div>
+    <div style="background:#3431b8;color:#fff"><b style="color:#c4c3ff">Índigo</b><code>#3431b8 · apoio<br>texto #ffffff · 9,2:1<br>rótulo #c4c3ff · 5,5:1</code></div>
+  </div>
+  <p class="t-small note" style="margin-top:var(--s4)">O rótulo é texto grande em peso 800 (nunca abaixo de 18,7px), que pede 3:1; todos passam de 4,5:1.</p>
+
+  <div class="sec-head section">
+    <h2 class="t-h2">Como fica no bento</h2>
+    <p class="t-lead">Cinco fileiras, cinco cores. As duas metades de uma fileira usam a mesma cor, como na referência. O celular já é a pele proposta para o checkout.</p>
+  </div>
+
+  <div class="bento">
+    <article class="banner banner--full banner--orange">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-upsell"/></svg></span>Upsell e downsell</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer o upsell em um clique"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">Depois da compra aprovada, o comprador aceita a próxima oferta em um clique no cartão. Se recusar, vê o downsell, mais barato.</p>
+      <div class="banner__media media-demo" aria-hidden="true">
+        <div class="dev-phone mk" style="font-size:1.25cqw">
+          <div class="dev-phone__screen">
+            <div class="dev-phone__url"><svg class="ico"><use href="#i-lock"/></svg>pay.snappcheckout.com</div>
+            <div class="ck">
+              <p class="ck__secure"><svg class="ico"><use href="#i-lock"/></svg>Pagamento seguro</p>
+              <div class="ck__product"><span class="ck__thumb"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><span class="ck__name">Planner Digital</span><br><span class="ck__sub">Pagamento único</span></span><span class="ck__price">US$ 27,00</span></div>
+              <div class="ck__bump is-on"><span class="ck__box"><svg class="ico"><use href="#i-check"/></svg></span><span><span class="ck__name">Sim, quero o Guia Rápido</span><br><span class="ck__sub">Oferta só nesta página</span></span><span class="ck__price">+US$ 7</span></div>
+              <div class="ck__total"><span>Total</span><span>US$ 34,00</span></div>
+              <label class="ck__field"><span>E-mail</span><span class="ck__input"><svg class="ico"><use href="#i-mail"/></svg>ana@email.com</span></label>
+              <span class="ck__cta">Pagar agora</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="banner banner--amber">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-bump"/></svg></span>Order bump</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer o order bump"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">Ofertas complementares na tela do pagamento. O comprador marca as que quiser e paga tudo de uma vez.</p>
+      <div class="banner__media media-demo" aria-hidden="true">
+        <div class="dev-phone mk" style="font-size:2.6cqw">
+          <div class="dev-phone__screen">
+            <div class="dev-phone__url"><svg class="ico"><use href="#i-lock"/></svg>pay.snappcheckout.com</div>
+            <div class="ck">
+              <p class="ck__secure"><svg class="ico"><use href="#i-lock"/></svg>Pagamento seguro</p>
+              <div class="ck__product"><span class="ck__thumb"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><span class="ck__name">Planner Digital</span><br><span class="ck__sub">Pagamento único</span></span><span class="ck__price">US$ 27,00</span></div>
+              <div class="ck__bump is-on"><span class="ck__box"><svg class="ico"><use href="#i-check"/></svg></span><span><span class="ck__name">Sim, quero o Guia Rápido</span><br><span class="ck__sub">Oferta só nesta página</span></span><span class="ck__price">+US$ 7</span></div>
+              <div class="ck__bump"><span class="ck__box"><svg class="ico"><use href="#i-check"/></svg></span><span><span class="ck__name">Planilha de Metas</span><br><span class="ck__sub">Oferta só nesta página</span></span><span class="ck__price">+US$ 5</span></div>
+              <div class="ck__total"><span>Total</span><span>US$ 34,00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <article class="banner banner--amber">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-ab"/></svg></span>Teste A/B</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer o teste A/B"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">Um link divide o tráfego entre ofertas diferentes e mostra visitas, vendas e faturamento de cada uma.</p>
+      <div class="banner__media" aria-hidden="true"></div>
+    </article>
+
+    <article class="banner banner--full banner--yellow banner--tall">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-globe"/></svg></span>Multi-moeda</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer a venda em várias moedas"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">Crie a oferta em 16 moedas. O checkout abre em 17 idiomas e pode mostrar o preço na moeda do comprador.</p>
+      <div class="banner__media" aria-hidden="true" style="display:flex;gap:1cqw;align-items:center;justify-content:center;flex-wrap:wrap;font-size:1.3cqw">
+        <span class="chip">R$ 97</span><span class="chip">US$ 27</span><span class="chip">€ 25</span><span class="chip">MX$ 499</span><span class="chip">zł 99</span><span class="chip">¥ 3.900</span><span class="chip chip--dark"><span class="dot"></span>Sua conta</span>
+      </div>
+    </article>
+
+    <article class="banner banner--graphite">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-repeat"/></svg></span>Assinaturas</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer as assinaturas"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">Cobrança diária, semanal, mensal ou anual, com renovação automática pela Stripe ou pelo PayPal.</p>
+      <div class="banner__media" aria-hidden="true"></div>
+    </article>
+    <article class="banner banner--graphite">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-mail"/></svg></span>Entrega por e-mail</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer a entrega por e-mail"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">O e-mail de confirmação leva o arquivo ou o link do produto. Carrinho parado recebe até dois lembretes.</p>
+      <div class="banner__media" aria-hidden="true"></div>
+    </article>
+
+    <article class="banner banner--full banner--cream">
+      <div class="banner__head">
+        <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-ai"/></svg></span>IA por chat</h3>
+        <a class="banner__go sq" href="#" aria-label="Conhecer a IA por chat"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <p class="banner__text">Conecte o Snapp ao Claude ou ao ChatGPT e peça em texto. A IA cria ofertas, monta o funil de upsell e consulta as suas vendas.</p>
+      <div class="banner__media" aria-hidden="true"></div>
+    </article>
+  </div>
+
+  <div class="sec-head section">
+    <h2 class="t-h2">Os dois blocos de contraste máximo</h2>
+    <p class="t-lead">Na referência são grafite sobre página clara. Aqui a página é preta, então o inverso é claro: números em creme e o CTA final em amarelo, a última coisa que a pessoa vê antes do rodapé.</p>
+  </div>
+
+  <div class="block block--cream" style="display:grid;gap:var(--s6)">
+    <h2 class="t-h2" style="text-align:center">O Snapp em quatro números</h2>
+    <div class="stats">
+      <div><p class="t-num">3%</p><p class="t-small t-muted">por venda aprovada</p></div>
+      <div><p class="t-num">R$ 0</p><p class="t-small t-muted">de mensalidade e de taxa de adesão</p></div>
+      <div><p class="t-num">7</p><p class="t-small t-muted">ferramentas no mesmo checkout</p></div>
+      <div><p class="t-num">17</p><p class="t-small t-muted">idiomas no checkout</p></div>
+    </div>
+  </div>
+
+  <div class="sec-head sec-head--solo section"><h2 class="t-h2">Superfície e botões</h2></div>
+  <div class="cards">
+    <article class="card"><span class="ico-sq"><svg class="ico"><use href="#i-bank"/></svg></span><h3 class="t-title">O dinheiro cai direto na sua conta</h3><p class="t-body card__text">O Snapp não segura o valor da venda. Ele vai para a sua conta no gateway, e o prazo de repasse é o do próprio gateway.</p></article>
+    <article class="card"><span class="ico-sq"><svg class="ico"><use href="#i-percent"/></svg></span><h3 class="t-title">Sem mensalidade nem taxa de adesão</h3><p class="t-body card__text">Você paga 3% por venda aprovada. Venda recusada ou não paga não gera taxa.</p></article>
+    <article class="card"><span class="ico-sq"><svg class="ico"><use href="#i-layers"/></svg></span><h3 class="t-title">Vários gateways na mesma oferta</h3><p class="t-body card__text">Ligue mais de um gateway na oferta. O comprador vê as formas de pagamento lado a lado e escolhe.</p></article>
+  </div>
+  <div class="btn-row" style="margin-top:var(--s6)">
+    <a class="btn btn--secondary" href="#">Ver a IA em ação</a>
+    <a class="btn" href="#">Começar agora</a>
+  </div>
+
+  <div class="sec-head section">
+    <h2 class="t-h2">Alternativas para as três de apoio</h2>
+    <p class="t-lead">Se o índigo fugir demais da marca, a família pode ficar só nos tons quentes.</p>
+  </div>
+  <div class="alt">
+    <article class="banner" style="--b-bg:#7a5900;--b-fg:#fff;--b-label:#ffe27a"><div class="banner__head"><h3 class="banner__label">Âmbar</h3></div><p class="banner__text" style="font-size:var(--fs-body);line-height:var(--lh-body)">#7a5900 · texto #fff 6,5:1. Entra no lugar do índigo na família só quente.</p></article>
+    <article class="banner" style="--b-bg:#0f4f47;--b-fg:#fff;--b-label:#9fe3d6"><div class="banner__head"><h3 class="banner__label">Petróleo</h3></div><p class="banner__text" style="font-size:var(--fs-body);line-height:var(--lh-body)">#0f4f47 · texto #fff 9,4:1. Frio e discreto, menos contraste com o amarelo que o índigo.</p></article>
+    <article class="banner" style="--b-bg:#0a0a0b;--b-fg:#f5f5f5;--b-label:#fed217;box-shadow:inset 0 0 0 1px var(--line)"><div class="banner__head"><h3 class="banner__label">Preto</h3></div><p class="banner__text" style="font-size:var(--fs-body);line-height:var(--lh-body)">#0a0a0b com borda. Some na página preta: funciona como moldura, não como banner.</p></article>
+  </div>
+</div>
+
+<div class="block--yellow cta section">
+  <h2 class="t-cta">Publique o seu primeiro<br>checkout hoje</h2>
+  <a class="btn btn--dark" href="#">Começar agora</a>
+</div>
+
+<script>
+fetch("/v3/index.html").then(r => r.text()).then(t => {
+  document.getElementById("sprite").innerHTML = t.match(/<svg width="0"[\s\S]*?<\/svg>/)[0];
+});
+</script>
+</body>
+</html>

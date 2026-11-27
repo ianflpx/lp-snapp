@@ -1,0 +1,117 @@
+/* ───────── Banner 15 · Entrega por e-mail ─────────
+   Três abas (os três e-mails que o produto envia), cada uma com o fluxo de nós e o e-mail aberto.
+   A peça responde à largura da própria mídia: abaixo de 470px (celular e meio banner até ~1070px de viewport)
+   o fluxo fica deitado em cima e o cartão sangra por baixo; a partir de 470px o fluxo fica em pé à esquerda e o
+   cartão sangra pela direita e por baixo. A fonte tem piso (12px) e teto (16px): nada miúdo em 800 e 1024,
+   nada gigante em 768. */
+.banner__media:has(> .email) { aspect-ratio: 1.12; max-height: 430px; }
+@media (min-width: 800px) { .banner__media:has(> .email) { aspect-ratio: 1.295; max-height: none; } }
+
+.email {
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  font-size: clamp(12px, 3.43cqw, 13px); line-height: 1.3;
+}
+
+.email__tabs { flex: none; display: flex; gap: 0.3em; padding-inline: var(--s5); }
+/* o alvo de toque tem 40px; a pílula visível é menor e fica no ::before */
+.email__tab { min-height: max(40px, 2.9em); padding-inline: 0.8em; color: var(--b-muted); font-weight: 500; white-space: nowrap; transition: color 0.25s var(--ease); }
+.email__tab::before {
+  content: ""; position: absolute; inset: 50% 0 auto; z-index: -1; height: 2.3em; margin-top: -1.15em;
+  border-radius: 99em; background: var(--b-tint); opacity: 0; scale: 0.9; transition: opacity 0.25s var(--ease), scale 0.35s var(--spring);
+}
+.email__tab:hover, .email__tab[aria-selected="true"] { color: var(--b-fg); }
+.email__tab[aria-selected="true"]::before { opacity: 1; scale: 1; }
+.email__tab:active::before { scale: 0.95; }
+
+/* os três painéis ocupam a mesma célula: na troca de aba um sai e o outro entra, cruzando com um deslize curto */
+.email__views { flex: 1; min-height: 0; display: grid; }
+.email__panel {
+  grid-area: 1 / 1; min-height: 0; display: flex; flex-direction: column; gap: 1.1em; padding: 0.5em var(--s5) 0;
+  transition: opacity 0.26s var(--ease), translate 0.36s var(--ease-out);
+}
+.email__panel[hidden] { display: none; }
+.email__panel.is-off { opacity: 0; translate: calc(var(--dir, 1) * 1.3em) 0; }
+
+/* nó: selo redondo (aro = a fazer, arco girando = em curso, disco cheio com o ícone = feito) e o texto */
+.email__flow { --gap: 1em; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: var(--gap); }
+.email__node { position: relative; display: grid; align-content: start; gap: 0.5em; min-width: 0; }
+.email__badge { position: relative; display: grid; place-items: center; width: 2.4em; height: 2.4em; border-radius: 50%; color: var(--b-bg); box-shadow: inset 0 0 0 1.5px var(--b-tint); }
+.email__badge::before, .email__badge::after { content: ""; position: absolute; border-radius: 50%; }
+.email__badge::before { inset: 0; background: var(--b-label); }
+.email__badge::after { inset: -0.24em; border: 2px solid transparent; border-top-color: var(--b-label); opacity: 0; }
+.email__badge .ico { position: relative; font-size: 1.2em; stroke-width: 2; }
+.email__txt { display: grid; gap: 0.15em; min-width: 0; }
+.email__txt b { font-weight: 600; text-wrap: balance; }
+.email__txt > span { display: none; font-size: 0.88em; opacity: 0.72; }
+/* conector: trilho do selo anterior até este, o preenchimento que o percorre e o ponto que viaja na frente */
+.email__link { --sx: 0; --sy: 1; --tx: -100%; --ty: 0; position: absolute; top: calc(1.2em - 1px); right: calc(100% + 0.4em); width: calc(100% + var(--gap) - 3.2em); height: 2px; border-radius: 2px; background: var(--b-tint); }
+.email__link::before, .email__link::after { content: ""; position: absolute; }
+.email__link::before { inset: 0; border-radius: inherit; background: var(--b-label); transform-origin: 0 50%; }
+/* o ponto que viaja pelo conector: cor chapada recortada em círculo (sem gradiente) */
+.email__link::after { inset: -0.26em 0; background: var(--b-label); clip-path: circle(0.245em at calc(100% - 0.3em) 50%); opacity: 0; }
+
+/* o e-mail aberto, com cara de cliente de e-mail: pele clara dos mockups, sem base (o card recorta) */
+.email__card { flex: 1; min-height: 0; display: grid; align-content: start; gap: 0.75em; padding: 1em 1.1em 0; border-radius: 1em 1em 0 0; background: #fff; }
+.email__bar { position: absolute; visibility: hidden; display: flex; align-items: center; gap: 0.5em; padding-bottom: 0.75em; border-bottom: 1px solid #e7e7e4; color: #6b6b72; font-size: 0.9em; }
+.email__bar span { display: flex; gap: 0.9em; margin-left: auto; }
+.email__bar .ico { font-size: 1.25em; stroke-width: 2; }
+.email__subject { font-size: 1.22em; font-weight: 600; line-height: 1.2; }
+.email__from { display: flex; align-items: center; gap: 0.65em; line-height: 1.25; }
+.email__avatar { flex: none; display: grid; place-items: center; width: 2.3em; height: 2.3em; border-radius: 50%; background: #111113; color: var(--yellow); font-weight: 600; }
+.email__who { flex: 1; min-width: 0; }
+.email__who span, .email__from time { display: block; color: #6b6b72; font-size: 0.92em; }
+.email__from time { align-self: flex-start; font-variant-numeric: tabular-nums; }
+.email__body { color: #3f3f46; }
+.email__card .ck__cta { height: 2.75em; }
+.email__file, .email__item { display: flex; align-items: center; gap: 0.65em; padding: 0.55em 0.7em; border-radius: 0.75em; box-shadow: inset 0 0 0 1px #dcdcd6; line-height: 1.25; }
+.email__file { justify-self: start; padding-right: 1.1em; }
+.email__ext { flex: none; display: grid; place-items: center; width: 2.6em; height: 2.6em; border-radius: 0.55em; background: #111113; color: #fff; font: 600 0.78em var(--mono); }
+.email__file span span, .email__item span span { display: block; color: #6b6b72; font-size: 0.92em; }
+.email__item .ck__thumb { flex: none; width: 2.4em; height: 2.4em; }
+.email__item > span:nth-child(2) { flex: 1; min-width: 0; }
+/* rodapé do e-mail em linhas de esqueleto: é o que a borda de baixo do card corta */
+.email__sk { display: grid; gap: 0.6em; margin-top: 0.4em; padding-top: 1.1em; border-top: 1px solid #e7e7e4; }
+.email__sk i { height: 0.55em; border-radius: 99em; background: #ecece8; }
+.email__sk i:nth-child(1) { width: 78%; }
+.email__sk i:nth-child(2) { width: 56%; }
+.email__sk i:nth-child(3) { width: 68%; }
+
+@container (min-width: 470px) {
+  .email { font-size: clamp(12.5px, 2.72cqw, 16px); }
+  .email__panel { position: relative; display: block; padding: 0; }
+  .email__flow { --gap: 2.2em; position: absolute; left: var(--s5); top: 0.9em; width: 15.6em; grid-auto-flow: row; }
+  .email__node { grid-template-columns: auto 1fr; align-items: center; gap: 0.75em; padding: 0.9em 0.8em; border-radius: 0.95em; background: var(--b-tint); }
+  .email__txt > span { display: block; }
+  .email__link { --sx: 1; --sy: 0; --tx: 0; --ty: -100%; top: calc(0.3em - var(--gap)); right: auto; left: calc(2em - 1px); width: 2px; height: calc(var(--gap) - 0.6em); }
+  .email__link::before { transform-origin: 50% 0; }
+  .email__link::after { inset: 0 -0.26em; clip-path: circle(0.245em at 50% calc(100% - 0.3em)); }
+  .email__card { position: absolute; top: 0.9em; bottom: -1em; right: -1.5em; left: calc(var(--s5) + 16.9em); gap: 0.85em; padding: 1em 2.7em 0 1.2em; border-radius: 1em; }
+  .email__bar { position: static; visibility: visible; }
+}
+
+/* coreografia de entrada (~3,8 s, uma vez, só na aba Entrega). Cada nó acorda, gira enquanto está em curso e
+   assenta cheio; o conector é percorrido por um ponto até o próximo nó; quando o e-mail de confirmação fica
+   pronto, o cartão sobe e as linhas dele entram em cascata; com o acesso liberado, o botão responde.
+   .is-done entra no primeiro clique numa aba, para a cena não se repetir ao voltar para "Entrega". */
+.email__panel--play .email__node { --s: calc(0.3s + var(--n) * 1.25s); }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__txt { animation: email-wake 0.4s var(--ease-out) var(--s) both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__badge::after { animation: email-spin 0.6s linear var(--s) both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__badge::before,
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__badge .ico { animation: email-pop 0.5s var(--spring) calc(var(--s) + 0.45s) both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__link::before { animation: email-run 0.6s var(--ease) calc(var(--s) - 0.5s) both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__link::after { animation: email-dot 0.6s var(--ease) calc(var(--s) - 0.5s) both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__card { animation: email-in 0.7s var(--ease-out) 2.05s both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__card > * { animation: email-row 0.5s var(--ease-out) calc(2.2s + var(--r, 0) * 0.07s) both; }
+.js-motion .banner.is-in .email:not(.is-done) .email__panel--play .email__card > .ck__cta { animation: email-row 0.5s var(--ease-out) 2.48s both, email-bump 0.5s var(--spring) 3.45s; }
+.email__card > :nth-child(2) { --r: 1; } .email__card > :nth-child(3) { --r: 2; } .email__card > :nth-child(4) { --r: 3; }
+.email__card > :nth-child(6) { --r: 5; } .email__card > :nth-child(7) { --r: 6; }
+@keyframes email-wake { from { opacity: 0.38; } }
+@keyframes email-spin { 0% { opacity: 0; rotate: 0turn; } 20%, 75% { opacity: 1; } 100% { opacity: 0; rotate: 1.5turn; } }
+@keyframes email-pop { from { scale: 0; } }
+/* --sx/--sy e --tx/--ty dão o eixo (deitado ou em pé): a animação é a mesma nos dois arranjos e não reinicia na troca */
+@keyframes email-run { from { scale: var(--sx) var(--sy); } }
+@keyframes email-dot { 0% { translate: var(--tx) var(--ty); opacity: 0; } 15%, 80% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes email-in { from { opacity: 0; translate: 0 1.6em; } }
+@keyframes email-row { from { opacity: 0; translate: 0 0.5em; } }
+@keyframes email-bump { 40% { scale: 1.04; } }

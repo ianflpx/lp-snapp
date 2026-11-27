@@ -39,9 +39,32 @@
   } catch (e) {}
 
   var payload = JSON.stringify({ f: stored.f, l: stored.l });
+
+  // Fluxo da LP (Aquisição do super-admin): uma visita e um clique em cadastro por sessão,
+  // com o último toque (o mesmo canal do cadastro). Sem cookie nem dado pessoal.
+  function beacon(event) {
+    var flag = "snapp_lp_" + event;
+    if (!/(^|\.)snappcheckout\.com$/.test(location.hostname)) return; // preview e local não contam
+    try {
+      if (sessionStorage.getItem(flag)) return;
+      sessionStorage.setItem(flag, "1");
+    } catch (e) {}
+    var l = stored.l;
+    var body = JSON.stringify({
+      e: event,
+      p: location.pathname,
+      t: { source: l.source, medium: l.medium, clickId: l.clickId, referrerHost: l.referrerHost },
+    });
+    try {
+      if (navigator.sendBeacon) navigator.sendBeacon("https://backend3.snappcheckout.com/api/lp/event", body);
+    } catch (e) {}
+  }
+  beacon("visit");
+
   function decorate(event) {
     var a = event.target && event.target.closest && event.target.closest('a[href*="admin.snappcheckout.com"]');
     if (!a) return;
+    if (event.type !== "contextmenu" && /\/register/.test(a.href)) beacon("cta");
     try {
       var url = new URL(a.href);
       url.searchParams.set("snapp_attr", payload);

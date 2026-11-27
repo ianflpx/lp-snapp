@@ -1,0 +1,53 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          ".design/v3/checkpoint.html"
+        ],
+        "createdAt": "2026-11-27T00:29:20.082Z",
+        "reason": "brief do dono (.design/v3/BRIEF.md): H2 de 31.4px 'pequeno de proposito, quem faz a hierarquia sao os banners' e corpo de banner em 22.4px, escala medida na referencia; arquivo de trabalho fora do deploy (.vercelignore)"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "v3/index.html"
+        ],
+        "createdAt": "2026-11-27T03:02:03.318Z",
+        "reason": "falso positivo: o detector nao resolve calc(N * var(--u)); medido no Chromium em 1440: h1 71.68px, h2 31.36px, h3 24.64px, corpo 17.92px"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "v3/index.html"
+        ],
+        "createdAt": "2026-11-27T03:02:03.330Z",
+        "reason": "medido no Chromium: summary do FAQ com 26.88px de padding, painel Explore 35.84px, barra do card 35.84px lateral com texto centrado em 103px; os demais sao palcos de midia onde o mockup sangra pela borda por pedido do brief (.design/v3/BRIEF.md, anatomia dos banners)"
+      },
+      {
+        "rule": "nested-cards",
+        "value": "*",
+        "files": [
+          "v3/index.html"
+        ],
+        "createdAt": "2026-11-27T03:02:03.352Z",
+        "reason": "anatomia pedida no brief e medida na referencia: mockup de produto (janela, celular, cartao) dentro do banner; nao ha .card dentro de .card (conferido por seletor)"
+      },
+      {
+        "rule": "repeated-container-text",
+        "value": "*",
+        "files": [
+          "v3/index.html"
+        ],
+        "createdAt": "2026-11-27T03:02:10.334Z",
+        "reason": "mockup de assinatura: a linha do tempo mostra a mesma cobranca mensal (US$ 9) em cada recibo, que e o que o recurso faz"
+      }
+    ]
+  }
+}

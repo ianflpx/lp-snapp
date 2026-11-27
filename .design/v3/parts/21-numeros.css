@@ -1,0 +1,10 @@
+/* ───────── 21 · Faixa de números ───────── */
+/* no mobile o bloco encosta nas duas bordas da tela, como na referência */
+.numeros__block { display: grid; gap: var(--s6); margin-inline: calc(-1 * var(--gutter)); text-align: center; }
+.numeros__list { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s5) 0; }
+.numeros__list li { display: grid; align-content: start; justify-items: center; padding-inline: var(--s2); }
+.numeros__list span { text-wrap: balance; }
+@media (min-width: 800px) {
+  .numeros__block { margin-inline: 0; }
+  .numeros__list { grid-template-columns: repeat(4, 1fr); }
+}

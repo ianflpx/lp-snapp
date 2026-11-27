@@ -1,0 +1,101 @@
+/* ───────── 11 · Banner Order bump ─────────
+   Um celular centralizado que sangra por baixo. A tela é ordenada para o corte: produto, os dois order bumps
+   (com miniatura) e o botão de pagar com o total ficam acima da borda do card.
+   O `em` tem piso de 11.5px; onde a altura aperta saem a barra de URL (mobile) e as formas de pagamento. */
+.bp {
+  --bp-top: 1.2em; /* topo do celular */
+  --bp-dy: 9.2em;  /* distância do preço do bump até o botão de pagar */
+  position: absolute; inset: 0; font-size: max(11.5px, 3.6cqw); transition: translate 0.3s var(--ease);
+}
+.bp__phone { position: absolute; left: 50%; top: var(--bp-top); translate: -50% 0; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3); }
+.bp .dev-phone__url, .bp .bp__pay { display: none; }
+.bp .ck { padding: 1em 0.9em 1.3em; }
+.bp .ck__sub, .bp .ck__secure, .bp .ck__pay > * { font-size: 0.84em; }
+.bp .chip { font-size: 0.96em; }
+
+/* bump: caixa, miniatura e duas linhas (nome; preço e condição) */
+.bp .ck__bump { position: relative; grid-template-columns: auto auto 1fr; gap: 0.55em; padding: 0.7em 0.6em; }
+.bp .ck__bump > * { position: relative; z-index: 1; }
+.bp__thumb { display: grid; place-items: center; width: 2.4em; height: 2.4em; border-radius: 0.6em; background: #111113; color: var(--yellow); }
+.bp__thumb .ico { font-size: 1.25em; }
+.bp__txt { display: grid; gap: 0.15em; min-width: 0; line-height: 1.2; white-space: nowrap; }
+.bp__txt span { color: #6b6b72; font-size: 0.84em; }
+.bp__txt span b { color: #111113; font-size: 1.19em; font-variant-numeric: tabular-nums; }
+/* o bump animado fica acima dos irmãos, para o +US$ 7 que voa passar por cima do resto da tela */
+.bp .bp__bump { z-index: 2; }
+/* o estado final vem da primitiva (.is-on). Estas duas capas são o estado desmarcado, que some no toque. */
+.bp__bump::after {
+  content: ""; position: absolute; inset: -1.5px; border: 1.5px dashed var(--yellow-deep); border-radius: inherit;
+  background: #fff; opacity: 0;
+}
+.bp__bump .ck__box::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: #fff; box-shadow: inset 0 0 0 1.5px #111113; opacity: 0; }
+.bp__bump .ck__box .ico { stroke-dasharray: 23; }
+.bp .ck__bump > .bp__tap {
+  position: absolute; z-index: 2; left: -0.075em; top: 50%; width: 2.6em; height: 2.6em; margin-top: -1.3em;
+  border-radius: 50%; background: rgba(10, 10, 11, 0.18); opacity: 0;
+}
+.bp .ck__bump > .bp__fly {
+  position: absolute; z-index: 3; left: 5em; top: 1.95em; padding: 0.1em 0.5em; border-radius: 99em;
+  background: #111113; color: #fff; font-variant-numeric: tabular-nums; opacity: 0;
+}
+
+/* botão de pagar com o total, que rola de US$ 27 para US$ 34 */
+.bp__cta { display: flex; justify-content: center; gap: 0.35em; }
+.bp__sum { display: inline-grid; height: 1.35em; overflow: hidden; font-variant-numeric: tabular-nums; }
+.bp__sum i { grid-area: 1 / 1; font-style: normal; }
+.bp__old { translate: 0 -110%; }
+
+/* chip fora do celular, apoiado no canto de cima */
+.bp__float { position: absolute; z-index: 2; left: var(--s5); top: max(0.35em, calc(var(--bp-top) - 1.05em)); transform-origin: 0 50%; }
+
+@media (min-width: 800px) {
+  .bp { --bp-top: clamp(1.1em, calc(77.22cqw - 26.9em), 2em); --bp-dy: 12.1em; font-size: max(11.5px, 2.67cqw); }
+  .bp .dev-phone__url, .bp .bp__pay { display: flex; }
+}
+/* card estreito (800 a ~1000px de tela): o piso do `em` tira altura, as formas de pagamento saem para o botão caber */
+@container (max-width: 408px) {
+  .bp { --bp-dy: 9.2em; }
+  .bp .bp__pay { display: none; }
+}
+/* hover da referência: a mídia sobe 8u */
+@media (min-width: 800px) and (hover: hover) {
+  .banner:hover .bp { translate: 0 calc(-8 * var(--u)); }
+}
+
+/* coreografia (~2,8 s): toque na caixa, o bump aperta e fica marcado, o +US$ 7 voa até o botão,
+   o total rola de 27 para 34 e o chip fecha */
+.js-motion .banner.is-in .bp__tap { animation: bp-tap 0.75s var(--ease) 0.5s both; }
+.js-motion .banner.is-in .bp__bump { animation: bp-press 0.5s 0.8s both; }
+.js-motion .banner.is-in .bp__bump::after { animation: bp-off 0.25s var(--ease) 0.85s both; }
+.js-motion .banner.is-in .bp__bump .ck__box { animation: bp-box 0.5s 0.8s both; }
+.js-motion .banner.is-in .bp__bump .ck__box::after { animation: bp-off 0.15s linear 0.88s both; }
+.js-motion .banner.is-in .bp__bump .ck__box .ico { animation: bp-check 0.3s var(--ease-out) 0.95s both; }
+.js-motion .banner.is-in .bp__fly { animation: bp-fly 0.65s cubic-bezier(0.5, 0, 0.75, 0.45) 1.15s both; }
+.js-motion .banner.is-in .bp__old { animation: bp-old 0.45s var(--ease-out) 1.72s both; }
+.js-motion .banner.is-in .bp__new { animation: bp-new 0.45s var(--ease-out) 1.72s both; }
+.js-motion .banner.is-in .bp__cta { animation: bp-pulse 0.55s 1.7s both; }
+.js-motion .banner.is-in .bp__float { animation: bp-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.3s both; }
+@keyframes bp-tap { from { opacity: 0; scale: 0.5; } 30% { opacity: 1; scale: 1; } 60% { opacity: 1; scale: 0.9; } to { opacity: 0; scale: 1.35; } }
+@keyframes bp-press {
+  from { scale: 1; animation-timing-function: var(--ease); }
+  25% { scale: 0.975; animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+}
+@keyframes bp-box {
+  from { scale: 1; animation-timing-function: var(--ease); }
+  25% { scale: 0.78; animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+}
+@keyframes bp-off { from { opacity: 1; } }
+@keyframes bp-check { from { stroke-dashoffset: 23; } }
+@keyframes bp-fly {
+  from { opacity: 0; translate: 0 0; scale: 0.8; }
+  18% { opacity: 1; scale: 1; }
+  80% { opacity: 1; }
+  to { opacity: 0; translate: 3.4em var(--bp-dy); scale: 0.75; }
+}
+@keyframes bp-old { from { translate: 0 0; } }
+@keyframes bp-new { from { translate: 0 110%; } }
+@keyframes bp-pulse {
+  from { scale: 1; animation-timing-function: var(--ease-out); }
+  30% { scale: 1.035; animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1); }
+}
+@keyframes bp-pop { from { opacity: 0; scale: 0.6; } }

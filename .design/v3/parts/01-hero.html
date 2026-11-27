@@ -1,0 +1,61 @@
+<section class="hero">
+  <div class="hero__text wrap">
+    <h1 class="t-h1" data-reveal>Venda para o mundo inteiro.<br class="hero__br"> O checkout faz o trabalho.</h1>
+    <p class="t-lead hero__lead" data-reveal style="--i:1">Conecte seus gateways e publique um checkout com upsell, order bump e entrega por <span class="nw">e-mail</span>. Depois, crie ofertas e veja as vendas pelo chat da sua IA.</p>
+    <div class="btn-row" data-reveal style="--i:2">
+      <a class="btn btn--secondary" href="#ia">Ver a IA em ação</a>
+      <a class="btn" href="https://admin.snappcheckout.com/register">Começar agora</a>
+    </div>
+  </div>
+
+  <div class="hero__logos">
+    <p class="t-fine t-muted" data-reveal style="--i:3">Funciona com os seus gateways</p>
+    <ul class="hero__logos-list">
+      <li data-reveal style="--i:4"><img src="/v3/images/logos/stripe.svg" width="53" height="22" alt="Stripe" style="--h:22"></li>
+      <li data-reveal style="--i:5"><img src="/v3/images/logos/paypal.svg" width="69" height="23" alt="PayPal" style="--h:23"></li>
+      <li data-reveal style="--i:6"><img src="/v3/images/logos/mercado-pago.svg" width="110" height="27" alt="Mercado Pago" style="--h:27"></li>
+      <li data-reveal style="--i:7"><img src="/v3/images/logos/pagarme.svg" width="96" height="26" alt="Pagar.me" style="--h:26"></li>
+      <li data-reveal style="--i:8"><img src="/v3/images/logos/efi.svg" width="59" height="23" alt="Efí" style="--h:23"></li>
+      <li data-reveal style="--i:9"><img src="/v3/images/logos/dlocal-go.svg" width="102" height="22" alt="dLocal Go" style="--h:22"></li>
+    </ul>
+  </div>
+
+  <div class="hero__stage" data-anim data-reveal="up" style="--i:6">
+    <!-- o HTML é o quadro final da história; o loop (01-hero.js) recomeça dela e volta até aqui -->
+    <div class="hero-scene" data-hero role="img" aria-label="Demonstração do Snapp: um pedido no chat do Claude cria um checkout e, ao lado, o checkout no celular recebe o pagamento.">
+      <div class="chatwin hero-chat" data-chat>
+        <div class="chatwin__bar"><i></i><i></i><i></i><span class="chatwin__url"><svg class="ico"><use href="#i-lock"/></svg>claude.ai</span></div>
+        <div class="chatwin__title"><img src="/v2/images/logo-claude.svg" width="16" height="16" alt=""><b>Checkout do Planner Digital</b><span class="hero-chat__mcp"><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt="">Snapp conectado</span></div>
+        <div class="chatwin__msgs" data-chat-msgs><p class="chat-user">Cria um checkout para o Planner Digital por US$ 27, com order bump do Guia Rápido por US$ 7.</p><div class="chat-tools"><span class="chat-tools__h">Ferramentas utilizadas</span><div class="chat-tool is-done"><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt=""><code>get_payment_methods</code><span>Stripe e PayPal</span><svg class="ico"><use href="#i-check"/></svg></div><div class="chat-tool is-done"><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt=""><code>create_offer</code><span>Planner Digital · US$ 27 + order bump</span><svg class="ico"><use href="#i-check"/></svg></div></div><p class="chat-reply">Pronto. O checkout do <b>Planner Digital</b> está no ar por <b>US$ 27</b>, com o Guia Rápido como order bump.</p><div class="chat-card"><div class="chat-card__h"><span>Checkout criado</span><b>Ativo</b></div><dl><div><dt>Oferta</dt><dd>Planner Digital</dd></div><div><dt>Preço</dt><dd>US$ 27</dd></div><div><dt>Order bump</dt><dd>Guia Rápido +US$ 7</dd></div><div><dt>Pagamento</dt><dd>Stripe + PayPal</dd></div></dl><div class="chat-card__link">pay.snappcheckout.com/c/planner<span>copiar</span></div></div></div>
+        <div class="chatwin__composer"><span data-chat-field>Responder ao Claude…</span><span class="chatwin__send"><svg class="ico"><use href="#i-arrow-up"/></svg></span></div>
+      </div>
+
+      <!-- conector do link do chat até a barra de endereço do celular. Unidade = 0,1% da largura do palco;
+           um traçado por composição: retrato (m), desktop compacto (c) e desktop cheio (f) -->
+      <svg class="hero-wire" viewBox="0 0 1000 562.5" preserveAspectRatio="xMinYMin meet" aria-hidden="true" focusable="false">
+        <g class="hero-wire__m"><path d="M900 462C900 500 880 513 830 513"/><path d="M900 462C900 500 880 513 830 513" pathLength="1"/><path d="M900 462C900 500 880 513 830 513" pathLength="1"/><circle cx="900" cy="462" r="9"/><circle cx="830" cy="513" r="9"/></g>
+        <g class="hero-wire__c"><path d="M514 435C545 435 530 65 561 65"/><path d="M514 435C545 435 530 65 561 65" pathLength="1"/><path d="M514 435C545 435 530 65 561 65" pathLength="1"/><circle cx="514" cy="435" r="5"/><circle cx="561" cy="65" r="5"/></g>
+        <g class="hero-wire__f"><path d="M555 469C603 469 593 97 641 97"/><path d="M555 469C603 469 593 97 641 97" pathLength="1"/><path d="M555 469C603 469 593 97 641 97" pathLength="1"/><circle cx="555" cy="469" r="4"/><circle cx="641" cy="97" r="4"/></g>
+      </svg>
+
+      <div class="dev-phone mk hero-phone">
+        <div class="dev-phone__screen">
+          <div class="dev-phone__url" style="--k:0"><svg class="ico"><use href="#i-lock"/></svg>pay.snappcheckout.com/c/planner</div>
+          <div class="ck">
+            <p class="ck__secure" style="--k:1"><svg class="ico"><use href="#i-lock"/></svg>Pagamento seguro</p>
+            <div class="ck__product" style="--k:2"><span class="ck__thumb"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><span class="ck__name">Planner Digital</span><br><span class="ck__sub">Pagamento único</span></span><span class="ck__price">US$ 27</span></div>
+            <div class="ck__field hero-phone__email" style="--k:3"><span>E-mail</span><span class="ck__input"><svg class="ico"><use href="#i-mail"/></svg><span data-hero-email>ana@email.com</span></span></div>
+            <div class="ck__pay" style="--k:4"><span class="is-on">Cartão</span><span><img src="/v2/images/pay/tile-applepay.svg" width="100" height="100" alt=""></span><span><img src="/v2/images/pay/tile-googlepay.svg" width="100" height="100" alt=""></span><span><img class="hero-phone__pp" src="/v3/images/logos/paypal.svg" width="69" height="23" alt=""></span></div>
+            <div class="ck__field hero-phone__card" style="--k:5"><span>Número do cartão</span><span class="ck__input"><svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg><span data-hero-card>•••• •••• •••• 4242</span><svg class="ico"><use href="#i-lock"/></svg></span></div>
+            <div class="ck__bump is-on" data-hero-bump style="--k:6"><span class="ck__box"><svg class="ico"><use href="#i-check"/></svg></span><span><span class="ck__name">Sim, quero o Guia Rápido</span><br><span class="ck__sub">Oferta só nesta página</span></span><span class="ck__price">+US$ 7</span></div>
+            <div class="ck__total" style="--k:7"><span>Total</span><span class="hero-total is-up" data-hero-total>US$ <span><i>2</i><i>3</i></span><span><i>7</i><i>4</i></span></span></div>
+            <span class="ck__cta is-ok" data-hero-cta style="--k:8"><span>Pagar agora</span><span><i class="hero-spin"></i>Processando</span><span><svg class="ico"><use href="#i-check"/></svg>Pagamento aprovado</span></span>
+          </div>
+        </div>
+      </div>
+
+      <span class="chip chip--dark hero-chip"><span class="dot"></span>Venda aprovada · US$ 34</span>
+    </div>
+    <button class="pause" type="button" hidden><svg class="ico"><use href="#i-pause"/></svg><svg class="ico"><use href="#i-play"/></svg></button>
+  </div>
+</section>

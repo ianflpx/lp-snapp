@@ -1,0 +1,100 @@
+/* ───────── 14 · Banner Assinaturas ─────────
+   Cartão do plano (pele clara) e, saindo dele, a linha do tempo das cobranças: três cobradas (recibo com data,
+   valor, cartão e status), a próxima marcada em amarelo e as seguintes esmaecendo. A linha sangra pela direita
+   e os recibos passam da borda de baixo do card. O `em` tem piso de 11.5px. */
+.sb {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: stretch;
+  padding: 1em var(--s5) 0; font-size: max(11.5px, 3.6cqw);
+}
+.sb__plan { flex: none; display: grid; gap: 0.85em; padding: 1.1em; border-radius: 1.1em; background: #fff; }
+.sb__top { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.75em; }
+.sb__name { display: grid; justify-items: start; gap: 0.25em; line-height: 1.2; }
+.sb__status { display: inline-flex; align-items: center; gap: 0.4em; padding: 0.15em 0.6em; border-radius: 99em; background: #efefec; font-size: 0.84em; font-weight: 500; }
+.sb__status i { width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--ok); }
+.sb__price { color: #6b6b72; font-size: 0.84em; white-space: nowrap; }
+.sb__price b { color: #111113; font-size: 1.8em; font-variant-numeric: tabular-nums; }
+/* seletor de ciclo: a pílula amarela desliza até "Mensal" */
+.sb__seg { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); padding: 0.25em; border-radius: 0.8em; background: #efefec; font-size: 0.96em; }
+.sb__seg i { position: absolute; inset: 0.25em auto 0.25em 0.25em; width: calc(25% - 0.125em); border-radius: 0.6em; background: var(--yellow); translate: 200% 0; }
+.sb__seg span { position: relative; display: grid; place-items: center; height: 2.3em; color: #55555c; }
+.sb__seg .is-on { color: #0a0a0b; font-weight: 600; }
+/* próxima cobrança e total recebido: só onde há altura (desktop) */
+.sb__stats { display: none; justify-content: space-between; gap: 1em; color: #6b6b72; font-size: 0.84em; white-space: nowrap; }
+.sb__stats span { display: flex; align-items: center; gap: 0.45em; }
+.sb__stats b { color: #111113; font-size: 1.14em; font-variant-numeric: tabular-nums; }
+.sb__roll { height: 1.3em; overflow: hidden; line-height: 1.3; text-align: right; }
+.sb__roll i { display: block; font-style: normal; translate: 0 -300%; }
+.sb__foot { display: flex; align-items: center; gap: 0.45em; color: #6b6b72; font-size: 0.9em; white-space: nowrap; }
+.sb__foot .ico { stroke-width: 2; }
+
+/* linha do tempo: cada cobrança é um ponto no trilho e um recibo pendurado nele */
+.sb__line { --sb-w: 6.2em; --sb-gap: 0.5em; --sb-rail: rgba(255, 255, 255, 0.3); position: relative; flex: none; display: flex; gap: var(--sb-gap); margin-top: 1.1em; }
+.sb__line::before { content: ""; position: absolute; left: calc(0.75em - 1px); top: -1.1em; height: 1.85em; border-left: 2px solid var(--sb-rail); transform-origin: 50% 0; }
+.sb__pay { position: relative; flex: none; display: grid; justify-items: start; gap: 0.6em; width: var(--sb-w); }
+.sb__pay::before {
+  content: ""; position: absolute; left: 1.5em; top: calc(0.75em - 1px); width: calc(100% + var(--sb-gap) - 1.5em);
+  border-top: 2px solid var(--sb-rail); transform-origin: 0 50%;
+}
+.sb__pay:nth-child(n + 3)::before { border-top-style: dashed; }
+.sb__dot {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 1.5em; height: 1.5em;
+  border-radius: 50%; border: 1.5px dashed rgba(255, 255, 255, 0.5); background: var(--b-bg);
+}
+.is-done .sb__dot { border: 0; background: var(--ok); color: #0a0a0b; }
+.sb__dot .ico { font-size: 0.9em; stroke-width: 3; stroke-dasharray: 23; }
+/* a próxima cobrança: etiqueta amarela no trilho e recibo com contorno amarelo */
+.is-next .sb__dot { width: auto; height: 1.5em; padding: 0 0.65em; border: 0; border-radius: 99em; background: var(--yellow); color: #0a0a0b; font-size: 1em; line-height: 1; }
+.sb__tk {
+  display: grid; align-content: start; gap: 0.15em; width: 100%; height: 14em; padding: 0.7em;
+  border: 1.5px dashed rgba(255, 255, 255, 0.35); border-radius: 0.8em; color: var(--b-fg); line-height: 1.25; white-space: nowrap;
+}
+.sb__tk b { font-size: 1.05em; }
+.sb__tk span { font-size: 0.96em; font-variant-numeric: tabular-nums; }
+.sb__tk .sb__card { color: var(--b-muted); font-size: 0.88em; }
+.sb__tk .sb__st { font-weight: 500; }
+.is-next .sb__tk { border-color: var(--yellow); }
+.is-done .sb__tk { border-color: transparent; background: #fff; color: #111113; }
+.is-done .sb__tk .sb__card { color: #6b6b72; }
+/* resto do recibo, cortado pela borda de baixo */
+.sb__tk i { height: 0.45em; border-radius: 99em; background: #e7e7e4; }
+.sb__tk i:first-of-type { height: 0; margin: 0.55em 0 0.35em; border-top: 1px dashed #dcdcd6; border-radius: 0; background: none; }
+.sb__tk i:last-of-type { width: 70%; }
+/* as cobranças futuras não esmaecem (o texto perdia contraste): saem cortadas pela borda do card */
+
+@media (min-width: 800px) {
+  .sb { padding-top: 1.2em; font-size: max(11.5px, 2.85cqw); }
+  .sb__plan { align-self: flex-start; width: 24em; }
+  .sb__stats { display: flex; }
+  .sb__line { --sb-w: 6.9em; --sb-gap: 0.7em; }
+}
+
+/* coreografia (~3,4 s): o ciclo assenta em "Mensal", o trilho sai do cartão e cada cobrança marca o check,
+   solta o recibo e soma no total; por fim a próxima fica marcada */
+.sb__pay:nth-child(2) { --sb-n: 1; }
+.sb__pay:nth-child(3) { --sb-n: 2; }
+.sb__pay:nth-child(4) { --sb-n: 3; }
+.sb__pay:nth-child(5) { --sb-n: 4; }
+.sb__pay:nth-child(6) { --sb-n: 5; }
+.js-motion .banner.is-in .sb__seg i { animation: sb-seg 0.65s cubic-bezier(0.34, 1.3, 0.64, 1) 0.3s both; }
+.js-motion .banner.is-in .sb__line::before { animation: sb-stub 0.25s var(--ease) 0.8s both; }
+.js-motion .banner.is-in .is-done .sb__dot { animation: sb-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(1s + var(--sb-n, 0) * 0.5s) both; }
+.js-motion .banner.is-in .is-done .sb__dot .ico { animation: sb-check 0.3s var(--ease-out) calc(1.15s + var(--sb-n, 0) * 0.5s) both; }
+.js-motion .banner.is-in .is-done .sb__tk { animation: sb-drop 0.5s var(--ease-out) calc(1.08s + var(--sb-n, 0) * 0.5s) both; }
+.js-motion .banner.is-in .is-done::before { animation: sb-rail 0.3s var(--ease) calc(1.2s + var(--sb-n, 0) * 0.5s) both; }
+.js-motion .banner.is-in .sb__roll i { animation: sb-roll 1.5s 1.1s both; }
+.js-motion .banner.is-in .sb__pay:not(.is-done) { animation: sb-fade 0.5s var(--ease-out) calc(1.25s + var(--sb-n) * 0.4s) both; }
+.js-motion .banner.is-in .is-next .sb__dot { animation: sb-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.55s both; }
+@keyframes sb-seg { from { translate: 0 0; } }
+@keyframes sb-stub { from { scale: 1 0; } }
+@keyframes sb-rail { from { scale: 0 1; } }
+@keyframes sb-pop { from { opacity: 0; scale: 0.4; } }
+@keyframes sb-check { from { stroke-dashoffset: 23; } }
+@keyframes sb-drop { from { opacity: 0; translate: 0 -0.6em; } }
+@keyframes sb-fade { from { opacity: 0; } }
+/* o total recebido rola de US$ 0 a US$ 27, um passo por cobrança */
+@keyframes sb-roll {
+  from, 3% { translate: 0 0; animation-timing-function: var(--ease-out); }
+  16%, 36% { translate: 0 -100%; animation-timing-function: var(--ease-out); }
+  50%, 70% { translate: 0 -200%; animation-timing-function: var(--ease-out); }
+  83% { translate: 0 -300%; }
+}

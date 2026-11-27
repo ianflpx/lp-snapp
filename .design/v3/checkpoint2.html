@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Paleta só de amarelo · Snapp v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/.design/v3/base/style.css">
+<style>
+  body { padding-block: var(--s9); }
+  .sw { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--s4); }
+  .sw > div { border-radius: var(--r-md); padding: var(--s5); min-height: 170px; display: grid; align-content: space-between; gap: var(--s4); }
+  .sw b { font: 800 var(--fs-label)/1 var(--font); text-transform: uppercase; }
+  .sw code { font: 400 12px/1.5 var(--mono); }
+  .demo { display: grid; gap: var(--s4); grid-template-columns: 1fr 1fr; }
+  .demo .banner { padding-bottom: var(--s9); }
+  .demo .full { grid-column: 1 / -1; }
+  .y-vivo { --b-bg: #fed217; --b-fg: #0a0a0b; --b-label: #5d4e0f; --b-go-bg: #0a0a0b; --b-go-fg: #fed217; }
+  .y-claro { --b-bg: #ffe770; --b-fg: #0a0a0b; --b-label: #5d552d; --b-go-bg: #0a0a0b; --b-go-fg: #ffe770; }
+  .y-fundo { --b-bg: #ebc000; --b-fg: #0a0a0b; --b-label: #564807; --b-go-bg: #0a0a0b; --b-go-fg: #ebc000; }
+  .cinza { --b-bg: #ececef; --b-fg: #0a0a0b; --b-label: #575759; --b-go-bg: #0a0a0b; --b-go-fg: #ececef; }
+  .branco { --b-bg: #ffffff; --b-fg: #0a0a0b; --b-label: #5d5d5e; --b-go-bg: #0a0a0b; --b-go-fg: #ffffff; }
+  .grafite { box-shadow: inset 0 0 0 1px var(--line); }
+  h2 { margin: var(--s9) 0 var(--s6); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="t-mono t-muted">Ajustes finos · paleta</p>
+  <h1 class="t-h1" style="margin-top:var(--s4)">Só o amarelo do Snapp</h1>
+  <p class="t-lead" style="margin-top:var(--s4);max-width:70ch">Sai o laranja, o âmbar e o creme. Ficam o amarelo vivo da marca, um tom mais claro e um mais fundo no mesmo matiz (49°), mais grafite e um neutro claro. Todos com texto preto acima de 11:1.</p>
+
+  <div class="sw section">
+    <div style="background:#ffe770;color:#0a0a0b"><b style="color:#5d552d">Amarelo claro</b><code>#ffe770<br>texto #0a0a0b · 15,9:1<br>rótulo · 6,0:1</code></div>
+    <div style="background:#fed217;color:#0a0a0b"><b style="color:#5d4e0f">Amarelo vivo</b><code>#fed217 · a marca<br>texto #0a0a0b · 13,6:1<br>rótulo · 5,6:1</code></div>
+    <div style="background:#ebc000;color:#0a0a0b"><b style="color:#564807">Amarelo fundo</b><code>#ebc000<br>texto #0a0a0b · 11,4:1<br>rótulo · 5,2:1</code></div>
+    <div style="background:#ececef;color:#0a0a0b"><b style="color:#575759">Cinza claro</b><code>#ececef<br>texto #0a0a0b · 16,8:1<br>rótulo · 6,1:1</code></div>
+    <div style="background:#ffffff;color:#0a0a0b"><b style="color:#5d5d5e">Branco</b><code>#ffffff<br>texto #0a0a0b · 19,8:1<br>rótulo · 6,6:1</code></div>
+    <div style="background:#1c1c1f;color:#f5f5f5;box-shadow:inset 0 0 0 1px var(--line)"><b style="color:#fed217">Grafite</b><code>#1c1c1f<br>texto #f5f5f5 · 15,6:1<br>rótulo #fed217 · 11,7:1</code></div>
+  </div>
+
+  <h2 class="t-h2">Opção A · três amarelos + cinza claro + grafite</h2>
+  <div class="demo">
+    <article class="banner full y-vivo"><div class="banner__head"><h3 class="banner__label">Banner inteiro</h3></div><p class="banner__text">Amarelo vivo no banner que abre o bento.</p></article>
+    <article class="banner grafite"><div class="banner__head"><h3 class="banner__label">Meio</h3></div><p class="banner__text">Grafite com rótulo amarelo.</p></article>
+    <article class="banner grafite"><div class="banner__head"><h3 class="banner__label">Meio</h3></div><p class="banner__text">Grafite com rótulo amarelo.</p></article>
+    <article class="banner full cinza"><div class="banner__head"><h3 class="banner__label">Banner inteiro</h3></div><p class="banner__text">Cinza claro: o respiro neutro no meio da página.</p></article>
+    <article class="banner y-claro"><div class="banner__head"><h3 class="banner__label">Meio</h3></div><p class="banner__text">Amarelo claro.</p></article>
+    <article class="banner y-claro"><div class="banner__head"><h3 class="banner__label">Meio</h3></div><p class="banner__text">Amarelo claro.</p></article>
+    <article class="banner full y-fundo"><div class="banner__head"><h3 class="banner__label">Banner inteiro</h3></div><p class="banner__text">Amarelo fundo no fechamento.</p></article>
+  </div>
+
+  <h2 class="t-h2">Opção B · igual, com branco no lugar do cinza</h2>
+  <div class="demo">
+    <article class="banner full branco"><div class="banner__head"><h3 class="banner__label">Banner inteiro</h3></div><p class="banner__text">Branco puro sobre a página preta: contraste máximo, mais duro.</p></article>
+  </div>
+
+  <h2 class="t-h2">Opção C · um amarelo só + grafite + cinza claro</h2>
+  <div class="demo">
+    <article class="banner full y-vivo"><div class="banner__head"><h3 class="banner__label">Banner inteiro</h3></div><p class="banner__text">Só o amarelo vivo, sem variações.</p></article>
+    <article class="banner grafite"><div class="banner__head"><h3 class="banner__label">Meio</h3></div><p class="banner__text">Grafite.</p></article>
+    <article class="banner grafite"><div class="banner__head"><h3 class="banner__label">Meio</h3></div><p class="banner__text">Grafite.</p></article>
+    <article class="banner full cinza"><div class="banner__head"><h3 class="banner__label">Banner inteiro</h3></div><p class="banner__text">Cinza claro.</p></article>
+  </div>
+</div>
+</body>
+</html>

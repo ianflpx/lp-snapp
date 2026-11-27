@@ -1,0 +1,39 @@
+/* ───────── 26 · CTA final ─────────
+   Amarelo de ponta a ponta, raio só em cima; a margem negativa faz o rodapé (z-index 1) subir por cima.
+   No lugar do botão solto da referência, o link do checkout sendo digitado, com o botão dentro do campo. */
+.cta {
+  display: grid; justify-items: center; gap: var(--s6);
+  padding: var(--s7) var(--gutter) calc(var(--s10) + var(--s6));
+  margin-bottom: calc(-1 * var(--s6));
+  border-radius: var(--r-md) var(--r-md) 0 0;
+  text-align: center;
+}
+.cta .t-cta { margin-block: var(--s2); }
+
+.cta__field {
+  display: grid; gap: var(--s3); width: min(100%, 420px); padding: var(--s3);
+  border-radius: var(--r-mdu); background: #0a0a0b; color: #f5f5f5; --focus: var(--yellow);
+}
+.cta__url {
+  display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding-inline: var(--s3);
+  font: 400 13px / 1 var(--mono); white-space: nowrap;
+}
+.cta__url .ico { margin-right: 0.6em; color: #8b8b92; font-size: 1.2em; stroke-width: 2; }
+.cta__host { color: #a9a9b0; }
+/* largura reservada para o slug mais longo: o campo não muda de tamanho enquanto digita */
+.cta__slug { display: inline-block; min-width: 11ch; color: var(--yellow); font-weight: 500; text-align: left; }
+.cta__caret { width: 2px; height: 1.25em; margin-left: 2px; background: var(--yellow); opacity: 0; }
+.cta__field.is-typing .cta__caret { opacity: 1; animation: cta-blink 0.7s steps(1) infinite; }
+@keyframes cta-blink { 50% { opacity: 0; } }
+.cta__btn { width: 100%; }
+.cta__note { color: var(--muted); }
+
+@media (min-width: 800px) {
+  .cta { padding: var(--s7) var(--s6) calc(var(--s10) + var(--s6)); }
+  .cta__field {
+    grid-template-columns: 1fr auto; align-items: center; width: auto; min-width: calc(600 * var(--u));
+    padding: var(--s3) var(--s3) var(--s3) var(--s6); border-radius: var(--r-lg);
+  }
+  .cta__url { justify-content: flex-start; padding: 0; font-size: calc(19 * var(--u)); }
+  .cta__btn { width: auto; }
+}

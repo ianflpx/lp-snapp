@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>preview de partes · v3</title>
+<script>
+// Monta /v3/index.html com as partes pedidas, para cada builder ver a própria seção com nav, rodapé e sistema reais.
+// Uso: /.design/v3/preview.html?p=01-hero   ou   ?p=10-banner-upsell,11-banner-bump
+// Partes cujo nome contém "banner" entram dentro da seção do bento (#recursos), como na página final.
+(async () => {
+  const names = (new URLSearchParams(location.search).get("p") || "").split(",").filter(Boolean);
+  const text = (u) => fetch(u, { cache: "no-store" }).then((r) => (r.ok ? r.text() : ""));
+  const [shell, ...parts] = await Promise.all([text("/.design/v3/base/index.html"), ...names.map((n) => text(`/.design/v3/parts/${n}.html`))]);
+  let out = "", bento = "";
+  names.forEach((n, i) => { if (/banner/.test(n)) bento += parts[i] + "\n"; else out += parts[i] + "\n"; });
+  if (bento) out += `<section class="section wrap" id="recursos"><div class="bento">\n${bento}</div></section>\n`;
+  const v = Date.now();
+  const html = shell.replace("/v3/style.css", "/.design/v3/base/style.css").replace("/v3/app.js", "/.design/v3/base/app.js")
+    .replace("<!-- PARTS -->", () => out) // função: string interpretaria "$&" de "R$&nbsp;0"
+    .replace("</head>", () => names.map((n) => `<link rel="stylesheet" href="/.design/v3/parts/${n}.css?${v}">`).join("") + "</head>")
+    .replace("</body>", () => names.map((n) => `<script src="/.design/v3/parts/${n}.js?${v}" defer><\/script>`).join("") + "</body>");
+  document.open(); document.write(html); document.close();
+})();
+</script>

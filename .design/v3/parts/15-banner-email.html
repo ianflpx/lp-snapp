@@ -1,0 +1,68 @@
+<article class="banner banner--graphite" data-reveal="up" style="--i:4">
+  <div class="banner__head">
+    <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-mail"/></svg></span>Entrega por e-mail</h3>
+    <a class="banner__go sq" href="/checkout-para-infoprodutos#entrega-e-pos-venda" aria-label="Conhecer a entrega por e-mail"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+  </div>
+  <p class="banner__text">O <span class="nw">e-mail</span> de confirmação leva o arquivo ou o link do produto. Carrinho parado recebe até dois lembretes.</p>
+  <div class="banner__media">
+    <div class="email" data-email>
+      <div class="email__tabs" role="tablist" aria-label="E-mails que o Snapp envia">
+        <button class="email__tab" type="button" role="tab" id="email-aba-entrega" aria-controls="email-painel-entrega" aria-selected="true">Entrega</button>
+        <button class="email__tab" type="button" role="tab" id="email-aba-recuperacao" aria-controls="email-painel-recuperacao" aria-selected="false" tabindex="-1">Recuperação</button>
+        <button class="email__tab" type="button" role="tab" id="email-aba-recusada" aria-controls="email-painel-recusada" aria-selected="false" tabindex="-1">Venda recusada</button>
+      </div>
+
+      <div class="email__views">
+        <div class="email__panel email__panel--play" role="tabpanel" id="email-painel-entrega" aria-labelledby="email-aba-entrega">
+          <ol class="email__flow">
+            <li class="email__node" style="--n:0"><span class="email__badge"><svg class="ico"><use href="#i-check"/></svg></span><span class="email__txt"><b>Venda aprovada</b><span>Planner Digital · US$ 27</span></span></li>
+            <li class="email__node" style="--n:1"><i class="email__link"></i><span class="email__badge"><svg class="ico"><use href="#i-mail"/></svg></span><span class="email__txt"><b><span class="nw">E-mail</span> de confirmação</b><span>Com o arquivo ou o link</span></span></li>
+            <li class="email__node" style="--n:2"><i class="email__link"></i><span class="email__badge"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 7.6-1.7"/></svg></span><span class="email__txt"><b>Acesso liberado</b><span>planner-digital.pdf</span></span></li>
+          </ol>
+          <div class="email__card mk">
+            <p class="email__bar"><svg class="ico"><use href="#i-arrow-left"/></svg>Entrada<span><svg class="ico" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v3"/></svg><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></span></p>
+            <p class="email__subject">Seu acesso chegou</p>
+            <p class="email__from"><span class="email__avatar">S</span><span class="email__who"><b>Sua loja</b><span>para ana@email.com</span></span><time>10:42</time></p>
+            <p class="email__body">Olá, Ana. O Planner Digital já está liberado.</p>
+            <span class="ck__cta">Acessar conteúdo</span>
+            <span class="email__file"><span class="email__ext">PDF</span><span><b>planner-digital.pdf</b><span>2,4 MB</span></span></span>
+            <span class="email__sk" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+        </div>
+
+        <div class="email__panel" role="tabpanel" id="email-painel-recuperacao" aria-labelledby="email-aba-recuperacao" hidden>
+          <ol class="email__flow">
+            <li class="email__node"><span class="email__badge"><svg class="ico" viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg></span><span class="email__txt"><b>Checkout abandonado</b><span>Planner Digital · US$ 27</span></span></li>
+            <li class="email__node"><i class="email__link"></i><span class="email__badge"><svg class="ico"><use href="#i-mail"/></svg></span><span class="email__txt"><b>Lembrete 1</b><span>Por <span class="nw">e-mail</span></span></span></li>
+            <li class="email__node"><i class="email__link"></i><span class="email__badge"><svg class="ico"><use href="#i-mail"/></svg></span><span class="email__txt"><b>Lembrete 2</b><span>Por <span class="nw">e-mail</span></span></span></li>
+          </ol>
+          <div class="email__card mk">
+            <p class="email__bar"><svg class="ico"><use href="#i-arrow-left"/></svg>Entrada<span><svg class="ico" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v3"/></svg><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></span></p>
+            <p class="email__subject">Ficou faltando pouco</p>
+            <p class="email__from"><span class="email__avatar">S</span><span class="email__who"><b>Sua loja</b><span>para ana@email.com</span></span><time>16:05</time></p>
+            <p class="email__body">Olá, Ana. O Planner Digital ainda está no seu carrinho.</p>
+            <span class="ck__cta">Finalizar compra</span>
+            <span class="email__item"><span class="ck__thumb"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><b>Planner Digital</b><span>Pagamento único</span></span><b>US$ 27</b></span>
+            <span class="email__sk" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+        </div>
+
+        <div class="email__panel" role="tabpanel" id="email-painel-recusada" aria-labelledby="email-aba-recusada" hidden>
+          <ol class="email__flow">
+            <li class="email__node"><span class="email__badge"><svg class="ico"><use href="#i-x"/></svg></span><span class="email__txt"><b>Venda recusada</b><span>Planner Digital · US$ 27</span></span></li>
+            <li class="email__node"><i class="email__link"></i><span class="email__badge"><svg class="ico"><use href="#i-mail"/></svg></span><span class="email__txt"><b><span class="nw">E-mail</span> para tentar de novo</b><span>Para a compradora</span></span></li>
+          </ol>
+          <div class="email__card mk">
+            <p class="email__bar"><svg class="ico"><use href="#i-arrow-left"/></svg>Entrada<span><svg class="ico" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v3"/></svg><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></span></p>
+            <p class="email__subject">Pagamento não aprovado</p>
+            <p class="email__from"><span class="email__avatar">S</span><span class="email__who"><b>Sua loja</b><span>para ana@email.com</span></span><time>09:18</time></p>
+            <p class="email__body">Olá, Ana. O pagamento do Planner Digital não foi aprovado. Você pode tentar de novo.</p>
+            <span class="ck__cta">Tentar de novo</span>
+            <span class="email__item"><span class="ck__thumb"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><b>Planner Digital</b><span>Pagamento único</span></span><b>US$ 27</b></span>
+            <span class="email__sk" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

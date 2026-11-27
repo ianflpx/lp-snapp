@@ -1,0 +1,420 @@
+/* ───────── 24 · Explore mais (painel quase full-bleed com carrossel) ─────────
+   Carrossel nativo: rolagem horizontal com scroll-snap, um card da largura do container por vez
+   e o vizinho aparecendo até a borda do painel. O JS só cuida das setas. */
+.explore { padding-inline: 0; } /* mobile: painel de borda a borda */
+/* --gut: a margem do container dentro do painel. Perto de 800px o container quase encosta no painel,
+   então ela nunca fica abaixo de 24 de design (e o card encolhe o que faltar). */
+.explore__panel {
+  --gut: max(var(--s5), var(--gutter));
+  position: relative; display: grid; grid-template-columns: var(--gut) 1fr auto var(--gut);
+  row-gap: var(--s5);
+}
+/* o contorno do painel passa por cima dos cards que sangram até a borda */
+.explore__panel::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--line); pointer-events: none;
+}
+.explore__title { grid-column: 2 / 4; }
+.explore__nav { --n: 1; grid-area: 3 / 3; justify-self: end; display: flex; gap: 10px; }
+.explore__nav .sq { position: relative; transition: background-color 0.15s var(--ease); }
+.explore__nav .sq::after { content: ""; position: absolute; inset: -5px; } /* alvo de toque de 40px ou mais */
+.explore__nav .sq:not(:disabled):hover { background: rgba(255, 255, 255, 0.08); }
+
+.explore__scroller {
+  grid-area: 2 / 1 / auto / -1; min-width: 0;
+  /* folga vertical para o anel de foco dos cards não ser cortado pela rolagem */
+  padding-block: 6px; margin-block: -6px;
+  overflow: auto hidden; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scroll-padding-inline: var(--gut);
+  scrollbar-width: none; container-type: inline-size;
+}
+.explore__scroller::-webkit-scrollbar { display: none; }
+.explore__scroller:focus-visible { outline-offset: -2px; }
+.explore__list { display: flex; gap: var(--s3); width: max-content; padding-inline: var(--gut); }
+.explore__item { --n: 2; flex: none; width: calc((100cqw - 2 * var(--gutter)) * 0.85); scroll-snap-align: start; }
+.explore__item:nth-child(n + 2) { --n: 3; }
+
+/* entrada: o painel sobe (data-reveal="up" da base) e, dentro dele, título, setas e cards chegam em sequência.
+   O estado base é o quadro final; a animação só existe com .js-motion e parte de um `from`. */
+.js-motion .explore__panel.is-in :is(.explore__title, .explore__nav, .explore__item) {
+  animation: explore-in 0.9s var(--ease-out) backwards; animation-delay: calc(200ms + var(--n, 0) * 90ms);
+}
+@keyframes explore-in { from { opacity: 0; transform: translateY(var(--s6)); filter: blur(6px); } }
+
+.explore-card {
+  display: flex; flex-direction: column; height: 100%;
+  border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; isolation: isolate;
+  background: var(--surface-hi);
+}
+.explore-card__bar { flex: 1; display: flex; flex-direction: column; padding: 16px 16px 0; border-top: 1px solid var(--line); }
+.explore-card__text { display: grid; gap: 10px; }
+.explore-card__eyebrow { color: var(--muted); }
+.explore-card__more {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: auto;
+  font: 500 var(--fs-small) / var(--lh-small) var(--font); white-space: nowrap;
+}
+.explore-card__more .ico { font-size: 16px; }
+
+@media (min-width: 800px) {
+  .explore { padding-inline: var(--s6); }
+  .explore__title { grid-column: 2; align-self: center; }
+  .explore__nav { grid-area: 1 / 3; }
+  .explore__item { width: min(var(--wrap), 100cqw - 2 * var(--s5)); }
+  .explore-card__bar {
+    flex-direction: row; align-items: center; justify-content: space-between; gap: var(--s10);
+    min-height: calc(92 * var(--u)); padding: 0 var(--s6);
+  }
+  .explore-card__text { gap: var(--s2); }
+  .explore-card__more { gap: var(--s2); min-height: 0; margin-top: 0; }
+  .explore-card__more .ico { font-size: var(--s4); opacity: 0; transform: translateX(-50%); transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
+  .explore-card:hover .explore-card__more .ico, .explore-card:focus-visible .explore-card__more .ico { opacity: 1; transform: none; }
+}
+@media (hover: hover) and (min-width: 800px) {
+  .explore-card__title { color: var(--muted); transition: color 0.3s var(--ease); }
+  .explore-card:hover .explore-card__title, .explore-card:focus-visible .explore-card__title { color: var(--ink); }
+}
+
+/* ── Capas: campo de cor da família + recorte de produto em `em`.
+   Desktop (1008:308): arte em 1.55cqw, composição inteira, com as camadas de apoio.
+   Mobile (328:202): arte em 4cqw, o mesmo markup aproximado na peça principal; o que é `.xc-wide` some,
+   para o texto que conta a história ficar por volta de 11px. ── */
+.xc {
+  --x-bg: var(--surface-hi); --x-dash: rgba(255, 255, 255, 0.5);
+  position: relative; aspect-ratio: 328 / 202; overflow: hidden; container-type: inline-size; background: var(--x-bg);
+}
+.xc--yellow, .xc--yellow-light, .xc--yellow-deep, .xc--gray { --x-dash: rgba(10, 10, 11, 0.6); }
+.xc--yellow { --x-bg: var(--yellow); }
+.xc--yellow-light { --x-bg: var(--yellow-light); }
+.xc--yellow-deep { --x-bg: var(--yellow-deep); }
+.xc--gray { --x-bg: var(--gray); }
+.xc .xc__art { position: absolute; inset: 0; overflow: hidden; background: var(--x-bg); font-size: 4cqw; transition: transform 0.5s var(--ease); }
+.xc .chip { font-size: 1em; }
+.xc .ck__cta, .xc-press { position: relative; }
+@media not all and (min-width: 800px) { .xc-wide { display: none !important; } }
+
+/* peças comuns */
+.xc-sheet { border-radius: 1.2em; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.1); }
+/* painel claro do checkout que entra pela base da capa */
+.xc-panel {
+  position: absolute; left: 50%; top: 1.4em; width: 22.6em; min-height: 100%; margin-left: -11.3em;
+  padding: 1.2em; align-content: start;
+  border-radius: 1.3em 1.3em 0 0; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.1);
+}
+.xc-dot { flex: none; width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--ok); }
+.xc-status { position: absolute; z-index: 2; right: 0.6em; top: 0.6em; }
+.xc-status .ico { color: var(--yellow); stroke-width: 2.5; }
+/* marcas de terceiros: só no logo de cada uma */
+.xc .xc-visa {
+  flex: none; display: grid; place-items: center; width: 3.5em; height: 2.2em; border-radius: 0.45em;
+  border: 1px solid #dcdcd6; background: #fff; color: #1a1f71; font: italic 800 0.72em / 1 var(--font);
+}
+.xc-pp { width: auto; height: 1.5em; }
+.xc-tile { display: grid; place-items: center; width: 2.7em; height: 1.85em; border: 1px solid #dcdcd6; border-radius: 0.45em; overflow: hidden; color: #55555c; }
+.xc-tile img { width: 1.7em; height: 1.7em; }
+.xc-tile .xc-pp { width: auto; height: 1.1em; }
+.xc-tile .ico { font-size: 1.15em; }
+/* estado que aparece no hover do card, por cima do botão (Copiado, Pago, Adicionado) */
+.xc-done {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.4em;
+  border-radius: inherit; background: #111113; color: #fff; opacity: 0; transition: opacity 0.2s var(--ease);
+}
+.xc .xc-done .ico { color: var(--yellow); font-size: 1.1em; stroke-width: 2.5; transform: scale(0.3); transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@media (min-width: 800px) {
+  .xc { aspect-ratio: 1008 / 308; }
+  .xc .xc__art { font-size: 1.55cqw; }
+  .xc-panel { top: 1.9em; width: 28em; margin-left: -14em; padding: 1.5em; }
+}
+
+/* hover do card: a capa cresce 5% (referência) e um detalhe da peça responde, uma vez */
+@keyframes xc-press { 45% { transform: scale(0.96); } }
+@keyframes xc-pop { from { transform: scale(0.2); } }
+@keyframes xc-ping { from { opacity: 0.5; } to { opacity: 0; transform: scale(4.5); } }
+.explore-card:focus-visible .xc__art { transform: scale(1.05); }
+@media (hover: hover) {
+  .explore-card:hover .xc__art { transform: scale(1.05); }
+  .explore-card:hover .xc-press { animation: xc-press 0.45s var(--ease); }
+  .explore-card:hover .xc-done { opacity: 1; transition-delay: 0.16s; }
+  .explore-card:hover .xc-done .ico { transform: none; transition-delay: 0.2s; }
+  .explore-card:hover .xc-fan { --open: 1; }
+  .explore-card:hover .xc-paypal__opt.is-on i::after,
+  .explore-card:hover .xc-bump__box.is-on .ck__box .ico { animation: xc-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .explore-card:hover .xc-mem__play { transform: scale(1.1); }
+  .explore-card:hover .xc-mem__time > i > i { transform: scaleX(0.64); }
+  .explore-card:hover .xc-map__pin::after { animation: xc-ping 0.9s var(--ease-out) calc(var(--n) * 90ms) backwards; }
+}
+
+/* 1 · link de pagamento: o link da oferta com "Copiar" e os quatro destinos.
+   Mobile: o campo e os destinos em 2 × 2. Desktop: o cartão da oferta à esquerda e os fios até a coluna de destinos. */
+.xc .xc-link { display: grid; justify-items: center; align-content: center; }
+.xc-link__field {
+  position: relative; display: flex; align-items: center; gap: 0.6em; height: 3.7em; padding: 0 0.5em 0 1em;
+  border-radius: 1em; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.1);
+}
+/* nó de onde saem os fios para os destinos */
+.xc-link__field::after {
+  content: ""; position: absolute; left: 50%; top: 100%; width: 0.7em; height: 0.7em; margin: -0.35em;
+  border-radius: 50%; background: #0a0a0b;
+}
+.xc-link__field > .ico { font-size: 1.25em; color: #8b8b92; stroke-width: 2; }
+.xc-link__url { font-weight: 500; white-space: nowrap; }
+.xc-link__btn {
+  display: inline-flex; align-items: center; gap: 0.4em; height: 2.7em; padding: 0 0.8em;
+  border-radius: 0.7em; background: #111113; color: #fff; font-weight: 500;
+}
+.xc-link__btn > .ico, .xc-link__dest .ico { font-size: 1.1em; color: var(--yellow); stroke-width: 2; }
+.xc-link__wires { width: 22.6em; height: 1.9em; overflow: visible; }
+.xc-link__wires path { fill: none; stroke: var(--x-dash); stroke-width: 1.5; stroke-dasharray: 3 5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.xc-link__wires--h { display: none; }
+.xc-link__dest { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55em; width: 22.6em; }
+.xc-link__dest .chip { justify-content: center; height: 2.5em; padding-block: 0; }
+@media (min-width: 800px) {
+  .xc .xc-link { grid-template-columns: repeat(3, auto); justify-content: center; align-items: center; font-size: 1.65cqw; }
+  .xc-link__sheet {
+    position: relative; display: grid; gap: 0.9em; width: 34em; padding: 1.3em;
+    border-radius: 1.2em; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.1);
+  }
+  .xc-link__sheet::after {
+    content: ""; position: absolute; left: 100%; top: 50%; width: 0.7em; height: 0.7em; margin: -0.35em;
+    border-radius: 50%; background: #0a0a0b;
+  }
+  .xc-link__field { height: 4em; background: #f4f4f5; box-shadow: inset 0 0 0 1px #e4e4e7; }
+  .xc-link__field::after { content: none; }
+  .xc-link__url { flex: 1; font-size: 1.15em; }
+  .xc-link__btn { height: 3em; padding: 0 1em; }
+  .xc-link__pay { display: flex; align-items: center; gap: 0.45em; min-height: 3.75em; padding-top: 0.85em; border-top: 1px solid #e7e7e4; }
+  .xc-link__pay .ck__sub { margin-right: auto; }
+  .xc-link__wires--v { display: none; }
+  .xc-link__wires--h { display: block; width: 6.5em; height: 13.45em; }
+  .xc-link__dest { grid-template-columns: 1fr; gap: 0.75em; width: 12.5em; }
+  .xc-link__dest .chip { justify-content: flex-start; height: 2.8em; padding-inline: 1em; }
+  .xc-link__dest .xc-link__out { margin-left: auto; color: #8b8b92; font-size: 1em; }
+}
+
+/* 2 · infoprodutos: leque de três modelos de checkout (faixa escura com order bump, etapas, abas com o QR do Pix) */
+.xc-fan { --fx: 12.4em; --open: 0; }
+.xc-fan__card {
+  position: absolute; left: 50%; top: 4.3em; width: 19em; min-height: 24em; margin-left: -9.5em;
+  align-content: start; border-radius: 1.3em; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.14);
+  transition: transform 0.7s var(--ease-out);
+}
+/* no hover o leque abre um pouco (--open vai a 1) */
+.xc-fan__card--a { transform: translate(calc(var(--fx) * -1 - var(--open) * 1em), 1.5em) rotate(calc(-7deg - var(--open) * 2deg)); }
+.xc-fan__card--b { transform: translate(calc(var(--fx) + var(--open) * 1em), 1.5em) rotate(calc(7deg + var(--open) * 2deg)); }
+.xc-fan__strip {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.7em;
+  margin: -1.1em -1.1em 0; padding: 0.9em 1.1em; border-radius: 1.3em 1.3em 0 0; background: #111113; color: #fff;
+}
+.xc-fan__strip .ck__thumb { width: 2.2em; height: 2.2em; border-radius: 0.55em; background: var(--yellow); color: #111113; }
+.xc-fan__steps { display: flex; justify-content: center; gap: 2.6em; }
+.xc-fan__steps i {
+  position: relative; display: grid; place-items: center; width: 2.1em; height: 2.1em; border-radius: 50%;
+  background: var(--gray); color: #62626a; font: 600 0.74em / 1 var(--font);
+}
+.xc-fan__steps i + i::before { content: ""; position: absolute; right: calc(100% + 0.5em); top: 50%; width: 2.5em; height: 2px; margin-top: -1px; background: #dcdcd6; }
+.xc-fan__steps .is-on { background: var(--yellow); color: #0a0a0b; }
+.xc-fan__focus { box-shadow: inset 0 0 0 2px #111113; }
+.xc-fan__focus i { width: 1.5px; height: 1.25em; margin-left: -0.35em; background: #111113; }
+.xc-fan__pix {
+  display: grid; grid-template-columns: 6.6em 1fr; align-items: center; gap: 0.9em; padding: 0.8em;
+  border-radius: 0.8em; box-shadow: inset 0 0 0 1px #dcdcd6; line-height: 1.25;
+}
+.xc-fan__qr { width: 100%; fill: #111113; }
+.xc-fan__pix > span { display: grid; gap: 0.35em; }
+.xc-fan__pix small { color: #62626a; font-size: 0.74em; }
+.xc-fan__copy {
+  display: flex; align-items: center; justify-content: center; gap: 0.4em; height: 2.3em; margin-top: 0.3em;
+  border-radius: 0.6em; box-shadow: inset 0 0 0 1px #dcdcd6; font-size: 0.8em; font-weight: 500; white-space: nowrap;
+}
+.xc-fan__chips { position: absolute; z-index: 1; inset: 1.1em 0 auto; display: flex; justify-content: center; gap: 0.35em; }
+.xc-fan__chips .chip { padding-inline: 0.7em; font-weight: 600; }
+@media (min-width: 800px) {
+  .xc-fan { --fx: 18.5em; }
+  .xc-fan__card { top: 1.6em; width: 20em; margin-left: -10em; }
+  .xc-fan__chips { inset: 0; display: block; }
+  .xc-fan__chips .chip { position: absolute; padding-inline: 0.85em; }
+  .xc-fan__chips .chip:nth-child(1) { left: calc(50% - 30.6em); top: 2.2em; }
+  .xc-fan__chips .chip:nth-child(2) { right: calc(50% - 30.6em); top: 3.2em; }
+  .xc-fan__chips .chip:nth-child(3) { left: calc(50% - 30.4em); top: 8.3em; }
+  .xc-fan__chips .chip:nth-child(4) { right: calc(50% - 30.4em); top: 11.8em; }
+}
+
+/* 3 · Stripe: bloco de pagamento (carteiras, cartão com bandeira, validade e CVC), recibo com o upsell
+   em um clique e as formas de pagamento ligadas na oferta */
+.xc-stripe__wallets { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6em; }
+.xc-stripe__wallets span { display: flex; align-items: center; justify-content: center; height: 3.2em; border-radius: 0.7em; overflow: hidden; background: #000; }
+.xc-stripe__wallets img { width: 4.3em; height: 4.3em; max-width: none; filter: invert(1); }
+.xc-stripe__or { display: flex; align-items: center; gap: 0.8em; color: #62626a; font-size: 0.78em; }
+.xc-stripe__or::before, .xc-stripe__or::after { content: ""; flex: 1; height: 1px; background: #e7e7e4; }
+.xc-stripe__card { display: grid; grid-template-columns: 1fr 1fr; border-radius: 0.7em; box-shadow: inset 0 0 0 1px #dcdcd6; }
+.xc-stripe__card > span { display: flex; align-items: center; gap: 0.55em; height: 2.9em; padding: 0 0.9em; white-space: nowrap; }
+.xc-stripe__card > span:first-child { grid-column: 1 / -1; }
+.xc-stripe__card > span > :last-child { margin-left: auto; }
+.xc-stripe__card .ico { font-size: 1.2em; color: #8b8b92; }
+.xc-stripe .ck__cta { height: 3.1em; }
+.xc-stripe__receipt {
+  position: absolute; left: calc(50% - 30.3em); top: 3.4em; display: grid; gap: 0.65em; width: 15.2em; padding: 1.1em;
+  transform: rotate(-3deg);
+}
+.xc-stripe__paid { display: flex; align-items: center; gap: 0.5em; padding-bottom: 0.7em; border-bottom: 1px solid #e7e7e4; font-size: 0.86em; font-weight: 600; white-space: nowrap; }
+.xc-stripe__receipt .ck__total { font-size: 0.86em; line-height: 1.25; }
+.xc-stripe__receipt .ck__total > span:first-child { font-size: 1em; }
+.xc-stripe__receipt small { display: block; color: #62626a; font-size: 0.84em; }
+.xc-stripe__sum { padding-top: 0.65em; border-top: 1px dashed #dcdcd6; }
+.xc-stripe__sum > span:first-child { color: #111113; font-weight: 600; }
+.xc-stripe__methods {
+  position: absolute; left: calc(50% + 15.3em); top: 4.6em; display: grid; gap: 0.5em; width: 14.6em; padding: 1.1em;
+  transform: rotate(2.5deg);
+}
+.xc-stripe__methods p { padding-bottom: 0.2em; }
+.xc-stripe__methods span { display: flex; align-items: center; justify-content: space-between; font-size: 0.9em; font-weight: 500; }
+/* chave liga e desliga de cada forma de pagamento */
+.xc-stripe__methods i { position: relative; width: 2em; height: 1.15em; border-radius: 99em; background: #d6d6d1; }
+.xc-stripe__methods i::after { content: ""; position: absolute; left: 0.16em; top: 0.16em; width: 0.83em; height: 0.83em; border-radius: 50%; background: #fff; }
+.xc-stripe__methods .is-on { background: #111113; }
+.xc-stripe__methods .is-on::after { background: var(--yellow); transform: translateX(0.85em); }
+@media (min-width: 800px) {
+  .xc-stripe__card > span:first-child { border-bottom: 1px solid #dcdcd6; }
+  .xc-stripe__card > span:nth-child(2) { border-right: 1px solid #dcdcd6; }
+  .xc-stripe .xc-status { right: auto; left: calc(50% + 8.6em); top: 0.7em; }
+}
+
+/* 4 · PayPal: os dois métodos lado a lado no seletor e o resumo do pedido */
+.xc-paypal__panel { display: grid; padding: 0; }
+.xc-paypal__pay, .xc-paypal__sum { align-content: start; gap: 0.7em; padding: 1.2em; }
+.xc-paypal__opts { display: grid; gap: 0.55em; }
+.xc-paypal__opt {
+  display: flex; align-items: center; gap: 0.75em; min-height: 3em; padding: 0 1em;
+  border-radius: 0.8em; box-shadow: inset 0 0 0 1px #dcdcd6; font-size: 1.05em; line-height: 1.25;
+}
+.xc-paypal__opt > span { flex: 1; }
+.xc-paypal__opt i { position: relative; flex: none; width: 1.15em; height: 1.15em; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #8b8b92; }
+.xc-paypal__opt.is-on { box-shadow: inset 0 0 0 2px #111113; background: #f4f4f5; }
+.xc-paypal__opt.is-on i { box-shadow: inset 0 0 0 1.5px #111113; }
+.xc-paypal__opt.is-on i::after { content: ""; position: absolute; inset: 0.3em; border-radius: 50%; background: #111113; }
+.xc-paypal__opt .ico { font-size: 1.4em; color: #8b8b92; }
+.xc-paypal__opt .xc-pp { height: 1.6em; }
+.xc-paypal__opt .ck__sub { display: block; }
+.xc-paypal .ck__cta { height: 3.1em; }
+.xc-paypal__sum { background: #f4f4f5; border-radius: 0 1.3em 0 0; }
+.xc-paypal__coupon {
+  display: flex; align-items: center; height: 2.6em; padding: 0 0.3em 0 0.8em;
+  border-radius: 0.65em; background: #fff; box-shadow: inset 0 0 0 1px #dcdcd6; color: #62626a; font-size: 0.85em;
+}
+.xc .xc-paypal__coupon b { margin-left: auto; padding: 0.4em 0.75em; border-radius: 0.45em; background: #111113; color: #fff; font-weight: 500; }
+@media (min-width: 800px) {
+  .xc-paypal__panel { grid-template-columns: 1fr 19em; width: 46em; margin-left: -23em; padding: 0; }
+  .xc-paypal__pay, .xc-paypal__sum { gap: 0.85em; padding: 1.5em; }
+  .xc-paypal__opt { min-height: 3.3em; }
+  .xc-paypal__opt.is-on { min-height: 4.2em; }
+  .xc-paypal .xc-status { right: auto; left: calc(50% + 13.6em); top: 0.7em; }
+}
+
+/* 5 · upsell e order bump: o order bump marcado na tela do pagamento e, depois da compra aprovada,
+   os dois botões do upsell na página do vendedor. No mobile, a caixa do bump sobre os dois botões. */
+.xc-bump__ck { position: absolute; z-index: 1; left: 50%; top: 1.2em; width: 22.6em; margin-left: -11.3em; padding: 0; transform: rotate(-2deg); }
+.xc .xc-bump__box {
+  gap: 0.65em; padding: 0.75em 0.85em; border-radius: 0.9em;
+  box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.14);
+}
+.xc-bump__box .ck__thumb { width: 2.5em; height: 2.5em; border-radius: 0.6em; }
+.xc-bump__win { position: absolute; left: 50%; top: 5.2em; width: 20.6em; min-height: 100%; margin-left: -10.3em; border-radius: 1.2em 1.2em 0 0; }
+.xc-bump__page { position: relative; display: grid; gap: 0.6em; padding: 2.5em 1.2em 1.2em; }
+.xc-bump__no { display: grid; place-items: center; height: 2.8em; border-radius: 0.75em; box-shadow: inset 0 0 0 1px #dcdcd6; color: #55555c; font-weight: 500; }
+.xc-bump__tag {
+  position: absolute; right: 0.6em; top: 5.25em; display: inline-flex; align-items: center; gap: 0.4em;
+  padding: 0.3em 0.65em; border-radius: 99em; background: #111113; color: #fff; font-size: 0.68em; font-weight: 500;
+}
+.xc-bump__tag img { width: 0.8em; height: 0.87em; }
+@media (min-width: 800px) {
+  .xc-bump__ck {
+    left: calc(50% - 28.6em); top: 1.8em; width: 25.6em; min-height: 100%; margin: 0; padding: 1.1em 1.1em 1.3em;
+    align-content: start; border-radius: 1.3em 1.3em 0 0; background: #fff; box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.1); transform: none;
+  }
+  .xc .xc-bump__box { grid-template-columns: auto auto 1fr auto; box-shadow: none; }
+  .xc-bump__win { left: calc(50% + 1.6em); top: 3em; width: 27em; margin: 0; }
+  .xc-bump__page { gap: 0.7em; padding: 1.1em 1.2em; }
+  .xc-bump__paid { position: absolute; z-index: 2; left: calc(50% - 0.7em); top: 1em; transform: translateX(-50%); font-weight: 600; }
+}
+
+/* 6 · área de membros (pele escura da LP): abas, progresso por módulo, capa e tempo da aula, arquivos */
+.xc-mem__win { position: absolute; left: 1.2em; right: 1.2em; top: 1.4em; height: 100%; }
+.xc-mem__app { display: grid; align-content: start; gap: 1.1em; height: 100%; padding: 0.9em; background: #111113; color: #f5f5f5; line-height: 1.25; }
+.xc-mem__top {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: 1.3em; height: 2.7em; margin: -1.1em -1.1em 0; padding: 0 1.1em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); color: #b9b9bf;
+}
+.xc-mem__top b { margin-right: auto; color: #fff; font-size: 0.9em; }
+.xc-mem__top span { align-self: stretch; display: grid; place-items: center; font-size: 0.8em; }
+.xc-mem__top .is-on { color: #fff; box-shadow: inset 0 -2px 0 var(--yellow); }
+.xc-mem__top i { display: grid; place-items: center; width: 2.6em; height: 2.6em; border-radius: 50%; background: #2a2a2e; color: #fff; font: 600 0.72em / 1 var(--font); }
+.xc-mem__side, .xc-mem__files { display: grid; align-content: start; gap: 0.5em; }
+.xc-mem__side span { display: grid; gap: 0.2em; padding: 0.6em 0.75em 0.75em; border-radius: 0.6em; color: #b9b9bf; }
+.xc .xc-mem__side b { font-size: 0.92em; font-weight: 500; }
+.xc-mem__side small, .xc-mem__files small { color: #9a9aa1; font-size: 0.72em; }
+.xc-mem__side .is-on { background: rgba(255, 255, 255, 0.1); color: #fff; }
+/* progresso do módulo */
+.xc-mem__side i { height: 0.3em; margin-top: 0.3em; border-radius: 99em; overflow: hidden; background: rgba(255, 255, 255, 0.14); }
+.xc-mem__side i::after { content: ""; display: block; height: 100%; background: var(--yellow); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); }
+.xc-mem__player {
+  position: relative; display: grid; place-items: center; aspect-ratio: 2.15; border-radius: 0.8em; overflow: hidden;
+  background: #1c1c1f; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+/* capa da aula: a semana do planner em blocos, com três dias marcados */
+.xc-mem__cover { position: absolute; inset: 0; width: 100%; height: 100%; fill: rgba(255, 255, 255, 0.05); }
+.xc-mem__cover .is-on { fill: var(--yellow); }
+.xc-mem__now { position: absolute; left: 1em; top: 0.85em; display: grid; gap: 0.15em; }
+.xc-mem__now small { color: #b9b9bf; font-size: 0.74em; }
+.xc-mem__now b { font-size: 1.05em; }
+.xc-mem__play { position: relative; display: grid; place-items: center; width: 3.4em; height: 3.4em; border-radius: 50%; background: var(--yellow); color: #0a0a0b; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.xc-mem__play .ico { font-size: 1.6em; fill: currentColor; stroke: none; transform: translateX(0.04em); }
+.xc-mem__time { position: absolute; inset: auto 1em 0.8em; display: flex; align-items: center; gap: 0.7em; color: #d6d6da; font-size: 0.74em; font-variant-numeric: tabular-nums; }
+.xc-mem__time > i { flex: 1; height: 0.42em; border-radius: 99em; overflow: hidden; background: rgba(255, 255, 255, 0.18); }
+.xc-mem__time > i > i { display: block; height: 100%; background: var(--yellow); transform-origin: 0 50%; transform: scaleX(0.45); transition: transform 0.9s var(--ease-out); }
+.xc-mem__files > small ~ small { margin-top: 0.5em; }
+.xc-mem__files span {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: 0.6em;
+  padding: 0.55em 0.65em; border-radius: 0.6em; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.xc-mem__files span > i { grid-row: 1 / 3; display: grid; place-items: center; width: 2.7em; height: 2.7em; border-radius: 0.5em; background: #2a2a2e; color: #fff; font: 600 0.6em / 1 var(--font); }
+.xc-mem__files span > i .ico { font-size: 1.5em; fill: var(--yellow); stroke: none; }
+.xc .xc-mem__files b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.84em; font-weight: 500; }
+.xc-mem__files span small { grid-column: 2; }
+.xc-mem__files span > .ico { grid-area: 1 / 3 / 3; color: #b9b9bf; font-size: 1.05em; }
+@media (min-width: 800px) {
+  .xc-mem__win { left: 50%; right: auto; top: 1.8em; width: 57em; margin-left: -28.5em; }
+  .xc-mem__app { grid-template-columns: 12.5em 1fr 14.5em; padding: 1.1em; }
+  .xc-mem__player { aspect-ratio: 2.4; }
+  .xc-mem .xc-status { right: calc(50% - 30.2em); }
+}
+
+/* 7 · vender no exterior: recorte do mapa, pins de preço com bandeira e arcos tracejados até a conta.
+   A silhueta saiu de /v2/images/world-countries.json (lon −170…60, lat 72…−40, 2 unidades por grau). */
+.xc-map__world { position: absolute; left: -22%; top: 0; width: 126.5%; aspect-ratio: 460 / 224; }
+.xc-map__world svg { width: 100%; height: 100%; }
+.xc-map__land { fill: rgba(10, 10, 11, 0.1); }
+.xc-map__arc { fill: none; stroke: var(--x-dash); stroke-width: 1.5; stroke-dasharray: 3 5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+/* pin: ponto na cidade e pílula ao lado (à direita; --dl leva para a esquerda a partir de 800px) */
+.xc-map__pin, .xc-map__hub { position: absolute; left: var(--x); top: var(--y); }
+.xc-map__pin::before, .xc-map__pin::after {
+  content: ""; position: absolute; left: -0.3em; top: -0.3em; width: 0.6em; height: 0.6em; border-radius: 50%; background: #0a0a0b;
+}
+.xc-map__pin::before { box-shadow: 0 0 0 0.16em #fff; }
+.xc-map__pin::after { opacity: 0; }
+.xc-map__world .chip {
+  position: absolute; left: 0.9em; top: 0; width: max-content; padding: 0.5em 0.85em 0.5em 0.6em;
+  font-size: 1.05em; font-weight: 600; transform: translateY(-50%);
+}
+.xc-map__hub .chip { left: 0; padding-inline: 0.8em 0.95em; transform: translate(-50%, -12%); }
+.xc-map__world img, .xc-map__pl {
+  flex: none; width: 1.5em; height: 1.05em; max-width: none; border-radius: 0.2em; object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.14);
+}
+.xc-map__pl { background: linear-gradient(#fff 50%, #dc143c 0); } /* bandeira da Polônia */
+.xc-map__hub img { width: 0.95em; height: 1.05em; border-radius: 0; box-shadow: none; }
+.xc-map__tag { position: absolute; left: 1em; bottom: 1em; }
+@media (min-width: 800px) {
+  .xc-map__world { left: 0; top: -5.6cqw; width: 100%; }
+  .xc-map__pin--dl .chip { left: auto; right: 0.9em; }
+  .xc-map__hub .chip { transform: translate(-50%, -50%); }
+  .xc-map__tag { left: 2em; bottom: 1.4em; }
+}

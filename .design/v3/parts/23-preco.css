@@ -1,0 +1,45 @@
+/* ───────── 23 · Preço ─────────
+   A referência não tem bloco de preço: sai do sistema. Dois cards lado a lado (o Snapp em amarelo, os outros
+   apagados), com as mesmas quatro linhas para a comparação bater de relance, e embaixo os recursos secundários. */
+.preco__vs { display: grid; gap: var(--s4); }
+.preco__card { display: flex; flex-direction: column; gap: var(--s6); padding: var(--s6) var(--s5); border-radius: var(--r-md); }
+.preco__card--outros { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
+
+.preco__name { display: flex; align-items: center; gap: var(--s3); font: 500 var(--fs-title) / var(--lh-title) var(--font); letter-spacing: -0.01em; }
+.preco__name img { width: auto; height: 1.15em; filter: brightness(0); }
+
+.preco__rate { display: grid; gap: var(--s2); }
+.preco__rate strong { font: 800 var(--fs-h1) / 1 var(--font); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.preco__rate > span { font: 400 var(--fs-lead) / var(--lh-lead) var(--font); }
+.preco__card--snapp .preco__rate > span { color: var(--muted); }
+.preco__card--outros .preco__rate strong { color: #86868e; }
+
+.preco__rows { display: grid; }
+.preco__rows li {
+  display: flex; align-items: flex-start; gap: var(--s3);
+  padding-block: var(--s4); border-top: 1px solid rgba(10, 10, 11, 0.16);
+  font: 400 var(--fs-body) / var(--lh-body) var(--font); letter-spacing: 0.01em;
+}
+.preco__card--outros .preco__rows li { border-top-color: var(--line); }
+.preco__rows .ico { margin-top: 0.2em; font-size: 1.15em; stroke-width: 2.25; }
+.preco__rows b { font-weight: 600; }
+
+.preco__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4) var(--s6); margin-top: auto; }
+.preco__link { padding-block: 10px; font: 500 var(--fs-btn) / var(--lh-btn) var(--font); text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+.preco__link:hover { text-decoration-thickness: 2px; }
+
+.preco__note { margin-top: var(--s5); }
+
+/* recursos secundários: importantes, mas não são os da vitrine */
+.preco__more-title { margin-top: var(--s9); padding-top: var(--s6); border-top: 1px solid var(--line); }
+.preco__more { display: grid; gap: var(--s6) var(--s5); margin-top: var(--s6); }
+.preco__more li { display: flex; align-items: flex-start; gap: var(--s4); }
+.preco__more li > span:last-child { display: grid; gap: var(--s1); min-width: 0; }
+.preco__more b { font: 500 var(--fs-body) / var(--lh-body) var(--font); }
+.preco__more .ico-sq { color: var(--yellow); }
+
+@media (min-width: 800px) {
+  .preco__vs { grid-template-columns: 1.15fr 1fr; }
+  .preco__card { padding: var(--s7) var(--s6); }
+  .preco__more { grid-template-columns: repeat(3, 1fr); }
+}

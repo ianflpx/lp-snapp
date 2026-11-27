@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>lado a lado · v3</title>
+<style>
+  body { margin: 0; padding: 24px; background: #2a2a2e; font: 500 15px/1.4 system-ui, sans-serif; color: #fff; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  figure { margin: 0; }
+  figcaption { margin-bottom: 10px; }
+  img { display: block; width: 100%; height: auto; border-radius: 6px; }
+</style>
+<!-- Uso: sbs.html?a=/.design/v3/ref/coda-1440-01-nav-hero.png&b=/.design/v3/shots/x.png&la=Coda&lb=Snapp%20v3 -->
+<div class="row" id="row"></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  for (const [k, label] of [["a", q.get("la") || "Coda"], ["b", q.get("lb") || "Snapp v3"]]) {
+    const fig = document.createElement("figure"), cap = document.createElement("figcaption"), img = new Image();
+    cap.textContent = label; img.src = q.get(k); img.alt = label;
+    fig.append(cap, img); document.getElementById("row").append(fig);
+  }
+</script>

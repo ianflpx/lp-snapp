@@ -1,0 +1,24 @@
+/* ───────── 25 · FAQ ─────────
+   <details>/<summary> nativos. O atributo name="faq" já fecha os outros itens quando um abre, sem JS. */
+.faq__help { margin-top: var(--s6); }
+
+.faq__list { border-bottom: 1px solid var(--line); }
+.faq__item { border-top: 1px solid var(--line); interpolate-size: allow-keywords; }
+.faq__q {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s5);
+  padding-block: var(--s5); cursor: pointer; list-style: none;
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__ico { flex: none; display: grid; color: var(--muted); font-size: var(--ico); transition: color 0.15s var(--ease); }
+.faq__ico .ico { grid-area: 1 / 1; transition: opacity 0.2s var(--ease), transform 0.2s var(--ease); }
+.faq__ico .ico + .ico, .faq__item[open] .faq__ico .ico:first-child { opacity: 0; transform: rotate(90deg); }
+.faq__item[open] .faq__ico .ico + .ico { opacity: 1; transform: none; }
+.faq__q:hover .faq__ico, .faq__item[open] .faq__ico { color: var(--ink); }
+
+.faq__a { max-width: 68ch; padding: 0 var(--s9) var(--s5) 0; text-wrap: pretty; }
+/* abre com a altura animada onde o navegador já sabe fazer; nos outros, abre direto.
+   A regra global de "reduzir movimento" não alcança ::details-content, por isso o @media aqui. */
+@media (prefers-reduced-motion: no-preference) {
+  .faq__item::details-content { block-size: 0; overflow: clip; transition: block-size 0.3s var(--ease), content-visibility 0.3s allow-discrete; }
+  .faq__item[open]::details-content { block-size: auto; }
+}

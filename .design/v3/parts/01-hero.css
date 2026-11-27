@@ -1,0 +1,208 @@
+/* ───────── 01 · Hero: texto, faixa de gateways e a cena animada ───────── */
+.hero { padding-top: 108px; } /* topo do H1: 48 abaixo da pílula do nav */
+.hero__text { display: grid; justify-items: center; gap: var(--s4); text-align: center; }
+.hero__br { display: none; } /* no mobile o H1 quebra sozinho (text-wrap: balance) */
+
+/* faixa de gateways: no mobile o rótulo fica em cima e os seis vão numa grade de 3 × 2 */
+.hero__logos { display: grid; justify-items: center; gap: 16px; margin-top: 28px; padding-inline: 20px; text-align: center; }
+.hero__logos-list { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; gap: 20px 16px; width: min(100%, 420px); }
+/* --h é a altura de caixa de cada marca, afinada para a mesma altura óptica */
+.hero__logos img { width: auto; height: calc(var(--h) * 0.8px); opacity: 0.72; }
+
+/* palco: amarelo chapado. A cena inteira é medida em cqw a partir da largura dele. */
+.hero__stage {
+  position: relative; width: min(100%, 1580px); margin: var(--s5) auto 0;
+  aspect-ratio: 4 / 5; border-radius: var(--r-md); overflow: hidden;
+  background: var(--yellow); --focus: var(--on-yellow);
+  container-type: inline-size;
+}
+/* sobre o amarelo o botão vai opaco: ícone branco em #0a0a0b (19:1) e o botão contra o palco (13,6:1) */
+.hero__stage .pause { background: var(--on-yellow); }
+.hero__stage .pause[hidden] { display: none; } /* só aparece quando o loop roda (01-hero.js) */
+
+/* ── cena ──
+   O CSS base é o quadro final. O loop anda por classes na cena: .is-run (rodando), .is-live (o checkout existe),
+   .is-sold (a venda entrou) e .is-out (passagem de um ciclo para o outro).
+   Entradas são @keyframes (congelam na pausa); transition só nas saídas e nas trocas curtas de estado. */
+.hero-scene { position: absolute; inset: 0; --live: 1; --sold: 1; --spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+.js-motion .hero-scene:not(.is-run), .hero-scene.is-run:not(.is-live) { --live: 0; }
+.js-motion .hero-scene:not(.is-run), .hero-scene.is-run:not(.is-sold) { --sold: 0; }
+/* em branco: antes do primeiro ciclo e entre dois ciclos, tudo o que é da história some junto */
+:is(.js-motion .hero-scene:not(.is-run), .hero-scene.is-out) :is(.chatwin__msgs, .hero-wire, .hero-chip, .ck, .dev-phone__url) { opacity: 0; transition: opacity 0.35s var(--ease), transform 0.45s var(--ease); }
+.hero-scene.is-out .chatwin__msgs { transform: translateY(-0.5em); }
+
+/* conversa: no retrato é um cartão compacto sobre o topo do celular */
+.hero-scene .hero-chat { position: absolute; z-index: 2; left: 3cqw; top: 3cqw; width: 94cqw; font-size: 3.5cqw; }
+.hero-chat .chatwin__title img { width: 1.2em; height: 1.2em; opacity: 0.72; }
+.hero-chat .chatwin__title b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--cw-ink); font-weight: 500; }
+.hero-chat__mcp { display: inline-flex; align-items: center; gap: 0.45em; margin-left: auto; padding: 0.2em 0.7em; border-radius: 99em; box-shadow: inset 0 0 0 1px var(--cw-line); white-space: nowrap; }
+.hero-chat .hero-chat__mcp img { width: 0.8em; height: 0.9em; opacity: 1; }
+/* rótulos miúdos do card um pouco maiores que na primitiva, para não caírem abaixo de 11px */
+.hero-chat .chat-card__h, .hero-chat .chat-card dt { font-size: 0.88em; }
+.hero-chat .chat-reply b { white-space: nowrap; } /* "US$ 27" não quebra no meio */
+/* as mensagens entram com --ease-out; o balão sai do campo de digitar e os checks marcam com mola */
+.hero-chat [data-in] { animation: hero-msg 0.6s var(--ease-out) both; }
+.hero-chat .chat-user[data-in] { transform-origin: 100% 100%; animation: hero-bubble 0.5s var(--spring) both; }
+.hero-scene.is-run .chat-tool.is-done .ico { animation: hero-pop 0.45s var(--spring) backwards; }
+@keyframes hero-msg { from { opacity: 0; transform: translateY(0.9em); } }
+@keyframes hero-bubble { from { opacity: 0; transform: translateY(1.2em) scale(0.92); } }
+@keyframes hero-pop { from { transform: scale(0.3); } }
+@keyframes hero-in { from { opacity: 0; } }
+
+/* ── celular: sangra por baixo do palco ── */
+.hero-scene .hero-phone { position: absolute; z-index: 1; left: 10.5cqw; top: 43cqw; font-size: 3.3cqw; } /* um pouco à esquerda do centro: o botão de pausa fica livre */
+.hero-phone .ck__field > span:first-child, .hero-phone .ck__pay > * { font-size: 0.82em; }
+.hero-phone .ck__total { font-variant-numeric: tabular-nums; }
+
+/* cada bloco do checkout nasce de uma placa de esqueleto: o esqueleto respira enquanto o checkout não existe e,
+   quando ele é criado, os blocos sobem e as placas somem em cascata (--k é a ordem) */
+.hero-phone :is(.dev-phone__url, .ck > *) { position: relative; transform: translateY(calc((1 - var(--live)) * 0.7em)); }
+.hero-phone :is(.dev-phone__url, .ck > *)::before {
+  content: ""; position: absolute; inset: -2px; z-index: 1; border-radius: 0.65em;
+  background: #efefec; opacity: calc(1 - var(--live)); pointer-events: none;
+}
+.hero-phone :is(.dev-phone__url, .ck__bump, .ck__cta)::before { border-radius: inherit; }
+.hero-phone .ck__secure::before { inset: 0 26%; }
+.hero-phone .ck__product::before { inset: -2px -2px 0.75em; }
+.hero-scene.is-run:not(.is-live) :is(.ck, .dev-phone__url) { animation: hero-in 0.45s var(--ease) backwards, hero-pulse 1.1s var(--ease) 0.6s infinite alternate; }
+.hero-scene.is-live .hero-phone :is(.dev-phone__url, .ck > *) { animation: hero-rise 0.7s var(--ease-out) calc(var(--k) * 80ms + 0.95s) backwards; }
+.hero-scene.is-live .hero-phone :is(.dev-phone__url, .ck > *)::before { animation: hero-plate 0.5s var(--ease) calc(var(--k) * 80ms + 0.95s) backwards; }
+@keyframes hero-pulse { to { opacity: 0.6; } }
+@keyframes hero-rise { from { transform: translateY(0.7em); } }
+@keyframes hero-plate { from { opacity: 1; } }
+
+/* formas de pagamento: cartão marcado, carteiras ao lado */
+.hero-phone .ck__pay > * { display: flex; align-items: center; justify-content: center; gap: 0.4em; overflow: hidden; }
+.hero-phone .ck__pay img { width: 3.5em; height: 3.5em; mix-blend-mode: multiply; }
+.hero-phone .ck__pay .hero-phone__pp { width: auto; height: 1.05em; filter: invert(1); mix-blend-mode: normal; } /* o logo é branco: aqui vai em preto */
+
+/* campo em foco: anel escuro e cursor piscando */
+.hero-phone .ck__input { position: relative; }
+.hero-phone .ck__input::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1.5px #111113; opacity: 0; transition: opacity 0.2s var(--ease); }
+.hero-phone .ck__input.is-focus::after { opacity: 1; }
+.hero-phone .ck__input.is-focus > span::after { content: ""; display: inline-block; width: 1.5px; height: 1.15em; margin-left: 1px; vertical-align: -0.2em; background: currentColor; animation: hero-caret 1s steps(1) infinite; }
+@keyframes hero-caret { 50% { opacity: 0; } }
+
+/* toque: um ponto de contato abre no lugar tocado e a peça aperta 3,5%; ao trocar de estado ela solta com mola */
+.hero-phone :is(.ck__bump, .ck__cta) { transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease), color 0.3s var(--ease); }
+.hero-phone :is(.ck__bump, .ck__cta)::after {
+  content: ""; position: absolute; left: var(--tap, 50%); top: 50%; width: 2.6em; height: 2.6em; margin: -1.3em;
+  border-radius: 50%; background: rgba(10, 10, 11, 0.16); opacity: 0; pointer-events: none;
+}
+.hero-phone .ck__bump { --tap: 1.4em; }
+.hero-scene.is-live .hero-phone .ck > .is-tap { animation: hero-press 0.16s var(--ease) forwards; }
+.hero-scene.is-live .hero-phone .ck > .is-tap:is(.is-on, .is-busy) { animation: hero-release 0.5s var(--spring); }
+.hero-scene.is-live .hero-phone .ck > .is-tap.is-ok { animation: hero-ok 0.6s var(--ease-out); }
+.hero-phone .is-tap::after { animation: hero-ripple 0.55s var(--ease-out); }
+@keyframes hero-press { to { scale: 0.965; } }
+@keyframes hero-release { from { scale: 0.965; } }
+@keyframes hero-ok { 35% { scale: 1.035; } }
+@keyframes hero-ripple { from { opacity: 1; scale: 0.3; } to { opacity: 0; scale: 1.3; } }
+/* order bump marcado: a caixa salta e o check se desenha */
+.hero-phone .ck__box { transition: background-color 0.2s var(--ease), color 0.2s var(--ease); }
+.hero-phone .ck__box .ico, .hero-phone .ck__cta .ico { stroke-dasharray: 23; }
+.hero-scene.is-run .ck__bump.is-on .ck__box { animation: hero-pop 0.5s var(--spring) backwards; }
+.hero-scene.is-run :is(.ck__bump.is-on .ck__box, .ck__cta.is-ok) .ico { animation: hero-check 0.35s var(--ease-out) 0.12s backwards; }
+@keyframes hero-check { from { stroke-dashoffset: 23; } }
+
+/* total: os dois dígitos rolam de 27 para 34, um logo depois do outro */
+.hero-total > span { display: inline-grid; clip-path: inset(0); }
+.hero-total i { grid-area: 1 / 1; font-style: normal; transition: transform 0.7s var(--ease-out); }
+.hero-total > span + span i { transition-delay: 0.09s; }
+.hero-total.is-up i:first-child { transform: translateY(-100%); }
+.hero-total:not(.is-up) i:last-child { transform: translateY(100%); }
+
+/* botão de pagar: três rótulos empilhados (pagar, processando, aprovado); o que sai sobe e o que entra vem de baixo */
+.hero-phone .ck__cta > span { grid-area: 1 / 1; display: flex; align-items: center; gap: 0.45em; opacity: 0; transform: translateY(0.8em); transition: opacity 0.25s var(--ease), transform 0.45s var(--ease-out); }
+.hero-phone .ck__cta:not(.is-busy, .is-ok) > :first-child, .hero-phone .ck__cta.is-busy > :nth-child(2), .hero-phone .ck__cta.is-ok > :last-child { opacity: 1; transform: none; }
+.hero-phone .ck__cta.is-busy > :first-child, .hero-phone .ck__cta.is-ok > :not(:last-child) { transform: translateY(-0.8em); }
+.hero-phone .ck__cta .ico { color: var(--ok); font-size: 1.1em; stroke-width: 2.75; }
+.hero-spin { width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; }
+.is-busy .hero-spin { animation: hero-spin 0.7s linear infinite; }
+@keyframes hero-spin { to { transform: rotate(1turn); } }
+
+/* ── conector: a linha tracejada é descoberta do começo ao fim por uma capa da cor do palco, com um ponto na ponta ── */
+.hero-wire { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; overflow: visible; fill: none; color: var(--on-yellow); opacity: var(--live); pointer-events: none; }
+.hero-wire g { display: none; --w: 5px; }
+.hero-wire .hero-wire__m { display: inline; }
+.hero-wire path { stroke: currentColor; stroke-width: var(--w); stroke-linecap: round; stroke-dasharray: calc(var(--w) * 3) calc(var(--w) * 2.8); }
+.hero-wire path + path { stroke: var(--yellow); stroke-width: calc(var(--w) * 3); stroke-linecap: butt; stroke-dasharray: 1; stroke-dashoffset: -1; }
+.hero-wire path + path + path { stroke: currentColor; stroke-width: calc(var(--w) * 4.2); stroke-linecap: round; stroke-dasharray: 0.0001 2; stroke-dashoffset: 0; opacity: 0; }
+.hero-wire circle { fill: currentColor; transform-box: fill-box; transform-origin: center; }
+.hero-scene.is-live .hero-wire path + path { animation: hero-wire 0.8s cubic-bezier(0.6, 0, 0.3, 1) 0.2s backwards; }
+.hero-scene.is-live .hero-wire path + path + path { animation-name: hero-wire-dot; }
+.hero-scene.is-live .hero-wire circle { animation: hero-cap 0.45s var(--spring) backwards; }
+.hero-scene.is-live .hero-wire circle + circle { animation-delay: 0.9s; }
+@keyframes hero-wire { from { stroke-dashoffset: 0; } }
+@keyframes hero-wire-dot { from { stroke-dashoffset: 0; opacity: 0; } 12%, 85% { opacity: 1; } to { stroke-dashoffset: -1; opacity: 0; } }
+@keyframes hero-cap { from { transform: scale(0); } }
+
+/* ── venda aprovada: entra com mola e o ponto verde dá um pulso ── */
+.hero-scene .hero-chip { position: absolute; z-index: 4; left: 4cqw; bottom: 3.4cqw; font-size: 3.9cqw; opacity: var(--sold); }
+.hero-scene.is-sold .hero-chip { animation: hero-chip 0.6s var(--spring) backwards; }
+.hero-chip .dot { position: relative; }
+.hero-chip .dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; opacity: 0; }
+.hero-scene.is-sold .hero-chip .dot::after { animation: hero-ping 0.9s var(--ease-out) 0.25s; }
+@keyframes hero-chip { from { opacity: 0; transform: translateY(0.8em) scale(0.85); } }
+@keyframes hero-ping { from { opacity: 0.7; } to { opacity: 0; transform: scale(3.2); } }
+
+/* ── retrato (< 800px): da conversa ficam o balão, a última ferramenta e o link; do checkout, produto, order bump,
+   total e botão. O campo de digitar só aparece enquanto o pedido é escrito. ── */
+@media not all and (min-width: 800px) {
+  .hero-chat :is(.chatwin__bar, .chatwin__title, .chat-tools__h, .chat-tool:has(+ .chat-tool), .chat-reply, .chat-card__h, .chat-card dl, .chatwin__msgs:empty) { display: none; }
+  .hero-chat .chatwin__msgs { gap: 0.55em; padding: 0.7em; }
+  .hero-chat .chat-user { max-width: 100%; }
+  .hero-chat .chat-card { font-size: 1em; }
+  .hero-chat .chat-tool { gap: 0.45em; padding-inline: 0.75em; }
+  .hero-chat .chatwin__composer { display: none; margin: 0.7em; }
+  .hero-chat .chatwin__msgs:empty + .chatwin__composer, .hero-chat .chatwin__composer:has(.is-typing) { display: flex; }
+  .hero-phone :is(.ck__secure, .ck__pay, .ck__field) { display: none; }
+  .hero-phone .ck { gap: 0.6em; padding-top: 0.9em; }
+  .hero-phone :is(.ck__sub, .dev-phone__url) { font-size: 0.9em; }
+}
+
+@media (min-width: 800px) {
+  .hero { padding-top: calc(152 * var(--u)); } /* nav (16 + 64) + 72: H1 em y ≈ 170 a 1440 */
+  .hero__br { display: inline; }
+  .hero__lead { max-width: calc(800 * var(--u)); }
+
+  .hero__logos { display: flex; align-items: center; justify-content: center; gap: var(--s8); min-height: var(--s8); margin-top: var(--s7); }
+  .hero__logos-list { display: flex; align-items: center; gap: calc(44 * var(--u)); width: auto; }
+  .hero__logos img { height: calc(var(--h) * var(--u)); }
+
+  .hero__stage { aspect-ratio: 16 / 9; }
+  /* desktop cheio (palco de 1200px para cima): a janela passa da borda de baixo; o campo de digitar fica à vista, logo acima do corte */
+  .hero-scene .hero-chat { left: 5.5cqw; top: 4.5cqw; bottom: -3cqw; width: 50cqw; padding-bottom: 5cqw; font-size: 1.2cqw; }
+  .hero-scene .hero-phone { left: auto; right: 7cqw; top: 6.6cqw; font-size: 1.32cqw; }
+  .hero-scene .hero-chip { left: auto; bottom: auto; right: 2.5cqw; top: 4.4cqw; font-size: 1.4cqw; }
+  .hero-wire .hero-wire__m { display: none; }
+  .hero-wire .hero-wire__f { display: inline; --w: 2px; }
+
+  /* desktop compacto (palco de 800 a 1199px): a mesma cena em escala maior e sem os detalhes secundários,
+     para o texto que conta a história não cair abaixo de 11px. É consulta ao palco, não um breakpoint de página. */
+  @container (max-width: 1199.98px) {
+    .hero-scene .hero-chat { left: 3.2cqw; top: 2.6cqw; width: 48.2cqw; padding-bottom: 4.6cqw; font-size: 1.66cqw; }
+    .hero-chat :is(.chatwin__title, .chat-card dl) { display: none; }
+    .hero-chat .chat-user { max-width: 100%; }
+    .hero-scene .hero-phone { right: 7.5cqw; top: 2.6cqw; font-size: 1.66cqw; }
+    .hero-phone .hero-phone__card { display: none; }
+    .hero-phone :is(.ck__secure, .ck__sub, .dev-phone__url, .ck__field > span:first-child, .ck__pay > *) { font-size: 0.84em; }
+    .hero-chat .chat-card__h { font-size: 0.9em; }
+    .hero-scene .hero-chip { right: 2cqw; top: 0.6cqw; font-size: 1.7cqw; }
+    .hero-wire .hero-wire__f { display: none; }
+    .hero-wire .hero-wire__c { display: inline; --w: 2.6px; }
+  }
+}
+
+/* ── entrada do hero: só CSS, no primeiro quadro, sem esperar o app.js nem a rolagem ──
+   No texto, só opacidade e foco (sem deslocamento): a troca de fonte no meio não vira salto de layout. */
+.js-motion .hero [data-reveal] {
+  opacity: 1; transform: none; filter: none; transition: none;
+  animation: hero-enter 0.7s var(--ease-out) calc(var(--i, 0) * 70ms) both;
+}
+.js-motion .hero [data-reveal="up"] { animation-name: hero-enter-up; animation-duration: 0.9s; }
+@keyframes hero-enter { from { opacity: 0; filter: blur(6px); } }
+@keyframes hero-enter-up { from { opacity: 0; transform: translateY(var(--s9)) scale(0.985); } }
+
+/* entre 600 e 799px o palco em retrato não ocupa a tela inteira: fica do tamanho de um celular grande */
+@media (min-width: 600px) and (max-width: 799.98px) { .hero__stage { width: min(100%, 480px); } }
