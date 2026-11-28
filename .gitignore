@@ -1,0 +1,9 @@
+# Screenshots e logs do navegador de teste (Playwright MCP)
+.playwright-mcp/
+
+# Sistema e ambiente local
+.DS_Store
+.env
+.env.*
+.vercel/
+node_modules/
