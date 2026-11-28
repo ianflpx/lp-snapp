@@ -30,18 +30,20 @@ a { color: inherit; }
   margin: 0 auto;
 }
 
-.policy-page main { padding-top: 90px; }
+/* o header da home (/v4/v3.css) é fixo e flutua sobre o hero escuro: 68px no mobile, até ~116px no desktop */
+.policy-page { --nav-space: clamp(68px, 24px + 6vw, 116px); }
 
 .policy-document a:hover { color: var(--yellow-dark); }
 
 .policy-hero { background: var(--ink); color: var(--white); }
 
-.policy-hero__inner { padding: 88px 0 82px; }
+.policy-hero__inner { padding: calc(var(--nav-space) + 88px) 0 82px; }
 
 .eyebrow,
 .policy-summary__label {
   margin: 0 0 15px;
-  color: var(--yellow);
+  /* amarelo em fundo claro não passa no contraste (1.4:1); o amarelo fica na borda do bloco */
+  color: var(--ink);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -85,7 +87,7 @@ h1 {
 
 .policy-summary {
   position: sticky;
-  top: 32px;
+  top: calc(var(--nav-space) + 24px);
   border-top: 3px solid var(--yellow);
   padding-top: 18px;
   color: var(--ink-soft);
@@ -276,8 +278,7 @@ h1 {
 
 @media (max-width: 760px) {
   .shell { width: min(100% - 36px, 1120px); }
-  .policy-page main { padding-top: 72px; }
-  .policy-hero__inner { padding: 62px 0 58px; }
+  .policy-hero__inner { padding: calc(var(--nav-space) + 62px) 0 58px; }
   .policy-hero__intro { font-size: 16px; }
   .policy-content { padding: 48px 0 72px; }
   .policy-layout { display: block; }

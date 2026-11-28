@@ -1,4 +1,9 @@
-﻿/* ══════════════════════════════════════════
+/* Inter servida do próprio domínio (antes: Google Fonts); o "Inter Fallback" copia as métricas para o texto não pular. */
+@font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/inter-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter Fallback";src:local("Arial"),local("ArialMT");ascent-override:90.4365%;descent-override:22.518%;line-gap-override:0%;size-adjust:107.1194%}
+
+/* ══════════════════════════════════════════
    SNAPP CHECKOUT — Landing Page
    SaaS Figma-style Light Theme (References: Bizvance, Stacker)
 ══════════════════════════════════════════ */
@@ -79,6 +84,7 @@ img {
 body {
   font-family:
     "Inter",
+    "Inter Fallback",
     -apple-system,
     sans-serif;
   color: var(--dark);
@@ -111,22 +117,6 @@ body {
 }
 
 /* ── BUTTONS ── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 28px;
-  border-radius: 100px;
-  font-weight: 600;
-  font-size: 15px;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  font-family: inherit;
-  letter-spacing: -0.2px;
-}
 
 .btn-primary {
   background: var(--yellow);
@@ -236,107 +226,6 @@ body {
 .btn-premium-sm:hover {
   background: var(--yellow-dark);
   transform: translateY(-1px);
-}
-
-/* ── NAV ── */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  background: transparent;
-  padding: 0;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav.scrolled {
-  padding: 10px 0;
-}
-
-.nav .container {
-  max-width: 1440px;
-  width: calc(100% - 80px);
-  padding: 0;
-  transition:
-    width 0.52s cubic-bezier(0.16, 1, 0.3, 1),
-    max-width 0.52s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav.scrolled .container {
-  max-width: 940px;
-  width: calc(100% - 128px);
-}
-
-.nav__inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 90px;
-  border: 1px solid transparent;
-  border-radius: 24px;
-  transition:
-    height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-    padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.nav.scrolled .nav__inner {
-  height: 66px;
-  padding: 0 22px;
-  background: rgba(255, 255, 255, 0.78);
-  border-color: rgba(10, 10, 11, 0.12);
-  box-shadow:
-    0 18px 60px rgba(10, 10, 11, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-}
-
-.nav__left,
-.nav__right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.nav__right {
-  justify-content: flex-end;
-  gap: 24px;
-}
-
-.nav__links {
-  display: flex;
-  gap: 32px;
-  justify-content: center;
-}
-
-.nav__links a {
-  text-decoration: none;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 600;
-  transition: color 0.2s ease;
-  letter-spacing: -0.2px;
-}
-
-.nav__links a:hover {
-  color: var(--dark);
-}
-
-.nav__entrar {
-  text-decoration: none;
-  color: var(--dark);
-  font-size: 14px;
-  font-weight: 700;
-  transition: all 0.2s;
-  padding: 8px 12px;
-}
-
-.nav__entrar:hover {
-  opacity: 0.7;
 }
 
 /* ── HERO NEW ── */
@@ -2286,80 +2175,6 @@ section.cta-section {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* ── FOOTER ── */
-.footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 80px 0 40px;
-  background: var(--dark);
-}
-
-.footer__top {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 64px;
-  flex-wrap: wrap;
-  gap: 64px;
-}
-
-.footer__nav {
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.footer__nav a {
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 15px;
-  font-weight: 600;
-  transition: color 0.2s;
-}
-
-.footer__nav a:hover {
-  color: var(--yellow);
-}
-
-.footer__social-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 50%;
-  color: rgba(255, 255, 255, 0.74);
-  transition:
-    color 0.2s,
-    border-color 0.2s,
-    background-color 0.2s;
-}
-
-.footer__social-link svg {
-  width: 22px;
-  height: 22px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-}
-
-.footer__social-link:hover {
-  color: var(--yellow);
-  border-color: rgba(254, 210, 23, 0.5);
-  background: rgba(254, 210, 23, 0.08);
-}
-
-.footer__bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 40px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  font-weight: 500;
-}
-
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .dash-metrics {
@@ -2471,44 +2286,9 @@ section.cta-section {
     margin-bottom: 38px;
   }
 
-  .nav .container {
-    width: calc(100% - 32px);
-    padding: 0;
-  }
-
-  .nav.scrolled .container {
-    width: calc(100% - 24px);
-  }
-
-  .nav__inner {
-    height: 72px;
-  }
-
-  .nav.scrolled {
-    padding: 8px 0;
-  }
-
-  .nav.scrolled .nav__inner {
-    height: 64px;
-    padding: 0 14px 0 18px;
-    border-radius: 20px;
-  }
-
-  .nav__right {
-    gap: 8px;
-  }
-
-  .nav__entrar {
-    display: none;
-  }
-
   .btn-premium-sm {
     padding: 9px 14px;
     font-size: 13px;
-  }
-
-  .nav__links {
-    display: none;
   }
 
   .hero-new {
@@ -2863,18 +2643,6 @@ section.cta-section {
     height: 28px;
   }
 
-  .footer__top {
-    flex-direction: column;
-    text-align: center;
-    gap: 32px;
-    margin-bottom: 38px;
-  }
-
-  .footer__nav {
-    gap: 20px;
-    justify-content: center;
-  }
-
   section.brand-section {
     padding: 58px 0;
   }
@@ -2939,27 +2707,11 @@ section.cta-section {
     margin-bottom: 34px;
   }
 
-  .footer {
-    padding: 48px 0 28px;
-  }
-
-  .footer__bottom {
-    padding-top: 28px;
-    font-size: 12px;
-  }
 }
 
 @media (max-width: 480px) {
   .container {
     padding: 0 16px;
-  }
-
-  .nav .container {
-    width: calc(100% - 24px);
-  }
-
-  .nav__entrar {
-    display: none;
   }
 
   .logo-img {
@@ -3072,8 +2824,4 @@ section.cta-section {
     width: 36px;
   }
 
-  .footer__nav {
-    column-gap: 18px;
-    row-gap: 12px;
-  }
 }

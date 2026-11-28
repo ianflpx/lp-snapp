@@ -24,8 +24,8 @@
   --ok: #3ecf7a; /* único verde: estados "pago/aprovado" dentro dos mockups */
   --focus: var(--yellow);
 
-  --font: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font: "Outfit", "Outfit Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", "JetBrains Mono Fallback", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -249,20 +249,22 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .nav__panel[data-open] { display: block; animation: nav-in 0.35s var(--ease-out); }
 @keyframes nav-in { from { clip-path: inset(0 0 calc(100% - var(--nav-h)) 0 round var(--r-mdu)); } to { clip-path: inset(0 round var(--r-mdu)); } }
-.nav__group-label { display: block; padding: var(--s4) var(--s3) var(--s3); color: var(--muted); border-bottom: 1px solid var(--line); margin-bottom: var(--s3); }
-.nav__grid { display: grid; grid-template-columns: 1fr 1fr; }
+.nav__group-label { display: block; padding: var(--s4) var(--s3) var(--s3); color: var(--muted); }
+.nav__grid { display: grid; }
 .nav__item {
-  display: flex; align-items: center; gap: var(--s3); min-height: 40px; padding: var(--s3); border-radius: var(--r-md);
+  display: flex; align-items: center; gap: var(--s4); min-height: 44px; padding: var(--s2) var(--s3); border-radius: var(--r-md);
   transition: background-color 0.15s var(--ease);
 }
 .nav__item:hover { background: rgba(255, 255, 255, 0.07); }
 .nav__item b { display: block; font: 400 var(--fs-nav) / 1.4 var(--font); }
 .nav__item small { display: none; font: 400 var(--fs-small) / 1.4 var(--font); color: var(--muted); }
-.nav__item .ico-sq { display: none; color: var(--yellow); }
-.nav__menu-links { display: grid; }
-.nav__menu-links .nav__link { min-height: 40px; padding: var(--s4) var(--s3); }
-.nav__menu-foot { display: flex; justify-content: center; gap: var(--s3); padding: var(--s5) 0 var(--s3); }
-.nav__menu-foot .btn { min-height: 40px; }
+.nav__item .ico-sq { display: grid; flex: none; --ico: 32px; color: var(--yellow); }
+.nav__menu-links { display: grid; margin-top: var(--s3); padding-top: var(--s3); border-top: 1px solid var(--line); }
+.nav__menu-links .nav__link { min-height: 44px; padding: var(--s4) var(--s3); }
+.nav__menu-foot { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); margin-top: var(--s3); padding: var(--s5) var(--s3) var(--s3); border-top: 1px solid var(--line); }
+.nav__menu-foot .btn { min-height: 44px; }
+/* mobile: lista única com ícone; "Preços e taxas" sai da lista para os links de baixo e a barra fica só com logo e ✕ */
+.nav__item--desk, .nav[data-open] .nav__cta { display: none; }
 /* alvos de toque de 40px sem mudar o desenho */
 .nav__cta, .nav__toggle { position: relative; }
 .nav__cta::after, .nav__toggle::after { content: ""; position: absolute; inset: -3px 0; }
@@ -287,9 +289,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .nav__toggle, .nav__menu-links, .nav__menu-foot { display: none; }
   .nav__panel { padding: calc(var(--nav-h) + var(--s3)) var(--s4) var(--s3); border-radius: var(--r-lg); }
   @keyframes nav-in { from { clip-path: inset(0 0 calc(100% - var(--nav-h)) 0 round var(--r-lg)); } to { clip-path: inset(0 round var(--r-lg)); } }
-  .nav__group-label { padding: 0 var(--s3) var(--s2); }
+  .nav__group-label { padding: 0 var(--s3) var(--s2); border-bottom: 1px solid var(--line); margin-bottom: var(--s3); }
   .nav__grid { grid-template-columns: repeat(3, 1fr); gap: 0 var(--s8); }
-  .nav__item { align-items: flex-start; }
+  .nav__item--desk, .nav[data-open] .nav__cta { display: flex; }
+  .nav__item { align-items: flex-start; gap: var(--s3); padding: var(--s3); }
   .nav__item small { display: block; }
   .nav__item .ico-sq { display: grid; --ico: calc(28 * var(--u)); margin-top: 0.1em; }
   .nav__cta::after, .nav__toggle::after { content: none; }
@@ -301,7 +304,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .banner {
   --b-bg: var(--surface-hi); --b-fg: var(--ink); --b-label: var(--yellow); --b-muted: var(--muted); --b-tint: rgba(255, 255, 255, 0.1);
-  --b-go-bg: #fff; --b-go-fg: #0a0a0b;
   position: relative; display: flex; flex-direction: column; gap: var(--s4);
   min-width: 0; padding-top: var(--s5);
   border-radius: var(--r-md); overflow: hidden; isolation: isolate;
@@ -311,15 +313,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .banner:hover, .banner:focus-within { border-radius: var(--r-xl); }
 /* família: o amarelo da marca em três tons, um cinza claro e o grafite. Todas as claras levam texto preto. */
 .banner--yellow, .banner--yellow-light, .banner--yellow-deep, .banner--gray {
-  --b-fg: #0a0a0b; --b-tint: rgba(10, 10, 11, 0.1); --b-go-bg: #0a0a0b; --b-go-fg: var(--b-bg); --focus: #0a0a0b;
+  --b-fg: #0a0a0b; --b-tint: rgba(10, 10, 11, 0.1); --focus: #0a0a0b;
 }
 .banner--yellow       { --b-bg: #fed217; --b-label: #5d4e0f; --b-muted: #53460f; }
 .banner--yellow-light { --b-bg: #ffe770; --b-label: #5d552d; --b-muted: #544c29; }
 .banner--yellow-deep  { --b-bg: #ebc000; --b-label: #564807; --b-muted: #4e4108; }
+/* nos amarelos o título vai no preto do texto; o tom de --b-label segue nos detalhes das mídias */
+.banner--yellow .banner__label, .banner--yellow-light .banner__label, .banner--yellow-deep .banner__label { color: var(--b-fg); }
 .banner--gray         { --b-bg: #ececef; --b-label: #575759; --b-muted: #4e4e4f; --b-tint: rgba(10, 10, 11, 0.08); }
 .banner--graphite { box-shadow: inset 0 0 0 1px var(--line); }
 
-/* a linha do topo tem a altura do rótulo; o botão de chevron passa para baixo dela sem empurrar o texto */
+/* a linha do topo tem a altura do rótulo */
 .banner__head {
   display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4);
   height: var(--ico); padding-inline: var(--s5);
@@ -335,13 +339,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 @media (min-width: 800px) { .banner--full .banner__text { width: 60%; } }
 
-/* o chevron é o link de verdade; o ::after estica a área de clique para o card inteiro */
-.banner__go { background: var(--b-go-bg); color: var(--b-go-fg); }
-.banner__go::after { content: ""; position: absolute; inset: 0; z-index: 1; }
-.banner__go .ico { grid-area: 1 / 1; transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
-.banner__go .ico + .ico { opacity: 0; transform: translateX(-0.3em); }
-.banner:hover .banner__go .ico:first-child, .banner__go:focus-visible .ico:first-child { opacity: 0; transform: translateX(0.3em); }
-.banner:hover .banner__go .ico + .ico, .banner__go:focus-visible .ico + .ico { opacity: 1; transform: none; }
+/* o link do card não tem botão visível: o ::after estica a área de clique para o card inteiro e recebe o foco */
+.banner__go::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: var(--r-xl); }
+.banner__go:focus-visible { outline: none; }
+.banner__go:focus-visible::after { outline: 2px solid var(--focus); outline-offset: -4px; }
 
 /* mídia: largura total, colada nas laterais e no fundo; o card recorta o que sangra */
 .banner__media {
@@ -394,8 +395,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .footer__top, .footer__bottom { display: flex; align-items: center; justify-content: space-between; gap: var(--s5); }
 .footer__top { padding-block: var(--s6); border-block: 1px solid var(--line-strong); margin-bottom: var(--s6); }
 .footer__top img { width: 88px; height: 21px; }
-.footer__social { padding: 10px; margin: -10px; color: var(--muted); font-size: 20px; transition: color 0.3s var(--ease); }
-.footer__social:hover { color: var(--ink); }
+.footer__social { padding: 10px; margin: -10px; color: var(--ink); font-size: 20px; transition: color 0.3s var(--ease); }
+.footer__social:hover { color: var(--yellow); }
 .footer__cols { display: grid; gap: var(--s6); }
 .footer__col { display: grid; align-content: start; gap: var(--s4); }
 .footer__col h2 { color: var(--muted); font-weight: 400; }
@@ -434,14 +435,20 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .js-motion [data-reveal="up"] { transform: translateY(var(--s9)) scale(0.985); filter: none; }
 .js-motion [data-reveal="fade"] { transform: none; filter: none; }
 .js-motion [data-reveal].is-in { opacity: 1; transform: none; filter: none; }
-/* a mídia do banner entra um instante depois do card, subindo de dentro do recorte */
-.js-motion .banner .banner__media {
-  transition: transform 1.1s var(--ease-out), opacity 0.7s var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 70ms + 160ms);
-}
-.js-motion .banner:not(.is-in) .banner__media { transform: translateY(9%); opacity: 0; }
+/* banner abre de dentro para fora: a moldura cresce (clip-path) e o conteúdo sobe em cascata (título, texto, mídia).
+   --open-delay vem do v3.js (vizinho de linha abre 120ms depois); a coreografia só toca com .is-play, depois da abertura */
+.js-motion .banner[data-reveal] {transform: translateY(var(--s7)) scale(0.965); clip-path: inset(8% 6% round calc(var(--r-md) * 2.5));
+  transition: opacity 0.5s var(--ease-out), transform 1s var(--ease-out), clip-path 1s var(--ease-out);
+  transition-delay: var(--open-delay, 0ms);}
+.js-motion .banner[data-reveal].is-in {clip-path: inset(0 round var(--r-md));}
+.js-motion .banner > * {transition: opacity 0.6s var(--ease-out), transform 0.9s var(--ease-out), filter 0.6s var(--ease-out);
+  transition-delay: calc(var(--open-delay, 0ms) + 140ms + var(--open-k, 0) * 90ms);}
+.js-motion .banner > .banner__text {--open-k: 1;}
+.js-motion .banner > .banner__media {--open-k: 2;}
+.js-motion .banner:not(.is-in) > * {opacity: 0; transform: translateY(var(--s5)); filter: blur(4px);}
+.js-motion .banner:not(.is-in) > .banner__media {transform: translateY(10%) scale(0.97); filter: none;}
 
-/* a coreografia de um banner só começa com a mídia meio visível: o app.js põe .is-play; até lá fica no quadro inicial */
+/* a coreografia de um banner só começa com quase o card inteiro na tela e depois de ele abrir: o app.js põe .is-play; até lá fica no quadro inicial */
 .js-motion .banner:not(.is-play) *, .js-motion .banner:not(.is-play) *::before, .js-motion .banner:not(.is-play) *::after { animation-play-state: paused !important; }
 
 /* botão de pausa de animação contínua */

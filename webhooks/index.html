@@ -1,0 +1,223 @@
+<!doctype html>
+<!-- Gerado por tools/build.mjs a partir de content/webhooks.md. Não edite este arquivo. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webhooks de vendas e assinaturas | Snapp Checkout</title>
+<meta name="description" content="Receba vendas, estornos, renovações e eventos do funil por webhook em qualquer sistema que receba HTTP, com registro de cada envio e reenvio automático.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="https://www.snappcheckout.com/webhooks">
+<link rel="alternate" type="text/markdown" href="https://www.snappcheckout.com/webhooks.md">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Snapp Checkout">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://www.snappcheckout.com/webhooks">
+<meta property="og:title" content="Webhooks de vendas e assinaturas | Snapp Checkout">
+<meta property="og:description" content="Receba vendas, estornos, renovações e eventos do funil por webhook em qualquer sistema que receba HTTP, com registro de cada envio e reenvio automático.">
+<meta property="og:image" content="https://www.snappcheckout.com/brand/og-snapp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Snapp Checkout: checkout e link de pagamento para vender no mundo inteiro">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Webhooks de vendas e assinaturas | Snapp Checkout">
+<meta name="twitter:description" content="Receba vendas, estornos, renovações e eventos do funil por webhook em qualquer sistema que receba HTTP, com registro de cada envio e reenvio automático.">
+<meta name="twitter:image" content="https://www.snappcheckout.com/brand/og-snapp.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/pages.css?v=95189749ef">
+<link rel="stylesheet" href="/v4/v3.css?v=dbb99aed66">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["WebPage","FAQPage"],"@id":"https://www.snappcheckout.com/webhooks#webpage","url":"https://www.snappcheckout.com/webhooks","name":"Webhooks de vendas e assinaturas | Snapp Checkout","headline":"Webhooks para levar cada venda ao seu sistema","description":"Receba vendas, estornos, renovações e eventos do funil por webhook em qualquer sistema que receba HTTP, com registro de cada envio e reenvio automático.","inLanguage":"pt-BR","dateModified":"2026-11-28","isPartOf":{"@id":"https://www.snappcheckout.com/#website"},"about":{"@id":"https://www.snappcheckout.com/#software"},"publisher":{"@id":"https://www.snappcheckout.com/#organization"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://www.snappcheckout.com/brand/og-snapp.png","width":1200,"height":630},"breadcrumb":{"@id":"https://www.snappcheckout.com/webhooks#breadcrumb"},"mainEntity":[{"@type":"Question","name":"Funciona com qualquer ferramenta de automação?","acceptedAnswer":{"@type":"Answer","text":"Funciona com qualquer sistema que receba um POST em JSON por HTTP. Você cola a URL que a ferramenta gerar e, se ela pedir, o token."}},{"@type":"Question","name":"Como sei que o envio veio do Snapp?","acceptedAnswer":{"@type":"Answer","text":"Cadastre um token de autenticação no webhook. O Snapp envia o token no header Authorization, e o seu sistema confere antes de aceitar."}},{"@type":"Question","name":"O webhook dispara em cada renovação da assinatura?","acceptedAnswer":{"@type":"Answer","text":"Só se você ligar Eventos de assinatura. Desligado, o webhook dispara apenas na primeira venda, e a renovação não chega como venda nova."}},{"@type":"Question","name":"Como evito processar a mesma venda duas vezes?","acceptedAnswer":{"@type":"Answer","text":"Guarde o eventId. Ele é único por ocorrência, então uma entrega repetida chega com o mesmo valor e pode ser ignorada."}},{"@type":"Question","name":"E se o meu sistema estiver fora do ar?","acceptedAnswer":{"@type":"Answer","text":"O envio fica como falha e o Snapp tenta de novo até 3 vezes. Depois disso, você reenvia pela página Eventos."}},{"@type":"Question","name":"Como testo o webhook antes de vender?","acceptedAnswer":{"@type":"Answer","text":"Gere uma compra teste na oferta. O link percorre o checkout completo com as automações, sem cobrança real, e vale por 5 minutos."}}]},{"@type":"BreadcrumbList","@id":"https://www.snappcheckout.com/webhooks#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://www.snappcheckout.com/"},{"@type":"ListItem","position":2,"name":"Webhooks","item":"https://www.snappcheckout.com/webhooks"}]}]}</script>
+<script src="/attribution.js?v=032c499842" defer></script>
+<script src="/v4/v3.js?v=9b1b0c2281" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/><path d="M6.5 15h3"/></symbol>
+<symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10 12 4l9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20h18"/></symbol>
+<symbol id="i-upsell" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+<symbol id="i-play-screen" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="m10.5 8.5 4.5 2.5-4.5 2.5z"/><path d="M8 21h8"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5"/><path d="M21 3l-6.5 18-4-7.5L3 9.5 21 3z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9s1.2-6.4 3.6-9z"/></symbol>
+<symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.75"/><path d="M17 7h.01"/></symbol>
+</svg>
+<div class="v3x">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="nav" data-nav>
+  <div class="nav__scrim" data-nav-close></div>
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="Snapp Checkout, início"><img src="/v4/images/logo-snapp-white.svg" width="88" height="21" alt="Snapp Checkout"></a>
+    <nav class="nav__links" aria-label="Principal">
+      <button class="nav__link" type="button" aria-expanded="false" aria-controls="nav-painel" data-nav-toggle>Recursos <svg class="ico"><use href="#i-chevron-down"/></svg></button>
+      <a class="nav__link" href="/#precos">Preço</a>
+      <a class="nav__link" href="/#faq">FAQ</a>
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__link nav__login" href="https://admin.snappcheckout.com/login">Entrar</a>
+      <a class="btn nav__cta" href="https://admin.snappcheckout.com/register">Começar agora</a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-painel" aria-label="Abrir menu" data-nav-toggle>
+        <svg class="ico"><use href="#i-menu"/></svg><svg class="ico"><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div class="nav__panel" id="nav-painel">
+      <span class="nav__group-label t-mono">Recursos</span>
+      <div class="nav__grid">
+        <a class="nav__item" href="/link-de-pagamento"><span class="ico-sq"><svg class="ico"><use href="#i-copy"/></svg></span><span><b>Link de pagamento</b><small>Crie o link, compartilhe e receba com cartão, Pix, boleto ou PayPal.</small></span></a>
+        <a class="nav__item" href="/checkout-para-infoprodutos"><span class="ico-sq"><svg class="ico"><use href="#i-layers"/></svg></span><span><b>Checkout para infoprodutos</b><small>O que o Snapp faz para quem vende curso, <span class="nw">e-book</span>, mentoria e assinatura.</small></span></a>
+        <a class="nav__item" href="/personalizar-checkout"><span class="ico-sq"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span><span><b>Personalizar checkout</b><small>Modelo, cores, banners, campos do comprador e domínio próprio, com prévia ao vivo.</small></span></a>
+        <a class="nav__item" href="/checkout-stripe"><span class="ico-sq"><svg class="ico"><use href="#i-card"/></svg></span><span><b>Checkout para Stripe</b><small>Use a sua conta Stripe com upsell em um clique, Apple Pay, Google Pay e assinaturas.</small></span></a>
+        <a class="nav__item" href="/checkout-paypal"><span class="ico-sq"><svg class="ico"><use href="#i-bank"/></svg></span><span><b>Checkout com PayPal</b><small>PayPal no mesmo checkout do cartão, com assinatura e entrega automática.</small></span></a>
+        <a class="nav__item" href="/upsell-e-order-bump"><span class="ico-sq"><svg class="ico"><use href="#i-upsell"/></svg></span><span><b>Upsell e order bump</b><small>Order bump na tela do pagamento e funil de upsell e downsell depois da compra.</small></span></a>
+        <a class="nav__item" href="/area-de-membros"><span class="ico-sq"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><b>Área de membros</b><small>Aulas e arquivos em uma área própria, liberada quando o pagamento é confirmado.</small></span></a>
+        <a class="nav__item" href="/chargeback"><span class="ico-sq"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></svg></span><span><b>Chargeback e disputas</b><small>Prazo de cada disputa, provas da venda, dossiê em PDF e envio da defesa ao gateway.</small></span></a>
+        <a class="nav__item" href="/webhooks"><span class="ico-sq"><svg class="ico"><use href="#i-send"/></svg></span><span><b>Webhooks</b><small>Vendas, estornos, assinaturas e funil em JSON, com registro e reenvio de cada envio.</small></span></a>
+        <a class="nav__item" href="/vender-no-exterior"><span class="ico-sq"><svg class="ico"><use href="#i-globe"/></svg></span><span><b>Vender no exterior</b><small>Ofertas em 16 moedas e checkout em 17 idiomas, com formas de pagamento locais.</small></span></a>
+        <a class="nav__item nav__item--desk" href="/precos"><span class="ico-sq"><svg class="ico"><use href="#i-percent"/></svg></span><span><b>Preços e taxas</b><small>3% por venda aprovada, sem mensalidade nem taxa de adesão.</small></span></a>
+      </div>
+      <div class="nav__menu-links">
+        <a class="nav__link" href="/precos">Preços e taxas</a>
+        <a class="nav__link" href="/#faq">FAQ</a>
+      </div>
+      <div class="nav__menu-foot">
+        <a class="btn btn--secondary btn--sm" href="https://admin.snappcheckout.com/login">Entrar</a>
+        <a class="btn btn--sm" href="https://admin.snappcheckout.com/register">Começar agora</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+</div>
+
+<main id="conteudo">
+  <div class="read head">
+    <nav aria-label="Você está aqui"><ol class="crumb"><li><a href="/">Início</a></li><li aria-current="page">Webhooks</li></ol></nav>
+    <h1>Webhooks para levar cada venda ao seu sistema</h1>
+    <p class="lead">O webhook do Snapp envia um POST em JSON para a URL que você indicar a cada venda aprovada. Ele também pode avisar estornos, chargebacks, cada evento da assinatura e os passos do funil antes da compra. Funciona com qualquer sistema que receba HTTP.</p>
+    <div class="cta-row">
+      <a class="cta-btn cta-btn--yellow" href="https://admin.snappcheckout.com/register">Criar minha conta<span class="cta-btn__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="cta-btn cta-btn--ghost" href="/precos">Ver preços<span class="cta-btn__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div>
+
+  <article class="read prose">
+<h2 id="webhook-da-conta-e-webhook-da-oferta">Webhook da conta e webhook da oferta</h2>
+<p>Em Integrações, você cadastra webhooks com nome, URL e token de autenticação e escolhe em quais ofertas usar cada um. Um webhook salvo pode ser usado em quantas ofertas você quiser.</p>
+<p>Se preferir, cadastre a URL e o token direto na oferta, na aba Integração. Uma oferta pode ter mais de um webhook, e cada um tem as próprias opções de eventos.</p>
+<h2 id="quais-eventos-chegam">Quais eventos chegam</h2>
+<p>Toda venda aprovada chega como <code>purchase.approved</code>, seja compra avulsa ou a primeira cobrança de uma assinatura. Os outros eventos são opcionais e você liga por webhook:</p>
+<ul><li><strong>Estornos e chargebacks.</strong> Venda avulsa estornada ou chargeback perdido. Ligue só se o seu sistema lê o campo <code>event</code>, senão um estorno pode ser tratado como venda nova.</li><li><strong>Eventos de assinatura.</strong> Renovação paga ou recusada, cobrança abandonada pelo gateway, cancelamento, expiração, reembolso e chargeback de um ciclo.</li><li><strong>Vendas + tracking completo.</strong> Também envia os eventos do funil, para ferramentas de rastreamento.</li></ul>
+<div class="tbl"><table><thead><tr><th scope="col">Evento</th><th scope="col">Quando chega</th><th scope="col">Opção</th></tr></thead><tbody><tr><td><code>purchase.approved</code></td><td>Compra aprovada</td><td>Sempre</td></tr><tr><td><code>purchase.refunded</code></td><td>Venda avulsa estornada</td><td>Estornos e chargebacks</td></tr><tr><td><code>purchase.chargeback</code></td><td>Chargeback perdido em venda avulsa</td><td>Estornos e chargebacks</td></tr><tr><td><code>subscription.renewed</code></td><td>Renovação paga</td><td>Eventos de assinatura</td></tr><tr><td><code>subscription.renewal_failed</code></td><td>Renovação recusada, com o gateway ainda tentando cobrar</td><td>Eventos de assinatura</td></tr><tr><td><code>subscription.unpaid</code></td><td>O gateway parou de tentar cobrar</td><td>Eventos de assinatura</td></tr><tr><td><code>subscription.canceled</code></td><td>Cancelamento pelo comprador, por você ou pelo gateway</td><td>Eventos de assinatura</td></tr><tr><td><code>subscription.expired</code></td><td>Fim dos ciclos contratados</td><td>Eventos de assinatura</td></tr><tr><td><code>subscription.refunded</code></td><td>Reembolso de um ciclo</td><td>Eventos de assinatura</td></tr><tr><td><code>subscription.chargeback</code></td><td>Reversão ou disputa de um ciclo</td><td>Eventos de assinatura</td></tr><tr><td><code>checkout.viewed</code></td><td>Visita ao checkout, uma vez por sessão a cada 24 horas</td><td>Vendas + tracking completo</td></tr><tr><td><code>checkout.initiated</code></td><td>Comprador preencheu nome, e-mail e telefone</td><td>Vendas + tracking completo</td></tr><tr><td><code>payment.pending</code></td><td>Pix ou boleto gerado e ainda não pago</td><td>Vendas + tracking completo</td></tr><tr><td><code>payment.failed</code></td><td>Pagamento recusado na compra, avisado em até 1 minuto</td><td>Vendas + tracking completo</td></tr><tr><td><code>cart.abandoned</code></td><td>Comprador deixou o e-mail e não comprou em 30 minutos</td><td>Vendas + tracking completo</td></tr></tbody></table></div>
+<p>Para liberar ou bloquear o plano de um assinante, leia <code>subscription.active</code>. Ele chega <code>true</code> na renovação paga e <code>false</code> quando o gateway para de cobrar.</p>
+<h2 id="o-que-vem-no-json">O que vem no JSON</h2>
+<p>O envio é um POST com <code>Content-Type: application/json</code>. Se você cadastrar um token, ele vai no header <code>Authorization</code> como <code>Bearer</code>.</p>
+<ul><li><strong><code>event</code> e <code>eventId</code>.</strong> O primeiro diz o que aconteceu. O segundo é único por ocorrência e serve para ignorar entregas repetidas.</li><li><strong><code>customer</code>.</strong> Nome, e-mail, telefone, documento, país, IP e endereço do comprador.</li><li><strong><code>offer</code>, <code>product</code>, <code>orderBumps</code> e <code>items</code>.</strong> O que foi comprado, com o ID customizado do produto (<code>customId</code>) quando você cadastra um.</li><li><strong><code>amount</code> e <code>payment</code>.</strong> Valor, moeda, forma de pagamento e gateway.</li><li><strong><code>tracking</code>.</strong> <code>src</code>, <code>sck</code>, UTMs, IDs de clique e dados de campanha.</li><li><strong><code>subscription</code>, <code>failure</code>, <code>refund</code> e <code>cancellation</code>.</strong> Chegam preenchidos quando se aplicam e como <code>null</code> quando não se aplicam, para o formato ser o mesmo em todo evento.</li><li><strong><code>isUpsell</code> e <code>isDownsell</code>.</strong> Dizem se a venda veio do funil de <a href="/upsell-e-order-bump">upsell</a>.</li></ul>
+<p>Os eventos do funil trazem os blocos <code>offer</code>, <code>customer</code>, <code>amount</code> e <code>tracking</code>, com UTMs, IDs de clique, <code>fbp</code>, <code>fbc</code>, user agent e <code>sessionId</code>. Na oferta, o botão Dados enviados mostra um exemplo do JSON.</p>
+<h2 id="registro-de-cada-envio">Registro de cada envio</h2>
+<p>Cada envio fica na página Eventos com o status Sucesso, Falhou ou Em reenvio. No topo aparecem o total, os envios sem contar reenvios, os sucessos, as falhas e os que estão em reenvio. Você filtra por período, tipo de evento, oferta e nome ou e-mail do cliente e abre cada envio para ver o JSON que saiu.</p>
+<p>Um envio falha quando a resposta não tem status 2xx ou não chega em 30 segundos. Nesse caso o Snapp tenta de novo até 3 vezes: cerca de 30 minutos depois da falha, depois de mais 1 hora e depois de mais 6 horas. Se a sua URL respondeu 429, a primeira nova tentativa sai em 2 minutos.</p>
+<p>Você também pode reenviar qualquer evento pelo painel. O reenvio vai para o destino original e fica registrado como um evento novo. O registro fica guardado por 90 dias. A visita ao checkout (<code>checkout.viewed</code>) não entra na página Eventos e não é reenviada.</p>
+<h2 id="integracoes-prontas">Integrações prontas</h2>
+<p>Para algumas ferramentas não é preciso montar webhook:</p>
+<ul><li><strong>UTMify</strong> recebe as vendas e também os reembolsos e chargebacks.</li><li><strong>vTurb</strong> recebe a conversão de cada venda paga que traz a chave de conversão (<code>src</code> ou <code>sck</code>) na URL do checkout.</li><li><strong>Discord.</strong> O bot do Snapp coloca o comprador no servidor com o cargo da oferta e tira o cargo em reembolso total, chargeback ou fim da assinatura.</li><li><strong>Pixel e API de Conversões</strong> da Meta, além de TikTok, Google Ads e Taboola.</li><li><strong>Resend</strong>, para os e-mails do checkout saírem com o seu remetente.</li></ul>
+<p>Os envios para a UTMify, a vTurb e as APIs de conversão da Meta, do TikTok e da Taboola também aparecem na página Eventos.</p>
+<h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+<details><summary>Funciona com qualquer ferramenta de automação?<i></i></summary><p>Funciona com qualquer sistema que receba um POST em JSON por HTTP. Você cola a URL que a ferramenta gerar e, se ela pedir, o token.</p></details>
+<details><summary>Como sei que o envio veio do Snapp?<i></i></summary><p>Cadastre um token de autenticação no webhook. O Snapp envia o token no header <code>Authorization</code>, e o seu sistema confere antes de aceitar.</p></details>
+<details><summary>O webhook dispara em cada renovação da assinatura?<i></i></summary><p>Só se você ligar Eventos de assinatura. Desligado, o webhook dispara apenas na primeira venda, e a renovação não chega como venda nova.</p></details>
+<details><summary>Como evito processar a mesma venda duas vezes?<i></i></summary><p>Guarde o <code>eventId</code>. Ele é único por ocorrência, então uma entrega repetida chega com o mesmo valor e pode ser ignorada.</p></details>
+<details><summary>E se o meu sistema estiver fora do ar?<i></i></summary><p>O envio fica como falha e o Snapp tenta de novo até 3 vezes. Depois disso, você reenvia pela página Eventos.</p></details>
+<details><summary>Como testo o webhook antes de vender?<i></i></summary><p>Gere uma compra teste na oferta. O link percorre o checkout completo com as automações, sem cobrança real, e vale por 5 minutos.</p></details>
+  </article>
+
+  <section class="more">
+    <div class="wrap">
+      <h2>Veja também</h2>
+      <ul class="cards">
+        <li><a href="/chargeback"><b>Chargeback e disputas</b><span>Prazo de cada disputa, provas da venda, dossiê em PDF e envio da defesa ao gateway.</span></a></li>
+        <li><a href="/area-de-membros"><b>Área de membros</b><span>Aulas e arquivos em uma área própria, liberada quando o pagamento é confirmado.</span></a></li>
+        <li><a href="/checkout-para-infoprodutos"><b>Checkout para infoprodutos</b><span>O que o Snapp faz para quem vende curso, e-book, mentoria e assinatura.</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <div class="box">
+        <h2>Crie a conta e publique o primeiro checkout hoje.</h2>
+        <p>Você paga 3% por venda aprovada. Sem mensalidade.</p>
+        <a class="cta-btn cta-btn--yellow" href="https://admin.snappcheckout.com/register">Criar minha conta<span class="cta-btn__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="v3x">
+<footer class="footer">
+  <div class="footer__top">
+    <img src="/v4/images/logo-snapp-white.svg" width="117" height="28" alt="Snapp Checkout" loading="lazy">
+    <a class="footer__social" href="https://www.instagram.com/snappcheckout/" aria-label="Snapp Checkout no Instagram"><svg class="ico"><use href="#i-instagram"/></svg></a>
+  </div>
+  <nav class="footer__cols" aria-label="Rodapé">
+    <div class="footer__col">
+      <h2 class="t-mono">Produto</h2>
+      <ul>
+        <li><a href="/#recursos">Ferramentas</a></li>
+        <li><a href="/#por-que">Por que o Snapp</a></li>
+        <li><a href="/#integracoes">Integrações</a></li>
+        <li><a href="/#precos">Preço</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="t-mono">Recursos</h2>
+      <ul>
+        <li><a href="/link-de-pagamento">Link de pagamento</a></li>
+        <li><a href="/checkout-para-infoprodutos">Checkout para infoprodutos</a></li>
+        <li><a href="/personalizar-checkout">Personalizar checkout</a></li>
+        <li><a href="/checkout-stripe">Checkout para Stripe</a></li>
+        <li><a href="/checkout-paypal">Checkout com PayPal</a></li>
+        <li><a href="/vender-no-exterior">Vender no exterior</a></li>
+        <li><a href="/upsell-e-order-bump">Upsell e order bump</a></li>
+        <li><a href="/area-de-membros">Área de membros</a></li>
+        <li><a href="/chargeback">Chargeback e disputas</a></li>
+        <li><a href="/webhooks">Webhooks</a></li>
+        <li><a href="/precos">Preços e taxas</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="t-mono">Suporte e legal</h2>
+      <ul>
+        <li><a href="/support">Suporte</a></li>
+        <li><a href="/terms-of-use">Termos de uso</a></li>
+        <li><a href="/privacy-policy">Privacidade</a></li>
+        <li><a href="/data-protection">Proteção de dados</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="t-mono">Conta</h2>
+      <ul>
+        <li><a href="https://admin.snappcheckout.com/login">Entrar</a></li>
+        <li><a href="https://admin.snappcheckout.com/register">Criar conta</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="footer__bottom">
+    <p class="t-fine">Feito para quem vende para o mundo.</p>
+    <p class="t-mono">© 2026 Snapp Checkout. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</div>
+</body>
+</html>

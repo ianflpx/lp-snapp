@@ -2,12 +2,15 @@
 //   /<slug>/index.html  página
 //   /<slug>.md          a mesma página em Markdown, para IAs
 //   /sitemap.xml, /llms.txt, /llms-full.txt
+// e copia o header e o footer da home para essas páginas e para as estáticas (support, termos, privacidade,
+// proteção de dados), entre os marcadores <!-- chrome:header --> / <!-- chrome:footer -->.
 // Uso: node tools/build.mjs   (sem dependências; rode depois de editar content/ ou a home)
 //
 // Regras de conteúdo do dono (23/11/2026): não citar concorrente; só afirmar o que o produto
 // faz hoje; avaliação e depoimento só com fonte real e visível na página. O gerador falha se
 // alguma página quebrar essas regras ou os limites de SEO conferidos em check().
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,6 +27,38 @@ const read = (path) => readFileSync(join(ROOT, path), "utf8");
 const write = (path, text) => {
   mkdirSync(dirname(join(ROOT, path)), { recursive: true });
   writeFileSync(join(ROOT, path), text);
+};
+
+/* ---------- Header e footer: os da home valem para todas as páginas ---------- */
+// Copiados do index.html a cada build. Âncoras da home (#precos) viram /#precos; o skip link (#conteudo)
+// continua local, então toda página precisa de <main id="conteudo">. Os ícones vão num sprite próprio.
+const chrome = (() => {
+  const home = read("index.html");
+  const grab = (re, what) => {
+    const m = home.match(re);
+    if (!m) throw new Error(`index.html: ${what} da home não encontrado`);
+    return m[0].replace(/(<a\b[^>]*\shref=")#(?!conteudo")/g, "$1/#").replace(/href="\/v4"/g, 'href="/"');
+  };
+  const header = grab(/<div class="v3x">\s*<a class="skip"[\s\S]*?<\/header>\s*<\/div>/, "header");
+  const footer = grab(/<div class="v3x">\s*<footer class="footer">[\s\S]*?<\/footer>\s*<\/div>/, "footer");
+  const symbols = [...new Set([...(header + footer).matchAll(/<use href="#([\w-]+)"/g)].map((m) => m[1]))].map((id) => {
+    const m = home.match(new RegExp(`<symbol id="${id}"[\\s\\S]*?</symbol>`));
+    if (!m) throw new Error(`index.html: ícone #${id} não encontrado`);
+    return m[0];
+  });
+  const sprite = `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">\n${symbols.join("\n")}\n</svg>`;
+  return { header: `${sprite}\n${header}`, footer };
+})();
+
+// Páginas estáticas: o build troca o que estiver entre <!-- chrome:header --> e <!-- /chrome:header --> (idem footer).
+const syncStatic = (file) => {
+  let html = read(file);
+  for (const part of ["header", "footer"]) {
+    const re = new RegExp(`<!-- chrome:${part} -->[\\s\\S]*?<!-- /chrome:${part} -->`);
+    if (!re.test(html)) throw new Error(`${file}: faltam os marcadores <!-- chrome:${part} -->`);
+    html = html.replace(re, () => `<!-- chrome:${part} -->\n${chrome[part]}\n<!-- /chrome:${part} -->`);
+  }
+  write(file, html);
 };
 
 /* ---------- Markdown (subconjunto usado em content/) ---------- */
@@ -75,8 +110,8 @@ const parse = (file) => {
 };
 
 /* ---------- HTML ---------- */
-const arrow = (size = 14) =>
-  `<span class="arr"><svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>`;
+const arrow = () =>
+  `<span class="cta-btn__go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>`;
 
 const page = (p, all) => {
   const url = `${SITE}/${p.slug}`;
@@ -114,7 +149,6 @@ const page = (p, all) => {
       },
     ],
   };
-  const navLink = (slug, label) => `<li><a href="/${slug}"${slug === p.slug ? ' aria-current="page"' : ""}>${label}</a></li>`;
 
   return `<!doctype html>
 <!-- Gerado por tools/build.mjs a partir de content/${p.slug}.md. Não edite este arquivo. -->
@@ -147,36 +181,24 @@ const page = (p, all) => {
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/pages.css">
+<link rel="stylesheet" href="/v4/v3.css">
 <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 <script src="/attribution.js" defer></script>
+<script src="/v4/v3.js" defer></script>
 </head>
 <body>
-<header class="nav">
-  <div class="wrap">
-    <a class="logo" href="/" aria-label="Snapp Checkout, página inicial"><img src="/brand/snapp-logo-white.svg" alt="Snapp Checkout" width="80" height="19"></a>
-    <ul>
-      ${navLink("checkout-para-infoprodutos", "Recursos")}
-      ${navLink("link-de-pagamento", "Link de pagamento")}
-      ${navLink("vender-no-exterior", "Venda global")}
-      ${navLink("precos", "Preços")}
-    </ul>
-    <a class="login" href="${LOGIN}">Entrar</a>
-    <a class="btn sm" href="${REGISTER}">Começar agora ${arrow(12)}</a>
-  </div>
-</header>
+${chrome.header}
 
-<main>
+<main id="conteudo">
   <div class="read head">
     <nav aria-label="Você está aqui"><ol class="crumb"><li><a href="/">Início</a></li><li aria-current="page">${esc(p.nav)}</li></ol></nav>
     <h1>${inline(p.h1)}</h1>
     <p class="lead">${inline(p.lead)}</p>
     <div class="cta-row">
-      <a class="btn" href="${REGISTER}">Criar minha conta ${arrow()}</a>
-      <a class="btn ghost" href="/precos">Ver preços ${arrow()}</a>
+      <a class="cta-btn cta-btn--yellow" href="${REGISTER}">Criar minha conta${arrow()}</a>
+      <a class="cta-btn cta-btn--ghost" href="/precos">Ver preços${arrow()}</a>
     </div>
   </div>
 
@@ -200,30 +222,13 @@ ${p.related.map((slug) => `        <li><a href="/${slug}"><b>${esc(bySlug(slug).
       <div class="box">
         <h2>Crie a conta e publique o primeiro checkout hoje.</h2>
         <p>Você paga 3% por venda aprovada. Sem mensalidade.</p>
-        <a class="btn" href="${REGISTER}">Criar minha conta ${arrow()}</a>
+        <a class="cta-btn cta-btn--yellow" href="${REGISTER}">Criar minha conta${arrow()}</a>
       </div>
     </div>
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <a href="/" aria-label="Snapp Checkout, página inicial"><img src="/brand/snapp-logo-white.svg" alt="Snapp Checkout" width="93" height="22"></a>
-    <nav aria-label="Rodapé">
-      <ul>
-${all.map((x) => `        <li><a href="/${x.slug}">${esc(x.nav)}</a></li>`).join("\n")}
-      </ul>
-      <ul>
-        <li><a href="/terms-of-use">Termos de uso</a></li>
-        <li><a href="/privacy-policy">Privacidade</a></li>
-        <li><a href="/data-protection">Proteção de dados</a></li>
-        <li><a href="/support">Suporte</a></li>
-        <li><a href="https://www.instagram.com/snappcheckout/">Instagram</a></li>
-      </ul>
-    </nav>
-    <div class="copy"><span>© ${UPDATED.slice(0, 4)} Snapp Checkout. Todos os direitos reservados.</span><span>Feito para quem vende para o mundo.</span></div>
-  </div>
-</footer>
+${chrome.footer}
 </body>
 </html>
 `;
@@ -330,7 +335,18 @@ for (const p of pages) {
   write(`${p.slug}/index.html`, page(p, pages));
   write(`${p.slug}.md`, mirror(p));
 }
+for (const path of STATIC_PATHS.filter((p) => p !== "/")) syncStatic(`${path.slice(1)}/index.html`);
 write("sitemap.xml", sitemap(pages));
 write("llms.txt", llms(pages));
 write("llms-full.txt", llmsFull(pages));
+
+// Versão dos CSS/JS locais: ?v=<hash do conteúdo> em todo HTML (home inclusive), para o vercel.json cachear esses
+// arquivos por 1 ano. Por isso rode o build também depois de mexer em qualquer .css/.js do site.
+const hashes = new Map();
+const version = (path) => {
+  if (!hashes.has(path)) hashes.set(path, createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex").slice(0, 10));
+  return hashes.get(path);
+};
+for (const file of ["index.html", ...pages.map((p) => `${p.slug}/index.html`), ...STATIC_PATHS.filter((p) => p !== "/").map((p) => `${p.slice(1)}/index.html`)])
+  write(file, read(file).replace(/((?:href|src)=")(\/[\w/.-]+\.(?:css|js))(?:\?v=\w+)?"/g, (_, attr, path) => `${attr}${path}?v=${version(path.slice(1))}"`));
 console.log(`✓ ${pages.length} páginas, sitemap.xml, llms.txt e llms-full.txt (${UPDATED})`);
