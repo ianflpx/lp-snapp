@@ -2,8 +2,8 @@
    O mapa (malha + continentes) é pré-gerado por .design/v3/tools/build-map.mjs num quadro de 1008 × 454, o mesmo
    da mídia do banner alto; arcos e pins usam as coordenadas que o script imprime.
    A peça responde à largura da própria mídia, não à do viewport: abaixo de 640px o quadro fica com ~640px e só o
-   lado esquerdo aparece (Américas e Europa, 4 pílulas e a conta; as outras 3 cidades ficam só com ponto e arco);
-   a partir de 640px entra o quadro inteiro, com as 7 pílulas. É o que limita a escala em 768 (quadro inteiro,
+   lado esquerdo aparece (Américas e Europa, 4 pílulas e a conta; as outras 7 cidades ficam só com ponto e arco);
+   a partir de 640px entra o quadro inteiro, com as 11 pílulas. É o que limita a escala em 768 (quadro inteiro,
    e não um recorte gigante). Nenhuma animação muda com a largura: cruzar o corte não reinicia a coreografia. */
 .banner__media:has(> .mapa) { aspect-ratio: auto; } /* a altura vem do quadro */
 .mapa {
@@ -14,9 +14,6 @@
 }
 .mapa__land, .mapa__arcs { position: absolute; inset: 0; width: 100%; height: 100%; }
 .mapa__arcs path { fill: none; stroke: var(--b-fg); stroke-linecap: round; }
-/* rede de fundo: as outras moedas da lista, em traço fino */
-.mapa__net path { stroke-width: 1.4; stroke-opacity: 0.2; }
-.mapa__net .mapa__dots { stroke-width: 7; stroke-opacity: 0.42; }
 .mapa__dash path { stroke-width: 3; stroke-dasharray: 6 10; }
 /* a máscara revela o tracejado do fim (cidade) para o começo (conta) do caminho, e o ponto viaja na ponta dele */
 .mapa__ink path { stroke: #fff; stroke-width: 12; stroke-dasharray: 100; }
@@ -41,39 +38,36 @@
 .mapa__conta .chip { padding-inline: 0.9em 1em; }
 .mapa__conta img { width: 0.95em; height: 1.05em; }
 .mapa__count { height: 1.2em; margin-left: 0.3em; padding-left: 0.75em; border-left: 1px solid rgba(255, 255, 255, 0.26); overflow: hidden; color: var(--yellow); font-variant-numeric: tabular-nums; }
-.mapa__roll { display: grid; grid-auto-rows: 1.2em; translate: 0 -87.5%; }
+.mapa__roll { display: grid; grid-auto-rows: 1.2em; translate: 0 calc(-11 / 12 * 100%); } /* 12 linhas: 0 a 11 vendas */
 
 .mapa__legend { position: absolute; right: calc(100% - 100cqw + 4.6cqw); bottom: 4cqw; display: flex; color: var(--b-muted); font: 500 11px / 1.2 var(--mono); letter-spacing: 0.02em; text-transform: uppercase; }
-.mapa__legend span + span { margin-left: 1.1em; padding-left: 1.1em; border-left: 1px solid var(--b-tint); }
+.mapa__legend span + span { margin-left: 0.7em; padding-left: 0.7em; border-left: 1px solid var(--b-tint); }
 .mapa__legend b { display: block; margin-bottom: 0.2em; color: var(--b-fg); font: 800 1.65em / 1 var(--font); letter-spacing: -0.02em; }
 
 @container (min-width: 640px) {
   .mapa { width: 100%; font-size: max(13.5px, 1.68cqw); }
-  .mapa__net path { stroke-width: 1; }
-  .mapa__net .mapa__dots { stroke-width: 5; }
   .mapa__dash path { stroke-width: 2; stroke-dasharray: 5 8; }
   .mapa__run path { stroke-width: 7; }
   .mapa__wide .chip { visibility: visible; }
   .mapa__pin--dt { --tx: -50%; --ty: calc(-100% - 0.9em); }
   .mapa__pin--dl { --tx: calc(-100% - 0.9em); --ty: -50%; }
   .mapa__pin--dr { --tx: 0.9em; --ty: -50%; }
-  .mapa__legend { right: auto; left: 2.4cqw; bottom: 2.4cqw; font-size: max(11px, 1.1cqw); }
+  .mapa__legend { right: 2.4cqw; bottom: 2.4cqw; font-size: max(11px, 1.1cqw); }
+  .mapa__legend span + span { margin-left: 1.1em; padding-left: 1.1em; }
   .mapa__legend b { font-size: 2em; }
 }
 
-/* coreografia de entrada (~4,4 s, uma vez e para):
-   a rede aparece, as pílulas saltam dos pontos em cascata e então as vendas disparam uma a uma: o ponto e a
+/* coreografia de entrada (~5,5 s, uma vez e para):
+   as pílulas saltam dos pontos em cascata e então as vendas disparam uma a uma: o ponto e a
    pílula respondem, o anel pulsa, o arco se desenha com um ponto na ponta e, quando ele chega, a conta soma. */
-.js-motion .banner.is-in .mapa__net { animation: mapa-fade 1.2s var(--ease-out) 0.1s both; }
 .js-motion .banner.is-in .mapa__pin { animation: mapa-pin 0.6s var(--spring) both; animation-delay: calc(0.15s + var(--n) * 0.07s); }
 .js-motion .banner.is-in .mapa__pin::before { animation: mapa-beat 0.45s var(--spring); animation-delay: calc(var(--t0) + var(--k) * var(--gap)); }
 .js-motion .banner.is-in .mapa__pin::after { animation: mapa-ring 0.8s var(--ease-out) both; animation-delay: calc(var(--t0) + var(--k) * var(--gap)); }
 .js-motion .banner.is-in .mapa__pin .chip { animation: mapa-bump 0.45s var(--spring); animation-delay: calc(var(--t0) + var(--k) * var(--gap)); }
 .js-motion .banner.is-in .mapa__ink path { animation: mapa-draw var(--fly) cubic-bezier(0.5, 0, 0.3, 1) both; animation-delay: calc(var(--t0) + var(--k) * var(--gap)); }
 .js-motion .banner.is-in .mapa__run path { animation: mapa-fly var(--fly) cubic-bezier(0.5, 0, 0.3, 1) both; animation-delay: calc(var(--t0) + var(--k) * var(--gap)); }
-.js-motion .banner.is-in .mapa__conta .chip { animation: mapa-hit var(--gap) var(--ease-out) calc(var(--t0) + var(--fly)) 7; }
-.js-motion .banner.is-in .mapa__roll { animation: mapa-roll calc(7 * var(--gap)) var(--ease-out) calc(var(--t0) + var(--fly)) both; }
-@keyframes mapa-fade { from { opacity: 0; } }
+.js-motion .banner.is-in .mapa__conta .chip { animation: mapa-hit var(--gap) var(--ease-out) calc(var(--t0) + var(--fly)) 11; }
+.js-motion .banner.is-in .mapa__roll { animation: mapa-roll calc(11 * var(--gap)) var(--ease-out) calc(var(--t0) + var(--fly)) both; }
 @keyframes mapa-pin { from { opacity: 0; scale: 0.5; } }
 @keyframes mapa-beat { 40% { scale: 1.6; } }
 @keyframes mapa-ring { 0% { opacity: 0; scale: 1; } 12% { opacity: 0.7; } 100% { opacity: 0; scale: 4.2; } }
@@ -81,4 +75,4 @@
 @keyframes mapa-draw { from { stroke-dashoffset: -100; } }
 @keyframes mapa-fly { 0% { stroke-dashoffset: -100; opacity: 0; } 10%, 88% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
 @keyframes mapa-hit { 28% { scale: 1.1; } }
-@keyframes mapa-roll { 0% { translate: 0 0; } 14.286% { translate: 0 -12.5%; } 28.571% { translate: 0 -25%; } 42.857% { translate: 0 -37.5%; } 57.143% { translate: 0 -50%; } 71.429% { translate: 0 -62.5%; } 85.714% { translate: 0 -75%; } }
+@keyframes mapa-roll { 0.000% { translate: 0 0.000%; } 9.091% { translate: 0 -8.333%; } 18.182% { translate: 0 -16.667%; } 27.273% { translate: 0 -25.000%; } 36.364% { translate: 0 -33.333%; } 45.455% { translate: 0 -41.667%; } 54.545% { translate: 0 -50.000%; } 63.636% { translate: 0 -58.333%; } 72.727% { translate: 0 -66.667%; } 81.818% { translate: 0 -75.000%; } 90.909% { translate: 0 -83.333%; } }

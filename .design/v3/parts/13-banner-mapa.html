@@ -1,19 +1,15 @@
 <article class="banner banner--full banner--tall banner--yellow" data-reveal="up" style="--i:0">
   <div class="banner__head">
     <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-globe"/></svg></span>Multi-moeda</h3>
-    <a class="banner__go sq" href="/vender-no-exterior" aria-label="Conhecer a venda em várias moedas"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+    <a class="banner__go" href="/vender-no-exterior" aria-label="Conhecer a venda em várias moedas"></a>
   </div>
-  <p class="banner__text">Crie a oferta em 16 moedas. O checkout abre em 17 idiomas e pode mostrar o preço na moeda do comprador.</p>
-  <div class="banner__media" role="img" aria-label="Mapa-múndi com o preço da mesma oferta em sete cidades: R$ 97 em São Paulo, US$ 27 em Nova York, MX$ 499 na Cidade do México, € 25 em Lisboa e em Berlim, zł 99 em Varsóvia e ¥ 3.900 em Tóquio. Um arco tracejado leva cada venda até a sua conta, que soma sete vendas.">
+  <p class="banner__text">Venda para mais de 180 países, em 16 moedas e com checkout em 17 idiomas.</p>
+  <div class="banner__media" role="img" aria-label="Mapa-múndi com o preço da mesma oferta em onze cidades: R$ 97 em São Paulo, US$ 27 em Nova York, MX$ 499 na Cidade do México, COL$ 99.900 em Bogotá, S/ 99 em Lima, € 25 em Lisboa e em Berlim, zł 99 em Varsóvia, ₺ 999 em Istambul, ₩ 35.000 em Seul e ¥ 3.900 em Tóquio. Um arco tracejado leva cada venda até a sua conta, que soma onze vendas.">
     <div class="mapa">
       <img class="mapa__land" src="/v3/images/world-map.svg" width="1008" height="454" alt="" loading="lazy">
       <!-- coordenadas impressas por .design/v3/tools/build-map.mjs; todo arco sai da conta e termina na cidade.
            --k é a ordem em que as vendas disparam -->
       <svg class="mapa__arcs" viewBox="0 0 1008 454" aria-hidden="true" focusable="false">
-        <g class="mapa__net">
-          <path d="M375 320Q256 330 146 286M375 320Q260 363 137 359M375 320Q268 329 173 379M375 320Q318 411 223 459M375 320Q292 379 231 461M375 320Q458 216 485 86M375 320Q492 239 501 97M375 320Q526 269 525 110M375 320Q541 293 535 125M375 320Q651 291 883 140"/>
-          <path class="mapa__dots" d="M146 286h0M137 359h0M173 379h0M485 86h0M501 97h0M525 110h0M535 125h0M883 140h0"/>
-        </g>
         <mask id="mapa-draw" maskUnits="userSpaceOnUse" x="0" y="0" width="1008" height="454">
           <g class="mapa__ink">
             <path pathLength="100" style="--k:4" d="M375 320Q201 321 59 221"/>
@@ -23,6 +19,10 @@
             <path pathLength="100" style="--k:5" d="M375 320Q477 219 482 76"/>
             <path pathLength="100" style="--k:6" d="M375 320Q524 243 507 77"/>
             <path pathLength="100" style="--k:3" d="M375 320Q688 346 932 149"/>
+            <path pathLength="100" style="--k:8" d="M375 320Q250 372 146 286"/>
+            <path pathLength="100" style="--k:10" d="M375 320Q260 363 137 359"/>
+            <path pathLength="100" style="--k:9" d="M375 320Q541 293 535 125"/>
+            <path pathLength="100" style="--k:7" d="M375 320Q651 291 883 140"/>
           </g>
         </mask>
         <g class="mapa__dash" mask="url(#mapa-draw)">
@@ -33,6 +33,10 @@
           <path d="M375 320Q477 219 482 76"/>
           <path d="M375 320Q524 243 507 77"/>
           <path d="M375 320Q688 346 932 149"/>
+          <path d="M375 320Q250 372 146 286"/>
+          <path d="M375 320Q260 363 137 359"/>
+          <path d="M375 320Q541 293 535 125"/>
+          <path d="M375 320Q651 291 883 140"/>
         </g>
         <g class="mapa__run">
           <path pathLength="100" style="--k:4" d="M375 320Q201 321 59 221"/>
@@ -42,19 +46,27 @@
           <path pathLength="100" style="--k:5" d="M375 320Q477 219 482 76"/>
           <path pathLength="100" style="--k:6" d="M375 320Q524 243 507 77"/>
           <path pathLength="100" style="--k:3" d="M375 320Q688 346 932 149"/>
+          <path pathLength="100" style="--k:8" d="M375 320Q250 372 146 286"/>
+          <path pathLength="100" style="--k:10" d="M375 320Q260 363 137 359"/>
+          <path pathLength="100" style="--k:9" d="M375 320Q541 293 535 125"/>
+          <path pathLength="100" style="--k:7" d="M375 320Q651 291 883 140"/>
         </g>
       </svg>
 
       <span class="mapa__pin mapa__wide mapa__pin--dr" style="--x:5.85%;--y:48.68%;--n:0;--k:4"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/mx.png" width="80" height="46" alt="" loading="lazy">MX$ 499</span></span>
-      <span class="mapa__pin mapa__pin--l mapa__pin--dl" style="--x:17.36%;--y:27.97%;--n:1;--k:0"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/us.png" width="80" height="42" alt="" loading="lazy">US$ 27</span></span>
-      <span class="mapa__pin mapa__pin--l mapa__pin--dr" style="--x:25.5%;--y:90.31%;--n:2;--k:2"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/br.png" width="80" height="56" alt="" loading="lazy">R$ 97</span></span>
-      <span class="mapa__pin mapa__pin--l mapa__pin--dl" style="--x:39.78%;--y:29.74%;--n:3;--k:1"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/pt.png" width="80" height="53" alt="" loading="lazy">€ 25</span></span>
-      <span class="mapa__pin mapa__wide mapa__pin--dl" style="--x:47.82%;--y:16.74%;--n:4;--k:5"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/de.png" width="80" height="48" alt="" loading="lazy">€ 25</span></span>
-      <span class="mapa__pin mapa__pin--tl mapa__pin--dr" style="--x:50.3%;--y:16.96%;--n:5;--k:6"><span class="chip"><span class="mapa__flag mapa__flag--pl"></span>zł 99</span></span>
-      <span class="mapa__pin mapa__wide mapa__pin--dt" style="--x:92.46%;--y:32.82%;--n:6;--k:3"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/jp.png" width="80" height="53" alt="" loading="lazy">¥ 3.900</span></span>
+      <span class="mapa__pin mapa__wide mapa__pin--dl" style="--x:13.59%;--y:79.07%;--n:1;--k:10"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/pe.png" width="80" height="53" alt="" loading="lazy">S/ 99</span></span>
+      <span class="mapa__pin mapa__wide mapa__pin--dr" style="--x:14.48%;--y:63%;--n:2;--k:8"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/co.png" width="80" height="53" alt="" loading="lazy">COL$ 99.900</span></span>
+      <span class="mapa__pin mapa__pin--l mapa__pin--dl" style="--x:17.36%;--y:27.97%;--n:3;--k:0"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/us.png" width="80" height="42" alt="" loading="lazy">US$ 27</span></span>
+      <span class="mapa__pin mapa__pin--l mapa__pin--dr" style="--x:25.5%;--y:90.31%;--n:4;--k:2"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/br.png" width="80" height="56" alt="" loading="lazy">R$ 97</span></span>
+      <span class="mapa__pin mapa__pin--l mapa__pin--dl" style="--x:39.78%;--y:29.74%;--n:5;--k:1"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/pt.png" width="80" height="53" alt="" loading="lazy">€ 25</span></span>
+      <span class="mapa__pin mapa__wide mapa__pin--dl" style="--x:47.82%;--y:16.74%;--n:6;--k:5"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/de.png" width="80" height="48" alt="" loading="lazy">€ 25</span></span>
+      <span class="mapa__pin mapa__pin--tl mapa__pin--dr" style="--x:50.3%;--y:16.96%;--n:7;--k:6"><span class="chip"><span class="mapa__flag mapa__flag--pl"></span>zł 99</span></span>
+      <span class="mapa__pin mapa__wide mapa__pin--dr" style="--x:53.08%;--y:27.53%;--n:8;--k:9"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/tr.png" width="80" height="53" alt="" loading="lazy">₺ 999</span></span>
+      <span class="mapa__pin mapa__wide mapa__pin--dl" style="--x:87.6%;--y:30.84%;--n:9;--k:7"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/kr.png" width="80" height="53" alt="" loading="lazy">₩ 35.000</span></span>
+      <span class="mapa__pin mapa__wide mapa__pin--dt" style="--x:92.46%;--y:32.82%;--n:10;--k:3"><span class="chip"><img class="mapa__flag" src="/v2/images/flags/jp.png" width="80" height="53" alt="" loading="lazy">¥ 3.900</span></span>
 
-      <span class="mapa__conta" style="--x:37.2%;--y:70.48%"><span class="chip chip--dark"><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt="" loading="lazy">Sua conta<span class="mapa__count"><span class="mapa__roll"><span>0 vendas</span><span>1 venda</span><span>2 vendas</span><span>3 vendas</span><span>4 vendas</span><span>5 vendas</span><span>6 vendas</span><span>7 vendas</span></span></span></span></span>
-      <p class="mapa__legend"><span><b>16</b>moedas</span><span><b>17</b>idiomas</span></p>
+      <span class="mapa__conta" style="--x:37.2%;--y:70.48%"><span class="chip chip--dark"><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt="" loading="lazy">Sua conta<span class="mapa__count"><span class="mapa__roll"><span>0 vendas</span><span>1 venda</span><span>2 vendas</span><span>3 vendas</span><span>4 vendas</span><span>5 vendas</span><span>6 vendas</span><span>7 vendas</span><span>8 vendas</span><span>9 vendas</span><span>10 vendas</span><span>11 vendas</span></span></span></span></span></span>
+      <p class="mapa__legend"><span><b>16</b>moedas</span><span><b>17</b>idiomas</span><span><b>+180</b>países</span></p>
     </div>
   </div>
 </article>

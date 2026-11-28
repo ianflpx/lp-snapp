@@ -1,6 +1,6 @@
 ---
 title: Link de pagamento para vender online | Snapp Checkout
-description: Crie um link de pagamento com cartão, Pix, boleto e PayPal, em 17 idiomas, e receba direto na sua conta do gateway. 3% por venda aprovada, sem mensalidade.
+description: Crie links de pagamento com checkout em 17 idiomas e aceite cartão, Pix, boleto e PayPal. Receba direto no seu gateway. 3% por venda aprovada, sem mensalidade.
 h1: Link de pagamento com checkout completo
 nav: Link de pagamento
 card: Crie o link, compartilhe e receba com cartão, Pix, boleto ou PayPal.
@@ -68,7 +68,7 @@ Sim. O Pix funciona pela Efí, Pagar.me, XPag, Mercado Pago, Whop e, quando disp
 
 ### Posso receber em dólar ou euro pelo link?
 
-Sim. A oferta pode ser criada em 16 moedas, entre elas real, dólar e euro. Veja como [vender no exterior](/vender-no-exterior).
+Sim. Você pode criar ofertas em 16 moedas, incluindo real, dólar americano e euro. Veja como [vender no exterior](/vender-no-exterior).
 
 ### Posso usar o meu domínio no link?
 

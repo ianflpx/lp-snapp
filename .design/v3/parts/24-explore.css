@@ -48,7 +48,7 @@
 }
 .explore-card__bar { flex: 1; display: flex; flex-direction: column; padding: 16px 16px 0; border-top: 1px solid var(--line); }
 .explore-card__text { display: grid; gap: 10px; }
-.explore-card__eyebrow { color: var(--muted); }
+.explore-card__eyebrow { color: var(--muted); transition: color 0.3s var(--ease); }
 .explore-card__more {
   display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: auto;
   font: 500 var(--fs-small) / var(--lh-small) var(--font); white-space: nowrap;
@@ -70,8 +70,7 @@
   .explore-card:hover .explore-card__more .ico, .explore-card:focus-visible .explore-card__more .ico { opacity: 1; transform: none; }
 }
 @media (hover: hover) and (min-width: 800px) {
-  .explore-card__title { color: var(--muted); transition: color 0.3s var(--ease); }
-  .explore-card:hover .explore-card__title, .explore-card:focus-visible .explore-card__title { color: var(--ink); }
+  .explore-card:hover .explore-card__eyebrow, .explore-card:focus-visible .explore-card__eyebrow { color: var(--ink); }
 }
 
 /* ── Capas: campo de cor da família + recorte de produto em `em`.
@@ -109,10 +108,9 @@
   border: 1px solid #dcdcd6; background: #fff; color: #1a1f71; font: italic 800 0.72em / 1 var(--font);
 }
 .xc-pp { width: auto; height: 1.5em; }
-.xc-tile { display: grid; place-items: center; width: 2.7em; height: 1.85em; border: 1px solid #dcdcd6; border-radius: 0.45em; overflow: hidden; color: #55555c; }
-.xc-tile img { width: 1.7em; height: 1.7em; }
-.xc-tile .xc-pp { width: auto; height: 1.1em; }
-.xc-tile .ico { font-size: 1.15em; }
+.xc-tile { display: grid; place-items: center; width: 3.3em; height: 2.2em; border: 1px solid #e4e4e7; border-radius: 0.55em; background: #fff; }
+.xc-tile > svg { width: auto; height: 1.25em; }
+.xc-tile .xc-pp { width: auto; height: 1.35em; }
 /* estado que aparece no hover do card, por cima do botão (Copiado, Pago, Adicionado) */
 .xc-done {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 0.4em;

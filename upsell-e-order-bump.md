@@ -9,7 +9,7 @@ O Snapp tem as três ferramentas de aumento de ticket no mesmo checkout. O order
 ## Order bump, upsell e downsell
 
 - **Order bump** é uma oferta complementar que o comprador marca na tela do pagamento. Entra na mesma cobrança do produto principal.
-- **Upsell** é uma oferta mostrada depois da compra aprovada, numa página só dela. O comprador aceita sem digitar os dados de novo.
+- **Upsell** é uma oferta mostrada depois da compra aprovada, em uma página só dela. O comprador aceita sem digitar os dados de novo.
 - **Downsell** é a oferta mais barata que aparece para quem recusou o upsell.
 
 ## Como funciona o order bump no Snapp
@@ -31,7 +31,7 @@ A página do upsell é sua, feita no construtor que você já usa. O Snapp entre
 | PayPal | Um clique em pagamento único, com a compra em um clique ligada |
 | Cartão pelo Mercado Pago | Um clique em pagamento à vista |
 | Pix | Um Pix novo com os dados do comprador já preenchidos |
-| Outras formas | O comprador conclui num checkout alternativo que você define |
+| Outras formas | O comprador conclui em um checkout alternativo que você define |
 
 ## Upsell para quem pagou no Pix
 
@@ -43,7 +43,7 @@ Quem comprou no Pix e clica em comprar no upsell recebe um Pix novo no mesmo gat
 
 O order bump é escolhido antes de pagar, na mesma tela e na mesma cobrança. O upsell é oferecido depois da compra aprovada, em outra página.
 
-### Quantos order bumps posso colocar numa oferta?
+### Quantos order bumps posso colocar em uma oferta?
 
 Vários. O painel mostra quantos estão ativos e você reordena arrastando.
 

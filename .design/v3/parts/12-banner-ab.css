@@ -1,108 +1,129 @@
 /* ───────── 12 · Banner Teste A/B ─────────
-   Painel claro (salta do card grafite) ancorado embaixo, que sangra pela direita e por baixo: um link se divide
-   em dois layouts de checkout e, abaixo, visitas, vendas e faturamento de cada versão na mesma escala.
-   O `em` tem piso de 11.5px; as miniaturas cedem altura quando ele aperta. */
+   Dois celulares lado a lado, sangrando por baixo, com dois layouts de checkout do produto: A é o clássico
+   (resumo em card, campos em grupo, formas de pagamento em blocos); B é o novo com banner (pagamento expresso,
+   caixa do cartão e order bump), como os do app de checkout. Em cima de cada um, as vendas da versão
+   com uma barra na mesma escala: a B, que vendeu mais, fica em amarelo. O `em` tem piso de 11.5px. */
 .ab {
-  --ab-bleed: 3em; --ab-g: 0.8em; --ab-stem: 0.75em; --ab-r: 0.6em;
-  --ab-mini: clamp(3.6em, calc(81.23cqw - 18em), 5.5em); /* a mídia tem 81.23cqw de altura no mobile */
-  position: absolute; inset: 0; font-size: max(11.5px, 3.4cqw);
+  position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2em;
+  padding: 0.3em var(--s5) 0; font-size: max(11.5px, 3.4cqw);
 }
-.ab__panel {
-  position: absolute; inset: 0.8em calc(var(--ab-bleed) * -1) -3em var(--s5);
-  padding: 0.9em calc(var(--ab-bleed) + 1.1em) 0 1.1em; border-radius: 1em 0 0 0; background: #fff; color: #111113;
-  font: 400 1em / 1.3 var(--font); letter-spacing: 0; text-align: left;
-}
-.ab__panel b { font-weight: 600; }
-.ab__cap { display: block; margin-bottom: 0.3em; color: #6b6b72; font-size: 0.84em; }
-.ab__field {
-  display: flex; align-items: center; gap: 0.45em; height: 2.6em; padding: 0 0.8em;
-  border-radius: 0.65em; background: #f7f7f4; box-shadow: inset 0 0 0 1px #e7e7e4; font-size: 0.96em; white-space: nowrap;
-}
-.ab__field .ico { color: #8b8b92; font-size: 1.1em; stroke-width: 2; }
-.ab__field .ico ~ .ico { margin-left: auto; }
+.ab__ver { display: flex; flex-direction: column; gap: 1em; min-height: 0; }
 
-/* rótulos à esquerda, uma coluna por versão */
-.ab__grid { display: grid; grid-template-columns: 5.9em 1fr 1fr; column-gap: var(--ab-g); }
-/* o link se divide: haste, travessa e uma descida para cada versão */
-.ab__div { align-self: start; margin-top: calc(var(--ab-stem) - 0.6em); color: #6b6b72; font-size: 0.84em; line-height: 1.2; }
-.ab__fork { position: relative; grid-column: 2 / 4; height: calc(var(--ab-stem) + 1.35em); margin-inline: calc(25% - var(--ab-g) / 4); }
-.ab__fork i { position: absolute; left: 50%; top: 0; height: var(--ab-stem); margin-left: -1px; border-left: 2px solid #111113; transform-origin: 50% 0; }
-.ab__fork::before {
-  content: ""; position: absolute; inset: var(--ab-stem) 0 0; border: 2px solid #111113; border-bottom: 0;
-  border-radius: 0.7em 0.7em 0 0; transform-origin: 50% 0;
+/* vendas de cada versão: o número conta junto com a barra (12-banner-ab.js); as duas na mesma escala */
+.ab__m { display: grid; grid-template-columns: auto auto 1fr; align-items: center; gap: 0.6em 0.5em; }
+.ab__tag {
+  display: grid; place-items: center; width: 1.9em; height: 1.9em; border-radius: 0.5em;
+  background: #fff; color: #111113; font-size: 0.96em; line-height: 1;
 }
-.ab__fork b {
-  position: absolute; left: 25%; top: var(--ab-stem); translate: -50% -50%; padding: 0.12em 0.5em;
-  border-radius: 99em; background: var(--yellow); color: #0a0a0b; font-size: 0.96em; line-height: 1.15;
-}
-.ab__fork b + b { left: 75%; }
-.ab__ver { display: grid; gap: 0.4em; }
-.ab__fork + .ab__ver { grid-column: 2; }
-.ab__ver b { font-size: 0.96em; line-height: 1.3; }
-/* miniaturas: cartão claro sobre fundo escuro. A tem o produto em cima; B tem as etapas em cima e o resumo embaixo. */
-.ab__mini { display: grid; grid-template-rows: minmax(0, 1fr); justify-items: center; height: var(--ab-mini); padding: 0.35em 0; border-radius: 0.65em; background: #111113; }
-.ab__pg { display: grid; grid-template-rows: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); gap: 0.24em; min-height: 0; width: 60%; padding: 0.35em 0.4em; border-radius: 0.3em; background: #fff; }
-.ab__pg i { border-radius: 0.18em; }
-.ab__pg .f { box-shadow: inset 0 0 0 1px #d6d6d1; }
-.ab__pg .c { background: var(--yellow); }
-.ab__pg .k {
-  background:
-    linear-gradient(#b9b9b4, #b9b9b4) 48% 22% / 38% 24% no-repeat,
-    linear-gradient(#dcdcd6, #dcdcd6) 40% 80% / 26% 24% no-repeat,
-    linear-gradient(#111113, #111113) 100% 50% / 15% 30% no-repeat;
-}
-.ab__pg .k::before { content: ""; display: block; height: 100%; aspect-ratio: 1; border-radius: inherit; background: #111113; }
-.ab__pg .s {
-  background:
-    linear-gradient(var(--yellow-deep), var(--yellow-deep)) 0 50% / 30% 42% no-repeat,
-    linear-gradient(#d6d6d1, #d6d6d1) 50% 50% / 30% 42% no-repeat,
-    linear-gradient(#d6d6d1, #d6d6d1) 100% 50% / 30% 42% no-repeat;
-}
+.ab__m b[data-ab] { color: var(--b-fg); font-size: 1.6em; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.ab__m small { color: var(--b-muted); font-size: 0.9em; }
+.ab__m i { grid-column: 1 / -1; height: 0.5em; overflow: hidden; border-radius: 99em; background: rgba(255, 255, 255, 0.14); }
+.ab__m i::after { content: ""; display: block; width: calc(var(--v) * 100%); height: 100%; border-radius: inherit; background: rgba(255, 255, 255, 0.55); transform-origin: 0 50%; }
+.is-win .ab__tag { background: var(--yellow); color: #0a0a0b; }
+.is-win .ab__m b[data-ab] { color: var(--yellow); }
+.is-win .ab__m i::after { background: var(--yellow); }
 
-/* métricas: rótulo e escala à esquerda; em cada versão, o valor e a barra (as duas versões na mesma escala) */
-.ab__k, .ab__m { padding-top: var(--ab-r); }
-.ab__k { position: relative; display: grid; align-content: center; font-size: 0.96em; line-height: 1.2; white-space: nowrap; }
-.ab__k small { color: #6b6b72; font-size: 0.875em; }
-.ab__k::before { content: ""; position: absolute; left: 0; top: calc(var(--ab-r) * 0.4); width: 100cqw; border-top: 1px solid #e7e7e4; }
-.ab__m { display: grid; gap: 0.3em; }
-.ab__m b { line-height: 1.2; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.ab__m i {
-  position: relative; height: 0.6em; overflow: hidden; border-radius: 99em;
-  background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), rgba(255, 255, 255, 0.4) 0 25%) #111113;
+/* celular: moldura escura e tela clara, cortados pela borda de baixo do card */
+.ab__phone {
+  flex: 1; min-height: 0; margin-inline: 0.5em; padding: 0.45em 0.45em 0;
+  border-radius: 1.7em 1.7em 0 0; background: #0a0a0b; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
 }
-.ab__m i::after { content: ""; display: block; width: calc(var(--v) * 100%); height: 100%; border-radius: inherit; background: var(--yellow); transform-origin: 0 50%; }
-/* graduação da escala também por cima do preenchimento */
-.ab__m i::before { content: ""; position: absolute; inset: 0; z-index: 1; background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), rgba(10, 10, 11, 0.3) 0 25%); }
+.ab__scr {
+  display: flex; flex-direction: column; gap: 0.45em; height: 100%; padding: 0.6em 0.75em; font-size: 0.85em;
+  border-radius: 1.3em 1.3em 0 0; background: #fff; overflow: hidden;
+}
+.ab__scr::before { content: ""; flex: none; align-self: center; width: 2.6em; height: 0.55em; margin-bottom: 0.35em; border-radius: 99em; background: #0a0a0b; }
+.ab__scr > * { flex: none; }
+.ab__scr :where(i, span) { display: block; }
+/* peças comuns: linha de texto, título de seção, preço, campo, botão e letra miúda */
+.ab__ln { width: var(--w, 60%); height: 0.4em; border-radius: 99em; background: #dcdcd6; }
+.ab__ln--h { height: 0.5em; margin-top: 0.15em; background: #3a3a3f; }
+.ab__ln--price { width: 2.6em; height: 0.55em; background: #111113; }
+.ab__ln--fine { align-self: center; height: 0.35em; background: #e7e7e4; }
+.ab__fld { height: 1.55em; border-radius: 0.4em; box-shadow: inset 0 0 0 1px #d6d6d1; }
+.ab__cta {
+  height: 2em; margin-top: 0.15em; border-radius: 0.45em;
+  box-shadow: inset 0 0 0 1.5px var(--yellow);
+}
+.ab__th { flex: none; width: 2.3em; aspect-ratio: 1; border-radius: 0.4em; background: radial-gradient(circle, var(--yellow) 0 0.38em, transparent calc(0.38em + 1px)) #111113; }
+.ab__txt { flex: 1; display: grid; gap: 0.3em; min-width: 0; }
+
+/* A, o layout clássico: resumo do produto em card, campos colados em grupo, formas de pagamento em blocos */
+.ab__sum { display: flex; align-items: center; gap: 0.5em; padding: 0.45em; border-radius: 0.5em; box-shadow: inset 0 0 0 1px #e3e3df, 0 0.15em 0.4em rgba(0, 0, 0, 0.06); }
+.ab__grp { display: grid; }
+.ab__grp > * + * { margin-top: -1px; }
+.ab__grp .ab__fld { border-radius: 0; }
+.ab__grp > :first-child { border-radius: 0.4em 0.4em 0 0; }
+.ab__grp > .ab__fld:last-child { border-radius: 0 0 0.4em 0.4em; }
+.ab__row { display: grid; grid-template-columns: 1fr 1fr; }
+.ab__row > :first-child { border-bottom-left-radius: 0.4em; }
+.ab__row > :last-child { margin-left: -1px; border-bottom-right-radius: 0.4em; }
+.ab__pm { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35em; }
+.ab__pm i {
+  height: 2.3em; border-radius: 0.4em; box-shadow: inset 0 0 0 1px #d6d6d1;
+  background: linear-gradient(#111113, #111113) 0.5em 0.5em / 1.1em 0.7em no-repeat, linear-gradient(#dcdcd6, #dcdcd6) 0.5em 1.5em / 55% 0.35em no-repeat;
+}
+.ab__pm .is-on { box-shadow: inset 0 0 0 1.5px var(--yellow-deep); }
+
+/* B, o layout novo: banner de ponta a ponta, faixa do resumo, pagamento expresso, caixa do cartão e order bump */
+.ab__ban {
+  height: 3em; margin: -0.1em -0.75em 0;
+  background:
+    radial-gradient(circle at 80% 50%, var(--yellow) 0 0.85em, transparent calc(0.85em + 1px)),
+    linear-gradient(#fff, #fff) 0.75em 0.9em / 42% 0.5em no-repeat,
+    linear-gradient(#6b6b72, #6b6b72) 0.75em 1.7em / 28% 0.4em no-repeat,
+    #111113;
+}
+.ab__bar {
+  display: flex; align-items: center; justify-content: space-between; margin: -0.45em -0.75em 0; padding: 0.55em 0.75em;
+  background: #f4f4f5; border-bottom: 1px solid #e7e7e4;
+}
+.ab__bar .ab__ln:first-child { background: #9a9aa0; }
+.ab__xp { height: 1.7em; border-radius: 0.4em; background: linear-gradient(#fff, #fff) center / 2.4em 0.45em no-repeat, #111113; }
+.ab__or {
+  height: 0.35em;
+  background:
+    linear-gradient(#e3e3df, #e3e3df) 0 50% / 40% 1px no-repeat,
+    linear-gradient(#e3e3df, #e3e3df) 100% 50% / 40% 1px no-repeat,
+    linear-gradient(#cfcfca, #cfcfca) center / 1.1em 100% no-repeat;
+}
+.ab__pay { display: grid; gap: 0.35em; padding: 0 0.4em 0.45em; border-radius: 0.5em; box-shadow: inset 0 0 0 1px #e3e3df; overflow: hidden; }
+.ab__payh { display: flex; align-items: center; gap: 0.35em; margin: 0 -0.4em; padding: 0.45em 0.4em; background: #f6f6f4; border-bottom: 1px solid #e3e3df; }
+.ab__radio { flex: none; width: 0.8em; height: 0.8em; border-radius: 50%; box-shadow: inset 0 0 0 0.24em #111113; }
+.ab__brands {
+  flex: none; margin-left: auto; width: 2.5em; height: 0.65em;
+  background: linear-gradient(90deg, #111113 0 30%, transparent 0 35%, #3a3a3f 0 65%, transparent 0 70%, #9a9aa0 0);
+}
+.ab__bump { display: flex; align-items: center; gap: 0.45em; padding: 0.4em; border-radius: 0.5em; border: 1px dashed #cfcfca; }
+.ab__bump .ab__th { width: 1.9em; }
+.ab__box { flex: none; width: 0.85em; height: 0.85em; border-radius: 0.2em; box-shadow: inset 0 0 0 1.5px #9a9aa0; }
 
 @media (min-width: 800px) {
-  .ab {
-    --ab-g: 0.9em; --ab-stem: 0.9em; --ab-r: 0.75em;
-    --ab-mini: clamp(4em, calc(77.22cqw - 20.3em), 8.6em); /* 77.22cqw é a altura da mídia no desktop */
-    font-size: max(11.5px, 2.6cqw);
-  }
-  .ab__panel { top: 1.3em; padding-top: 1em; }
-  .ab__fork { height: calc(var(--ab-stem) + 1.6em); }
-  .ab__mini { padding: 0.5em 0; }
-  .ab__pg { gap: 0.32em; padding: 0.45em 0.5em; }
+  .ab { padding: 1em max(var(--s5), calc(50% - 14em)) 0; font-size: max(11.5px, 3.1cqw); }
+  .ab__phone { margin-inline: 1em; }
 }
 
-/* coreografia (~3,3 s): o link se divide, as duas versões sobem e, linha a linha, as barras crescem
-   juntas (a maior continua depois que a menor para) enquanto os valores contam (12-banner-ab.js) */
-.ab__grid > :nth-child(n + 8) { --ab-row: 1; }
-.ab__grid > :nth-child(n + 11) { --ab-row: 2; }
-.ab__fork + .ab__ver + .ab__ver { --ab-col: 1; }
-.js-motion .banner.is-in .ab__fork i { animation: ab-stem 0.2s var(--ease) 0.3s both; }
-.js-motion .banner.is-in .ab__fork::before { animation: ab-fork 0.45s var(--ease-out) 0.45s both; }
-.js-motion .banner.is-in .ab__div { animation: ab-fade 0.4s var(--ease) 0.6s both; }
-.js-motion .banner.is-in .ab__fork b { animation: ab-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.75s both; }
-.js-motion .banner.is-in .ab__fork b + b { animation-delay: 0.85s; }
-.js-motion .banner.is-in .ab__ver { animation: ab-in 0.55s var(--ease-out) calc(0.9s + var(--ab-col, 0) * 0.15s) both; }
-.js-motion .banner.is-in .ab__k, .js-motion .banner.is-in .ab__m b { animation: ab-in 0.4s var(--ease-out) calc(1.5s + var(--ab-row, 0) * 0.3s) both; }
-.js-motion .banner.is-in .ab__m i { animation: ab-fade 0.3s var(--ease) calc(1.45s + var(--ab-row, 0) * 0.3s) both; }
-.js-motion .banner.is-in .ab__m i::after { animation: ab-grow calc(0.5s + var(--v) * 0.7s) var(--ease-out) calc(1.5s + var(--ab-row, 0) * 0.3s) both; }
-@keyframes ab-stem { from { scale: 1 0; } }
-@keyframes ab-fork { from { scale: 0 1; } }
-@keyframes ab-pop { from { opacity: 0; scale: 0.5; } }
+/* coreografia (~2,6 s): os dois celulares sobem, um depois do outro, e as barras crescem enquanto as vendas
+   contam (a maior continua depois que a menor para) */
+.ab__ver + .ab__ver { --ab-col: 1; }
+.js-motion .banner.is-in .ab__phone { animation: ab-up 0.7s var(--ease-out) calc(0.3s + var(--ab-col, 0) * 0.18s) both; }
+.js-motion .banner.is-in .ab__m { animation: ab-in 0.45s var(--ease-out) calc(1s + var(--ab-col, 0) * 0.15s) both; }
+.js-motion .banner.is-in .ab__m i::after { animation: ab-grow calc(0.5s + var(--v) * 0.7s) var(--ease-out) 1.5s both; }
+@keyframes ab-up { from { opacity: 0; translate: 0 3em; } }
 @keyframes ab-in { from { opacity: 0; translate: 0 0.5em; } }
-@keyframes ab-fade { from { opacity: 0; } }
 @keyframes ab-grow { from { scale: 0 1; } }
+
+/* hover: a vencedora em foco. O celular da B cresce a partir da base e um brilho corre a barra dela; a A apaga e desce.
+   Os números ficam como estão */
+.ab__ver { transition: opacity 0.35s var(--ease), transform 0.5s var(--ease-out); }
+.ab__phone { transform-origin: 50% 100%; transition: transform 0.5s var(--ease-out); }
+.ab__m i { position: relative; }
+.is-win .ab__m i::before {
+  content: ""; position: absolute; z-index: 1; inset: 0 auto 0 0; width: calc(var(--v) * 100%); border-radius: inherit;
+  background: linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%) 150% 0 / 200% 100% no-repeat;
+  opacity: 0;
+}
+.banner:is(:hover, :focus-within) .ab__ver:not(.is-win) { opacity: 0.4; transform: translateY(1.2em); }
+.banner:is(:hover, :focus-within) .is-win .ab__phone { transform: scale(1.04); }
+.banner:is(:hover, :focus-within) .is-win .ab__m i::before { animation: ab-shine 0.8s var(--ease) 0.15s both; }
+@keyframes ab-shine { from, to { opacity: 1; } to { background-position: -50% 0; } }

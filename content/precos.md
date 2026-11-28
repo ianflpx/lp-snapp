@@ -11,7 +11,7 @@ O Snapp cobra 3% sobre cada venda aprovada. Não há mensalidade nem taxa de ade
 
 ## O que faz parte de toda conta
 
-- [Link de pagamento](/link-de-pagamento) e checkout em 17 idiomas, com seis modelos de layout
+- Ofertas em 16 moedas e checkout em 17 idiomas, com seis modelos de layout e [link de pagamento](/link-de-pagamento)
 - Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go
 - Order bump e [upsell e downsell em um clique](/upsell-e-order-bump)
 - Assinaturas recorrentes
@@ -26,7 +26,7 @@ O Snapp cobra 3% sobre cada venda aprovada. Não há mensalidade nem taxa de ade
 1. **Taxa do gateway.** É cobrada pela Stripe, pelo PayPal ou pelo gateway que você conectou, na tabela dele. O Snapp não recebe nada dessa taxa.
 2. **Taxa do Snapp.** São os 3% sobre o valor da venda aprovada.
 
-Numa venda de R$ 100,00, a taxa do Snapp é de R$ 3,00.
+Em uma venda de R$ 100,00, a taxa do Snapp é de R$ 3,00.
 
 ## Como a taxa do Snapp é cobrada
 

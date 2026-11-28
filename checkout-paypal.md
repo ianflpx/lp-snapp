@@ -23,7 +23,7 @@ O Snapp aceita várias contas PayPal e cada oferta usa a que você indicar.
 
 - **Pagamento único e assinatura**, com a cobrança recorrente criada na sua conta PayPal.
 - **Order bump** no mesmo pagamento.
-- **Upsell depois da compra.** Com a compra em um clique do PayPal ligada, o comprador aceita o upsell de pagamento único sem aprovar de novo. Sem ela, ele conclui o upsell num checkout alternativo.
+- **Upsell depois da compra.** Com a compra em um clique do PayPal ligada, o comprador aceita o upsell de pagamento único sem aprovar de novo. Sem ela, ele conclui o upsell em um checkout alternativo.
 - **Entrega automática** por e-mail e acesso à [área de membros](https://www.snappcheckout.com/area-de-membros).
 
 ## PayPal e Stripe juntos

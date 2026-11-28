@@ -1,7 +1,7 @@
 // Gera v3/images/world-map.svg para o banner Multi-moeda: uma malha sutil de paralelos e meridianos e, por cima,
 // os continentes numa silhueta só (sem fronteiras, sem a Antártida), em geoNaturalEarth1, já recortados no quadro
 // da mídia e com a cor embutida. Imprime também a posição das cidades (em % do quadro) e os arcos até a conta,
-// para colar na parte 13: as 7 cidades com pílula e as das outras 10 moedas da lista de 16 (rede de fundo).
+// para colar na parte 13: as 11 cidades com pílula, todas de moedas da lista de 16.
 // O repo não ganha dependência: as libs vêm do cache do npx.
 // Uso: npx -y -p d3-geo@3 -p topojson-server@3 -p topojson-client@3 node .design/v3/tools/build-map.mjs
 import assert from "node:assert";
@@ -34,17 +34,8 @@ const CITIES = [
   ["Berlim", 13.4, 52.52, -0.2],
   ["Varsóvia", 21.01, 52.23, -0.34],
   ["Tóquio", 139.69, 35.68, -0.2],
-];
-// as outras 10 moedas da lista de 16: ponto pequeno e arco tênue, sem pílula
-const MINOR = [
-  ["Bogotá", -74.07, 4.71, 0.12],
+  ["Bogotá", -74.07, 4.71, 0.3],
   ["Lima", -77.04, -12.05, 0.1],
-  ["La Paz", -68.15, -16.5, -0.1],
-  ["Buenos Aires", -58.38, -34.6, 0.14],
-  ["Montevidéu", -56.16, -34.9, -0.08],
-  ["Praga", 14.42, 50.08, -0.12],
-  ["Budapeste", 19.04, 47.5, -0.24],
-  ["Bucareste", 26.1, 44.43, -0.36],
   ["Istambul", 28.98, 41.01, -0.44],
   ["Seul", 126.98, 37.57, -0.12],
 ];
@@ -110,11 +101,9 @@ console.log(`${out}: ${(svg.length / 1024).toFixed(1)} KB, ${points} pontos, vie
 const acc = projection(ACCOUNT).map(Math.round);
 console.log(`\nSua conta: left ${(acc[0] / W * 100).toFixed(2)}% top ${(acc[1] / H * 100).toFixed(2)}%  (${acc})`);
 let longest = 0;
-for (const [name, lon, lat, bow] of [...CITIES, ["— rede de fundo —"], ...MINOR]) {
-  if (lon === undefined) { console.log(name); continue; }
+for (const [name, lon, lat, bow] of CITIES) {
   const [x, y] = projection([lon, lat]).map(Math.round);
-  // as de fundo podem cair fora (Buenos Aires e Montevidéu ficam abaixo da borda): o arco delas sai pelo quadro
-  assert(MINOR.some((m) => m[0] === name) || (x > 0 && x < W && y > 0 && y < H), name + " caiu fora do quadro");
+  assert(x > 0 && x < W && y > 0 && y < H, name + " caiu fora do quadro");
   const cx = Math.round((x + acc[0]) / 2 - (acc[1] - y) * bow), cy = Math.round((y + acc[1]) / 2 + (acc[0] - x) * bow);
   const at = (t) => [(1 - t) ** 2 * acc[0] + 2 * t * (1 - t) * cx + t * t * x, (1 - t) ** 2 * acc[1] + 2 * t * (1 - t) * cy + t * t * y];
   let len = 0;

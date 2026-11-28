@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.snappcheckout.com/</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/link-de-pagamento</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/checkout-para-infoprodutos</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/checkout-stripe</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/checkout-paypal</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/vender-no-exterior</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/upsell-e-order-bump</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/area-de-membros</loc><lastmod>2026-11-24</lastmod></url>
-  <url><loc>https://www.snappcheckout.com/precos</loc><lastmod>2026-11-24</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/link-de-pagamento</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/checkout-para-infoprodutos</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/checkout-stripe</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/checkout-paypal</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/vender-no-exterior</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/upsell-e-order-bump</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/area-de-membros</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/precos</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/chargeback</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/personalizar-checkout</loc><lastmod>2026-11-28</lastmod></url>
+  <url><loc>https://www.snappcheckout.com/webhooks</loc><lastmod>2026-11-28</lastmod></url>
 </urlset>

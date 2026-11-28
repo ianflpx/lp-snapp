@@ -70,37 +70,49 @@
         })(t0);
       });
     }
+    // banner que entra junto com o vizinho (mesma linha do bento) abre 120ms depois dele
+    function show(el, delay) {
+      if (el.classList.contains("is-in")) return;
+      if (el.classList.contains("banner")) {
+        el.style.setProperty("--open-delay", (delay || 0) + "ms");
+        el.__openAt = performance.now() + (delay || 0);
+      }
+      el.classList.add("is-in");
+      count(el);
+    }
     var io = new IntersectionObserver(function (entries) {
+      var k = 0;
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        e.target.classList.add("is-in");
-        count(e.target);
+        show(e.target, e.target.classList.contains("banner") ? k++ * 120 : 0);
         io.unobserve(e.target);
       });
     }, { rootMargin: "0px 0px -28% 0px" });
     items.forEach(function (el) { io.observe(el); });
-    // coreografia dos banners: começa quando a mídia está meio visível, não quando o topo do card aparece
+    // coreografia dos banners: só toca com quase o card inteiro na tela (90% dele, ou 90% da tela se ele for
+    // mais alto que ela) e depois que ele terminou de abrir, para ninguém perder o começo nem a parte de baixo
+    var OPEN_MS = 800, steps = [];
+    for (var s = 0; s <= 20; s++) steps.push(s / 20);
     var play = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.closest(".banner").classList.add("is-play");
-        play.unobserve(e.target);
+        var b = e.target;
+        if (e.intersectionRect.height < Math.min(e.boundingClientRect.height, innerHeight) * 0.9) return;
+        play.unobserve(b);
+        show(b);
+        setTimeout(function () { b.classList.add("is-play"); }, Math.max(0, b.__openAt + OPEN_MS - performance.now()));
       });
-    }, { threshold: 0.4 });
-    $$(".banner .banner__media").forEach(function (el) { play.observe(el); });
+    }, { threshold: steps });
+    $$(".banner").forEach(function (el) { play.observe(el); });
     // foco por teclado nunca cai em bloco ainda invisível: quem recebe foco aparece na hora
     doc.addEventListener("focusin", function (e) {
-      for (var el = e.target.closest("[data-reveal]"); el; el = el.parentElement && el.parentElement.closest("[data-reveal]")) {
-        el.classList.add("is-in");
-        count(el);
-      }
+      for (var el = e.target.closest("[data-reveal]"); el; el = el.parentElement && el.parentElement.closest("[data-reveal]")) show(el);
       var banner = e.target.closest(".banner");
       if (banner) banner.classList.add("is-play");
     });
     // quem já passou do ponto (âncora, recarregar no meio da página) aparece direto
     addEventListener("load", function () {
       items.forEach(function (el) {
-        if (el.getBoundingClientRect().top < innerHeight * 0.72) el.classList.add("is-in");
+        if (el.getBoundingClientRect().top < innerHeight * 0.72) show(el);
       });
     });
   })();
@@ -140,12 +152,13 @@
       };
     }
     // espera que respeita a pausa e é cancelada quando outra execução começa
-    function wait(ms, id) {
+    function wait(ms, id, tick) {
+      tick = tick || 40;
       return new Promise(function (ok, no) {
         var iv = setInterval(function () {
           if (id !== run) { clearInterval(iv); no(); }
-          else if (!paused && (ms -= 40) <= 0) { clearInterval(iv); ok(); }
-        }, 40);
+          else if (!paused && (ms -= tick) <= 0) { clearInterval(iv); ok(); }
+        }, tick);
       });
     }
     function add(html) { msgs.insertAdjacentHTML("beforeend", html); return msgs.lastElementChild; }
@@ -164,14 +177,14 @@
         msgs.innerHTML = "";
         if (field) {
           field.classList.add("is-typing");
-          for (var i = 2; i < sc.user.length + 2; i += 2) { field.textContent = sc.user.slice(0, i); await wait(40, id); }
-          await wait(360, id);
+          for (var i = 1; i <= sc.user.length; i++) { field.textContent = sc.user.slice(0, i); await wait(72, id, 8); } // 72ms por letra (era 80 na prática)
+          await wait(700, id);
           field.textContent = placeholder; field.classList.remove("is-typing");
         }
         add(p.user); on("user");
         await wait(700, id);
         var tools = $$(".chat-tool", add(p.tools));
-        for (var j = 0; j < tools.length; j++) { await wait(640, id); tools[j].classList.add("is-done"); }
+        for (var j = 0; j < tools.length; j++) { await wait(850, id); tools[j].classList.add("is-done"); }
         on("tools");
         await wait(420, id);
         add(p.reply); on("reply");

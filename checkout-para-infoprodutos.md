@@ -17,13 +17,13 @@ Cada oferta gera um [link de pagamento](https://www.snappcheckout.com/link-de-pa
 - **Order bump.** Ofertas complementares na tela do pagamento, cada uma com preço e entrega próprios.
 - **Upsell e downsell.** Ofertas depois da compra aprovada, aceitas em um clique no cartão. Veja como funciona o [upsell em um clique](https://www.snappcheckout.com/upsell-e-order-bump).
 - **Teste A/B.** Um link divide o tráfego entre ofertas diferentes e mostra visitas, vendas e faturamento de cada uma.
-- **Seis modelos de checkout.** Você troca o layout da oferta sem refazer nada e pode comparar dois deles num teste A/B.
+- **Seis modelos de checkout.** Você troca o layout da oferta sem refazer nada e pode comparar dois deles em um teste A/B.
 
 ## Pagamento no Brasil e fora
 
 O mesmo checkout aceita cartão, Pix, boleto, PayPal, Apple Pay e Google Pay, conforme os gateways que você ligar: Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go. A lista por gateway está na página de [link de pagamento](https://www.snappcheckout.com/link-de-pagamento).
 
-Para vender fora do Brasil, a oferta aceita 16 moedas e o checkout abre em 17 idiomas. Os detalhes estão em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+Para vender fora do Brasil, crie ofertas em 16 moedas e use um checkout disponível em 17 idiomas. Os detalhes estão em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
 
 ## Entrega e pós-venda
 

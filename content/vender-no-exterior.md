@@ -1,23 +1,23 @@
 ---
 title: Como vender infoprodutos no exterior | Snapp Checkout
-description: Venda em dólar, euro e mais 14 moedas com checkout em 17 idiomas, Stripe e PayPal. O Snapp mostra o preço na moeda e a página no idioma do comprador.
-h1: Venda no exterior em dólar, euro e mais 14 moedas
+description: Ofertas em 16 moedas e checkout em 17 idiomas para vender com Stripe ou PayPal. A detecção de idioma e moeda por país é opcional.
+h1: Ofertas em 16 moedas para vender no exterior
 nav: Vender no exterior
-card: Oferta em 16 moedas, checkout em 17 idiomas e formas de pagamento de cada país.
+card: Ofertas em 16 moedas e checkout em 17 idiomas, com formas de pagamento locais.
 related: checkout-stripe, checkout-paypal, checkout-para-infoprodutos
 ---
 
-Com o Snapp você cria a oferta na moeda do país onde quer vender e o checkout abre no idioma do comprador. O pagamento passa pela sua Stripe ou pelo seu PayPal e cai direto na sua conta.
+Com o Snapp, você define o preço da oferta em uma das 16 moedas do painel e escolhe um dos 17 idiomas para o checkout. Você recebe os pagamentos direto na sua conta Stripe ou PayPal.
 
 ## O que muda quando você vende para fora
 
-O comprador de outro país espera ver o preço na moeda dele, ler a página no idioma dele e pagar do jeito que já paga no dia a dia. O Snapp resolve os três pontos no checkout, e você continua anunciando e entregando como faz hoje.
+Você pode configurar o checkout para detectar o idioma e converter o preço de acordo com o país do comprador. As formas de pagamento disponíveis dependem do gateway e da moeda da venda.
 
 ## Moedas
 
-A oferta pode ser criada em 16 moedas: real, dólar americano, euro, zloty polonês, coroa tcheca, florim húngaro, leu romeno, lira turca, peso mexicano, peso argentino, peso colombiano, sol peruano, peso uruguaio, boliviano, iene e won sul-coreano.
+A oferta pode ser criada em 16 moedas: real brasileiro, dólar americano, euro, złoty polonês, coroa tcheca, forint húngaro, leu romeno, lira turca, peso mexicano, peso argentino, peso colombiano, sol peruano, peso uruguaio, boliviano, iene japonês e won sul-coreano.
 
-Com a detecção de moeda ligada na oferta, o checkout identifica o país do comprador e mostra o preço na moeda local sempre que a Stripe aceita aquela moeda.
+Com a detecção de moeda ligada, o checkout pode exibir o preço na moeda local quando a Stripe aceita essa moeda e há câmbio disponível. Nos demais casos, o checkout mantém a moeda da oferta.
 
 ## Idiomas
 
@@ -56,7 +56,7 @@ Os textos do checkout já vêm traduzidos nos 17 idiomas. O nome e a descrição
 
 ### Posso vender a mesma oferta em vários idiomas?
 
-Sim. Você pode criar uma oferta para cada idioma, com nome e descrição traduzidos, ou ligar a detecção de idioma numa oferta só, que traduz os textos do checkout.
+Sim. Você pode criar uma oferta para cada idioma, com nome e descrição traduzidos, ou ativar a detecção na mesma oferta para exibir o checkout no idioma do comprador, quando disponível.
 
 ### Preciso de empresa fora do Brasil?
 
@@ -64,7 +64,7 @@ O Snapp usa a conta de gateway que você já tem. As regras de abertura de conta
 
 ### Como recebo o dinheiro das vendas internacionais?
 
-Na sua conta Stripe ou PayPal, na moeda da venda. A conversão e o saque para o seu banco seguem as regras do gateway.
+Você recebe na sua conta Stripe ou PayPal. A moeda do recebimento, a conversão e o saque para o seu banco seguem as regras do gateway.
 
 ### O Snapp cobra mais por venda internacional?
 

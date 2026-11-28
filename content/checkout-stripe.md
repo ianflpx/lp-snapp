@@ -35,7 +35,7 @@ A oferta principal também pode ser assinatura, com cobrança diária, semanal, 
 
 ## Moedas e imposto
 
-A oferta pode ser criada em 16 moedas, e o checkout pode detectar o país do comprador para mostrar o preço na moeda dele. Quem vende para a Europa pode ligar o Stripe Tax na oferta. O VAT é somado ao preço, registrado por venda e sai em relatório por período e país. Mais em [vender no exterior](/vender-no-exterior).
+Você pode criar ofertas em 16 moedas. Se ativar a detecção de moeda, o checkout pode exibir o preço na moeda local quando ela é compatível e há câmbio disponível. Quem vende para a Europa pode ligar o Stripe Tax na oferta. O VAT é somado ao preço, registrado por venda e sai em relatório por período e país. Mais em [vender no exterior](/vender-no-exterior).
 
 ## Quanto custa
 

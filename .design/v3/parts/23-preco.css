@@ -25,13 +25,13 @@
 .preco__rows b { font-weight: 600; }
 
 .preco__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4) var(--s6); margin-top: auto; }
-.preco__link { padding-block: 10px; font: 500 var(--fs-btn) / var(--lh-btn) var(--font); text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
+.preco__link { padding-block: 10px; font: 500 var(--fs-fine) / var(--lh-btn) var(--font); text-decoration: underline; text-underline-offset: 0.25em; text-decoration-thickness: 1px; }
 .preco__link:hover { text-decoration-thickness: 2px; }
 
 .preco__note { margin-top: var(--s5); }
 
 /* recursos secundários: importantes, mas não são os da vitrine */
-.preco__more-title { margin-top: var(--s9); padding-top: var(--s6); border-top: 1px solid var(--line); }
+.preco__more-title { margin-top: var(--s2); padding-top: var(--s6); border-top: 1px solid var(--line); }
 .preco__more { display: grid; gap: var(--s6) var(--s5); margin-top: var(--s6); }
 .preco__more li { display: flex; align-items: flex-start; gap: var(--s4); }
 .preco__more li > span:last-child { display: grid; gap: var(--s1); min-width: 0; }

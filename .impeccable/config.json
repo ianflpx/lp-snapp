@@ -47,6 +47,15 @@
         ],
         "createdAt": "2026-11-27T03:02:10.334Z",
         "reason": "mockup de assinatura: a linha do tempo mostra a mesma cobranca mensal (US$ 9) em cada recibo, que e o que o recurso faz"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "v4/index.html"
+        ],
+        "createdAt": "2026-11-27T13:56:29.274Z",
+        "reason": "Verified in Chromium: the yellow gradient CTA renders text in #141004. The detector attributed the white text from the ghost button to the primary button."
       }
     ]
   }

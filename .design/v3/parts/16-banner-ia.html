@@ -1,35 +1,30 @@
 <article class="banner banner--full banner--gray" id="ia" data-reveal="up" style="--i:3">
   <div class="banner__head">
     <h3 class="banner__label"><span class="ico-sq"><svg class="ico"><use href="#i-ai"/></svg></span>IA por chat</h3>
-    <a class="banner__go sq" href="/checkout-para-infoprodutos#inteligencia-artificial-no-snapp" aria-label="Conhecer a IA por chat"><svg class="ico"><use href="#i-chevron-right"/></svg><svg class="ico"><use href="#i-arrow-right"/></svg></a>
+    <a class="banner__go" href="/checkout-para-infoprodutos#inteligencia-artificial-no-snapp" aria-label="Conhecer a IA por chat"></a>
   </div>
-  <p class="banner__text">Conecte o Snapp ao Claude ou ao ChatGPT e peça em texto. A IA cria ofertas, monta o funil de upsell e consulta as suas vendas.</p>
+  <p class="banner__text">Peça ao Claude ou ao ChatGPT e a IA cria ofertas e mostra suas vendas.</p>
   <div class="banner__media">
     <div class="ia" data-ia>
-      <div class="ia__ask">
-        <div class="ia__chips" role="group" aria-label="Pedidos de exemplo">
-          <button class="ia__chip" type="button" aria-pressed="true">Quantas vendas tive hoje?</button>
-          <button class="ia__chip" type="button" aria-pressed="false">Qual order bump converte mais?</button>
-          <button class="ia__chip" type="button" aria-pressed="false">Monta um funil de upsell e downsell</button>
-        </div>
-        <div class="ia__field">
-          <p class="ia__q" data-chat-field>Quantas vendas tive hoje?</p>
-          <p class="ia__mcp"><span><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt="" loading="lazy"></span>mcp.snappcheckout.com/mcp</p>
-          <button class="ia__send" type="button" aria-label="Enviar o pedido ao Claude"><svg class="ico"><use href="#i-arrow-up"/></svg></button>
-        </div>
+      <div class="ia__chips" role="group" aria-label="Pedidos de exemplo">
+        <button class="ia__chip" type="button" aria-pressed="true">Vendas de hoje</button>
+        <button class="ia__chip" type="button" aria-pressed="false">Criar oferta</button>
+        <button class="ia__chip" type="button" aria-pressed="false">Melhor order bump</button>
       </div>
 
       <div class="chatwin" data-chat>
         <div class="chatwin__bar"><i></i><i></i><i></i><span class="chatwin__url"><svg class="ico"><use href="#i-lock"/></svg>claude.ai</span></div>
-        <div class="chatwin__title"><span data-ia-title>Resumo de hoje</span><svg class="ico"><use href="#i-chevron-down"/></svg></div>
         <div class="chatwin__msgs" data-chat-msgs>
           <p class="chat-user" data-in>Quantas vendas tive hoje?</p>
-          <div class="chat-tools" data-in><span class="chat-tools__h">Ferramenta utilizada</span><div class="chat-tool is-done"><img src="/v2/images/logo-s-mark.svg" width="14" height="15" alt=""><code>get_dashboard_overview</code><span>hoje</span><svg class="ico"><use href="#i-check"/></svg></div></div>
+          <div class="chat-tools" data-in><span class="chat-tools__h">Ferramenta utilizada</span><div class="chat-tool is-done"><img src="/v4/images/logo-s-mark.svg" width="14" height="15" alt=""><code>get_dashboard_overview</code><span>hoje</span><svg class="ico"><use href="#i-check"/></svg></div></div>
           <p class="chat-reply" data-in>Hoje você teve <b>38 vendas aprovadas</b>, somando <b>US$ 1.246</b>.</p>
           <div class="chat-card" data-in><div class="chat-card__h"><span>Vendas de hoje</span><b></b></div><dl><div><dt>Vendas</dt><dd>38</dd></div><div><dt>Faturamento</dt><dd>US$ 1.246</dd></div><div><dt>Ticket médio</dt><dd>US$ 32,79</dd></div></dl></div>
         </div>
-        <div class="chatwin__composer"><span>Responder ao Claude…</span><span class="chatwin__send"><svg class="ico"><use href="#i-arrow-up"/></svg></span></div>
-        <p class="chatwin__note">Claude é uma IA e pode cometer erros.</p>
+        <div class="chatwin__composer">
+          <span data-chat-field>Responder ao Claude…</span>
+          <span class="chatwin__snapp" title="Conector do Snapp ativo"><img src="/v4/images/logo-s-mark.svg" width="14" height="15" alt="Conector do Snapp ativo"></span>
+          <span class="chatwin__send"><svg class="ico"><use href="#i-arrow-up"/></svg></span>
+        </div>
       </div>
     </div>
   </div>

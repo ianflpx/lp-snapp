@@ -8,7 +8,7 @@ Fatos principais:
 - **Preço**: 3% por venda aprovada. Sem mensalidade e sem taxa de adesão.
 - **Gateways**: Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go. Mais de um gateway pode ficar ligado na mesma oferta.
 - **Formas de pagamento**: cartão, Apple Pay, Google Pay, Pix, boleto, PayPal e formas locais como Klarna, Affirm, Amazon Pay, Cash App Pay, Bancontact, BLIK, EPS, Satispay, MB WAY, Multibanco, Pay by Bank, OXXO e SPEI.
-- **Alcance**: oferta em 16 moedas e checkout em 17 idiomas, com detecção opcional de idioma e moeda pelo país do comprador.
+- **Alcance**: ofertas em 16 moedas e checkout em 17 idiomas, com detecção opcional de idioma e moeda pelo país do comprador.
 - **Recursos**: order bump, upsell e downsell em um clique, assinaturas (diária, semanal, mensal ou anual), teste A/B, seis modelos de checkout, recuperação de carrinho por e-mail, cupom de desconto, domínio próprio, checkout embutido por iframe, área de membros, Pixel e API de Conversões (Meta, TikTok, Google Ads e Taboola), webhooks e chaves de API.
 - **Inteligência artificial**: servidor MCP para Claude e ChatGPT em `https://mcp.snappcheckout.com/mcp`, Criação com IA (a oferta pronta a partir de um pedido no chat), Assistente Snapp, Meta Ads com a venda real e Conquistas. Os quatro últimos são liberados conta a conta pela equipe do Snapp.
 - **Para quem**: produtores digitais e lojistas que vendem curso, e-book, mentoria, comunidade e assinatura, em especial quem anuncia na Meta, no TikTok e no Google e vende em mais de um idioma.
@@ -16,13 +16,13 @@ Fatos principais:
 - **Idioma do site**: português do Brasil.
 
 Contato: snappcheckout@gmail.com · Site: https://www.snappcheckout.com/ · Painel: https://admin.snappcheckout.com/register
-Atualizado em 2026-11-24.
+Atualizado em 2026-11-28.
 
 ---
 
 ## Link de pagamento com checkout completo
 
-> Crie um link de pagamento com cartão, Pix, boleto e PayPal, em 17 idiomas, e receba direto na sua conta do gateway. 3% por venda aprovada, sem mensalidade.
+> Crie links de pagamento com checkout em 17 idiomas e aceite cartão, Pix, boleto e PayPal. Receba direto no seu gateway. 3% por venda aprovada, sem mensalidade.
 
 Página: https://www.snappcheckout.com/link-de-pagamento
 
@@ -87,7 +87,7 @@ Sim. O Pix funciona pela Efí, Pagar.me, XPag, Mercado Pago, Whop e, quando disp
 
 #### Posso receber em dólar ou euro pelo link?
 
-Sim. A oferta pode ser criada em 16 moedas, entre elas real, dólar e euro. Veja como [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+Sim. Você pode criar ofertas em 16 moedas, incluindo real, dólar americano e euro. Veja como [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
 
 #### Posso usar o meu domínio no link?
 
@@ -126,13 +126,13 @@ Cada oferta gera um [link de pagamento](https://www.snappcheckout.com/link-de-pa
 - **Order bump.** Ofertas complementares na tela do pagamento, cada uma com preço e entrega próprios.
 - **Upsell e downsell.** Ofertas depois da compra aprovada, aceitas em um clique no cartão. Veja como funciona o [upsell em um clique](https://www.snappcheckout.com/upsell-e-order-bump).
 - **Teste A/B.** Um link divide o tráfego entre ofertas diferentes e mostra visitas, vendas e faturamento de cada uma.
-- **Seis modelos de checkout.** Você troca o layout da oferta sem refazer nada e pode comparar dois deles num teste A/B.
+- **Seis modelos de checkout.** Você troca o layout da oferta sem refazer nada e pode comparar dois deles em um teste A/B.
 
 ### Pagamento no Brasil e fora
 
 O mesmo checkout aceita cartão, Pix, boleto, PayPal, Apple Pay e Google Pay, conforme os gateways que você ligar: Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go. A lista por gateway está na página de [link de pagamento](https://www.snappcheckout.com/link-de-pagamento).
 
-Para vender fora do Brasil, a oferta aceita 16 moedas e o checkout abre em 17 idiomas. Os detalhes estão em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+Para vender fora do Brasil, crie ofertas em 16 moedas e use um checkout disponível em 17 idiomas. Os detalhes estão em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
 
 ### Entrega e pós-venda
 
@@ -222,7 +222,7 @@ A oferta principal também pode ser assinatura, com cobrança diária, semanal, 
 
 ### Moedas e imposto
 
-A oferta pode ser criada em 16 moedas, e o checkout pode detectar o país do comprador para mostrar o preço na moeda dele. Quem vende para a Europa pode ligar o Stripe Tax na oferta. O VAT é somado ao preço, registrado por venda e sai em relatório por período e país. Mais em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+Você pode criar ofertas em 16 moedas. Se ativar a detecção de moeda, o checkout pode exibir o preço na moeda local quando ela é compatível e há câmbio disponível. Quem vende para a Europa pode ligar o Stripe Tax na oferta. O VAT é somado ao preço, registrado por venda e sai em relatório por período e país. Mais em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
 
 ### Quanto custa
 
@@ -281,7 +281,7 @@ O Snapp aceita várias contas PayPal e cada oferta usa a que você indicar.
 
 - **Pagamento único e assinatura**, com a cobrança recorrente criada na sua conta PayPal.
 - **Order bump** no mesmo pagamento.
-- **Upsell depois da compra.** Com a compra em um clique do PayPal ligada, o comprador aceita o upsell de pagamento único sem aprovar de novo. Sem ela, ele conclui o upsell num checkout alternativo.
+- **Upsell depois da compra.** Com a compra em um clique do PayPal ligada, o comprador aceita o upsell de pagamento único sem aprovar de novo. Sem ela, ele conclui o upsell em um checkout alternativo.
 - **Entrega automática** por e-mail e acesso à [área de membros](https://www.snappcheckout.com/area-de-membros).
 
 ### PayPal e Stripe juntos
@@ -316,23 +316,23 @@ Sim. Com a compra em um clique do PayPal ligada, o upsell de pagamento único é
 
 ---
 
-## Venda no exterior em dólar, euro e mais 14 moedas
+## Ofertas em 16 moedas para vender no exterior
 
-> Venda em dólar, euro e mais 14 moedas com checkout em 17 idiomas, Stripe e PayPal. O Snapp mostra o preço na moeda e a página no idioma do comprador.
+> Ofertas em 16 moedas e checkout em 17 idiomas para vender com Stripe ou PayPal. A detecção de idioma e moeda por país é opcional.
 
 Página: https://www.snappcheckout.com/vender-no-exterior
 
-Com o Snapp você cria a oferta na moeda do país onde quer vender e o checkout abre no idioma do comprador. O pagamento passa pela sua Stripe ou pelo seu PayPal e cai direto na sua conta.
+Com o Snapp, você define o preço da oferta em uma das 16 moedas do painel e escolhe um dos 17 idiomas para o checkout. Você recebe os pagamentos direto na sua conta Stripe ou PayPal.
 
 ### O que muda quando você vende para fora
 
-O comprador de outro país espera ver o preço na moeda dele, ler a página no idioma dele e pagar do jeito que já paga no dia a dia. O Snapp resolve os três pontos no checkout, e você continua anunciando e entregando como faz hoje.
+Você pode configurar o checkout para detectar o idioma e converter o preço de acordo com o país do comprador. As formas de pagamento disponíveis dependem do gateway e da moeda da venda.
 
 ### Moedas
 
-A oferta pode ser criada em 16 moedas: real, dólar americano, euro, zloty polonês, coroa tcheca, florim húngaro, leu romeno, lira turca, peso mexicano, peso argentino, peso colombiano, sol peruano, peso uruguaio, boliviano, iene e won sul-coreano.
+A oferta pode ser criada em 16 moedas: real brasileiro, dólar americano, euro, złoty polonês, coroa tcheca, forint húngaro, leu romeno, lira turca, peso mexicano, peso argentino, peso colombiano, sol peruano, peso uruguaio, boliviano, iene japonês e won sul-coreano.
 
-Com a detecção de moeda ligada na oferta, o checkout identifica o país do comprador e mostra o preço na moeda local sempre que a Stripe aceita aquela moeda.
+Com a detecção de moeda ligada, o checkout pode exibir o preço na moeda local quando a Stripe aceita essa moeda e há câmbio disponível. Nos demais casos, o checkout mantém a moeda da oferta.
 
 ### Idiomas
 
@@ -371,7 +371,7 @@ Os textos do checkout já vêm traduzidos nos 17 idiomas. O nome e a descrição
 
 #### Posso vender a mesma oferta em vários idiomas?
 
-Sim. Você pode criar uma oferta para cada idioma, com nome e descrição traduzidos, ou ligar a detecção de idioma numa oferta só, que traduz os textos do checkout.
+Sim. Você pode criar uma oferta para cada idioma, com nome e descrição traduzidos, ou ativar a detecção na mesma oferta para exibir o checkout no idioma do comprador, quando disponível.
 
 #### Preciso de empresa fora do Brasil?
 
@@ -379,7 +379,7 @@ O Snapp usa a conta de gateway que você já tem. As regras de abertura de conta
 
 #### Como recebo o dinheiro das vendas internacionais?
 
-Na sua conta Stripe ou PayPal, na moeda da venda. A conversão e o saque para o seu banco seguem as regras do gateway.
+Você recebe na sua conta Stripe ou PayPal. A moeda do recebimento, a conversão e o saque para o seu banco seguem as regras do gateway.
 
 #### O Snapp cobra mais por venda internacional?
 
@@ -398,7 +398,7 @@ O Snapp tem as três ferramentas de aumento de ticket no mesmo checkout. O order
 ### Order bump, upsell e downsell
 
 - **Order bump** é uma oferta complementar que o comprador marca na tela do pagamento. Entra na mesma cobrança do produto principal.
-- **Upsell** é uma oferta mostrada depois da compra aprovada, numa página só dela. O comprador aceita sem digitar os dados de novo.
+- **Upsell** é uma oferta mostrada depois da compra aprovada, em uma página só dela. O comprador aceita sem digitar os dados de novo.
 - **Downsell** é a oferta mais barata que aparece para quem recusou o upsell.
 
 ### Como funciona o order bump no Snapp
@@ -420,7 +420,7 @@ A página do upsell é sua, feita no construtor que você já usa. O Snapp entre
 | PayPal | Um clique em pagamento único, com a compra em um clique ligada |
 | Cartão pelo Mercado Pago | Um clique em pagamento à vista |
 | Pix | Um Pix novo com os dados do comprador já preenchidos |
-| Outras formas | O comprador conclui num checkout alternativo que você define |
+| Outras formas | O comprador conclui em um checkout alternativo que você define |
 
 ### Upsell para quem pagou no Pix
 
@@ -432,7 +432,7 @@ Quem comprou no Pix e clica em comprar no upsell recebe um Pix novo no mesmo gat
 
 O order bump é escolhido antes de pagar, na mesma tela e na mesma cobrança. O upsell é oferecido depois da compra aprovada, em outra página.
 
-#### Quantos order bumps posso colocar numa oferta?
+#### Quantos order bumps posso colocar em uma oferta?
 
 Vários. O painel mostra quantos estão ativos e você reordena arrastando.
 
@@ -456,7 +456,7 @@ Não. Vale a mesma taxa de 3% por venda aprovada. Veja a página de [preços](ht
 
 ## Área de membros que libera o acesso quando a venda é aprovada
 
-> Entregue cursos e arquivos numa área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
+> Entregue cursos e arquivos em uma área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
 
 Página: https://www.snappcheckout.com/area-de-membros
 
@@ -486,7 +486,7 @@ A área de membros tem versões por idioma, nos 17 idiomas do checkout. Quem ven
 
 ### Com a sua marca
 
-Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir num domínio seu.
+Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir em um domínio seu.
 
 ### Discord e outras plataformas
 
@@ -530,7 +530,7 @@ O Snapp cobra 3% sobre cada venda aprovada. Não há mensalidade nem taxa de ade
 
 ### O que faz parte de toda conta
 
-- [Link de pagamento](https://www.snappcheckout.com/link-de-pagamento) e checkout em 17 idiomas, com seis modelos de layout
+- Ofertas em 16 moedas e checkout em 17 idiomas, com seis modelos de layout e [link de pagamento](https://www.snappcheckout.com/link-de-pagamento)
 - Stripe, PayPal, Mercado Pago, Efí, Pagar.me, Whop, XPag e dLocal Go
 - Order bump e [upsell e downsell em um clique](https://www.snappcheckout.com/upsell-e-order-bump)
 - Assinaturas recorrentes
@@ -545,7 +545,7 @@ O Snapp cobra 3% sobre cada venda aprovada. Não há mensalidade nem taxa de ade
 1. **Taxa do gateway.** É cobrada pela Stripe, pelo PayPal ou pelo gateway que você conectou, na tabela dele. O Snapp não recebe nada dessa taxa.
 2. **Taxa do Snapp.** São os 3% sobre o valor da venda aprovada.
 
-Numa venda de R$ 100,00, a taxa do Snapp é de R$ 3,00.
+Em uma venda de R$ 100,00, a taxa do Snapp é de R$ 3,00.
 
 ### Como a taxa do Snapp é cobrada
 
@@ -576,3 +576,289 @@ Não. Criar a conta, montar a oferta e fazer a compra teste não têm custo.
 #### Onde vejo quanto paguei de taxa?
 
 No painel, em Taxas e Pagamentos, com o detalhe de cada venda e o total por gateway.
+
+---
+
+## Chargeback e disputas com as provas já reunidas
+
+> Veja cada disputa com o prazo de resposta, as provas que o Snapp junta da venda e um dossiê em PDF. Na Stripe e no PayPal, a defesa sai do próprio painel.
+
+Página: https://www.snappcheckout.com/chargeback
+
+A página Disputas do Snapp mostra cada chargeback com o prazo para responder e as provas que o Snapp já juntou da venda. Você confere as provas, revisa o texto da defesa e envia ao gateway ou baixa tudo para responder por conta própria.
+
+### O que aparece na lista
+
+Cada disputa mostra o comprador, a oferta, o gateway, o valor, o motivo, a data de abertura e a coluna Responder até, com o tempo que falta para o prazo. Quando o prazo passa, a coluna mostra Prazo encerrado.
+
+As abas separam as disputas que aguardam resposta, as que estão em análise, as ganhas, as perdidas e as consultas. A coluna Respondida diz se a resposta saiu pelo Snapp, se foi dada direto no gateway ou se ainda não existe.
+
+A página reúne as disputas da Stripe, do PayPal e da Whop. Também entram os estornos que já chegam decididos, como o MED do Pix e o chargeback do Mercado Pago.
+
+### Provas que o Snapp junta da venda
+
+Quando uma disputa da Stripe ou do PayPal abre, o Snapp guarda uma cópia das provas da venda. A cópia é feita na hora porque o conteúdo dos e-mails e o IP da compra deixam de ser guardados depois de um tempo.
+
+- **Entrega e uso:** e-mail de compra entregue ao comprador, clique no link de acesso, entrada na área de membros, aulas abertas e entrada no Discord.
+- **Pagamento:** autenticação 3D Secure, pagamento com Apple Pay ou Google Pay, código de segurança (CVC) conferido, país do IP igual ao país do cartão e IP da compra registrado.
+- **Venda:** venda sem reembolso e produto com descrição na oferta.
+
+As checagens mudam conforme o motivo da disputa. Em fraude, contam a autenticação e o IP. Quando o comprador diz que não recebeu, contam a entrega e o acesso. Cada e-mail aparece como o comprador recebeu, com a informação de envio, entrega e clique.
+
+### Força das provas
+
+O Snapp classifica o conjunto como Forte, Média ou Fraca pelo que encontrou. Em uma disputa por fraude, por exemplo, um pagamento autenticado com 3D Secure já deixa as provas fortes. A classificação é uma sugestão. A decisão de contestar é sua.
+
+### Defesa escrita em inglês
+
+A defesa vai em inglês, que é o idioma que o banco do comprador e o PayPal leem. Uma IA escreve o texto só com os fatos do dossiê. O nome, o e-mail e o IP do comprador não são enviados à IA e entram no texto depois.
+
+Junto com a defesa vem um resumo em português do que ela argumenta e de qual prova está faltando. Você pode editar o texto, que tem até 2.000 caracteres, ou pedir um texto novo. Se a IA não responder, entra um modelo pronto montado com os mesmos fatos.
+
+### Dossiê em PDF
+
+O dossiê reúne, em inglês, o resumo da compra, as checagens do pagamento, a defesa, a linha do tempo de acesso e a imagem de cada e-mail de entrega como o comprador recebeu. Você pode baixar o PDF e copiar o texto da defesa para usar onde precisar.
+
+### Envio ao gateway
+
+Na Stripe e no PayPal, o botão de envio manda a defesa, o dossiê em PDF e o recibo da compra para o gateway. O envio é único: depois dele não dá para mudar nem completar as provas. Por isso o painel pede confirmação antes.
+
+| Gateway | Como responder |
+|---|---|
+| Stripe | Pelo Snapp. Se você conectou a Stripe com chave restrita, a chave precisa das permissões `Disputes: Write` e `Files: Write`. Sem elas, envie o PDF e o texto pelo Dashboard da Stripe. |
+| PayPal | Pelo Snapp, quando o PayPal aceita provas naquela fase da disputa e o app do PayPal tem a permissão `Customer disputes`. Na fase de consulta, o PayPal só aceita mensagem ao comprador, e a resposta é dada na Central de Resoluções. |
+| Whop | A disputa aparece na lista e nos números. A resposta é dada no painel da Whop. |
+| MED do Pix e Mercado Pago | Chegam já decididos e entram na lista e na taxa de chargeback. |
+
+Se o prazo terminou, se as provas já foram enviadas pelo painel do gateway ou se o gateway recusar o envio, o Snapp mantém as provas para consulta e você responde com o PDF e o texto no painel do gateway.
+
+### Números das disputas
+
+No topo da página ficam a taxa de chargeback, as disputas abertas, o valor que está em jogo nas disputas em andamento e a taxa de vitória. A taxa de chargeback compara as disputas com as vendas pagas do período, e as consultas ficam fora dela. A taxa de vitória conta só as disputas já decididas.
+
+Abaixo vêm um gráfico de disputas por dia, semana ou mês e a divisão por motivo. Você filtra por período e por gateway e busca por nome ou e-mail do comprador.
+
+### Perguntas frequentes
+
+#### Em quais gateways dá para responder pelo Snapp?
+
+Na Stripe e no PayPal. Nos dois, o Snapp monta o dossiê e envia a defesa. Nos outros gateways, a disputa aparece na lista e nos números, e a resposta é dada no painel do gateway.
+
+#### O Snapp decide se vale contestar?
+
+Não. A força das provas é uma sugestão pelo que o Snapp encontrou na venda. Quem decide se contesta é você.
+
+#### A defesa é enviada em português?
+
+Não. A defesa e o dossiê vão em inglês, que é o idioma que o banco e o PayPal leem. Para você, o painel mostra um resumo em português.
+
+#### Posso enviar as provas mais de uma vez?
+
+Não. O envio pelo Snapp é único e, depois dele, não dá para mudar nem completar as provas. Confira o texto e o PDF antes de confirmar.
+
+#### E se a minha chave da Stripe não tiver permissão?
+
+O Snapp avisa e você pode responder pelo Dashboard da Stripe com o PDF e o texto. Para enviar pelo Snapp, inclua `Disputes: Write` e `Files: Write` na chave restrita conectada em Adquirentes.
+
+#### A página de disputas tem custo extra?
+
+Não. Ela faz parte de toda conta do Snapp. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+---
+
+## Personalize o checkout e veja a mudança na hora
+
+> Escolha entre seis modelos de checkout, ajuste tema, cores, banners e o texto do botão e defina os dados que o comprador preenche, com prévia ao vivo.
+
+Página: https://www.snappcheckout.com/personalizar-checkout
+
+No editor da oferta você escolhe o modelo do checkout, as cores, os banners e os dados que o comprador preenche. A prévia ao lado mostra a página como o comprador vai ver, no celular ou no computador.
+
+### Seis modelos de checkout
+
+O modelo muda a estrutura da página. O produto, o preço e as formas de pagamento continuam os mesmos, então você troca de modelo sem refazer a oferta.
+
+- Resumo do pedido no topo e pagamento em lista. É o modelo padrão.
+- Resumo recolhível, campos agrupados e pagamento em blocos.
+- Cabeçalho com o produto e o campo de cupom à vista.
+- Sem resumo no topo, direto para os dados e o pagamento.
+- Resumo em barra no celular, pagamento expresso no topo e order bumps em cartões.
+- Preço grande no topo, pagamento em linhas e order bumps em cartões menores.
+
+Para saber qual modelo vende mais com o seu público, compare dois deles em um teste A/B.
+
+### Tema, cores e banners
+
+O checkout tem tema claro ou escuro. A cor principal vale para o pagamento, o order bump e os destaques. A cor do preço vale para o preço do produto e o total do pedido.
+
+Você coloca até 3 banners no topo e até 3 no fim do checkout, abaixo do botão de compra. Eles servem para imagens da oferta ou da garantia, e você arrasta para mudar a ordem.
+
+### Botão de compra e formas de pagamento
+
+O texto do botão de compra é seu, com até 40 caracteres. Se o campo ficar vazio, o botão usa o texto padrão no idioma do checkout, como "Comprar agora".
+
+No celular, o botão de pagamento pode acompanhar a rolagem da página. No computador e no tablet, ele fica no fim do formulário.
+
+Você arrasta as formas de pagamento para escolher a ordem em que aparecem, e a primeira já abre selecionada. Nos dois modelos com order bumps em cartões, PayPal, Apple Pay e Google Pay ficam no topo como pagamento expresso, fora dessa ordem.
+
+### Dados que o comprador preenche
+
+Nome e e-mail são sempre pedidos. O resto você liga conforme o que precisa:
+
+- **Telefone com o código do país.** O país já abre no do visitante. O número vai para a API de Conversões da Meta, o que ajuda a ligar a venda ao anúncio, e também segue no webhook.
+- **CPF ou CNPJ.** O documento fiscal do comprador fica registrado na venda e segue no webhook.
+- **Endereço completo.** Rua, número, cidade e estado, para quem vende produto físico.
+- **Só país e código postal.** É o que a Stripe usa para conferir o cartão e ajuda a aprovar vendas para fora sem deixar o checkout mais longo.
+- **Data de nascimento.** Vai para a API de Conversões da Meta e melhora a correspondência dos eventos com os perfis.
+
+Cada campo a mais é mais uma etapa para o comprador. Ligue só os que você usa.
+
+### Idioma, moeda e domínio
+
+O checkout está disponível em 17 idiomas. Com a detecção automática ligada, ele identifica o país do visitante pelo IP e abre no idioma dele. O idioma que você escolheu na oferta fica como reserva.
+
+A detecção de moeda mostra o preço na moeda local quando ela é compatível e há câmbio disponível. Mais em [vender no exterior](https://www.snappcheckout.com/vender-no-exterior).
+
+O checkout também pode abrir em um domínio seu, como `checkout.suamarca.com`. Você cria um registro no DNS do seu provedor e o checkout passa a abrir nesse endereço depois da verificação. A propagação do DNS pode levar algumas horas.
+
+### Cupom, cronômetro e botão de WhatsApp
+
+- **Cupom de desconto** em porcentagem, com data de validade e limite de usos opcionais. Com os cupons ligados, o comprador vê o campo para adicionar o cupom.
+- **Cronômetro** em uma barra fixa no topo, com o seu texto, o tempo em minutos e as cores. A contagem começa na primeira visita e não reinicia se o comprador recarregar a página. Quando chega a zero, a barra para e o checkout continua aberto, então use o cronômetro quando a condição tem prazo de verdade.
+- **Botão de WhatsApp** fixo no canto da tela. Ao tocar, o comprador abre uma conversa no seu WhatsApp com a mensagem que você escreveu. Você escolhe o lado da tela e a cor.
+
+### Prévia ao vivo e compra teste
+
+A prévia do editor muda enquanto você edita e alterna entre celular e computador. Ao clicar em uma parte do checkout na prévia, você vai direto para a configuração dela.
+
+Antes de divulgar, gere um link de compra teste. Ele percorre o checkout completo, com order bumps, automações e upsell, sem cobrança real. O link usa a última versão salva da oferta e vale por 5 minutos.
+
+### Perguntas frequentes
+
+#### Preciso saber programar para personalizar o checkout?
+
+Não. Modelo, cores, banners, campos e botões são configurados no editor da oferta.
+
+#### Trocar de modelo muda o que já configurei?
+
+Não. O modelo muda só a estrutura da página. Produto, preço e formas de pagamento continuam como estavam.
+
+#### Quantos banners posso colocar?
+
+Até 3 no topo e até 3 no fim do checkout, abaixo do botão de compra.
+
+#### Dá para pedir só nome e e-mail?
+
+Sim. Esse é o mínimo. Telefone, documento, endereço e data de nascimento são opcionais, e você liga ou desliga cada um na oferta.
+
+#### Posso usar o meu domínio no checkout?
+
+Sim. Você aponta um subdomínio seu para o Snapp com um registro no DNS e o checkout abre nele depois da verificação.
+
+#### Personalizar o checkout tem custo extra?
+
+Não. Tudo isso faz parte de toda conta do Snapp. Veja a página de [preços](https://www.snappcheckout.com/precos).
+
+---
+
+## Webhooks para levar cada venda ao seu sistema
+
+> Receba vendas, estornos, renovações e eventos do funil por webhook em qualquer sistema que receba HTTP, com registro de cada envio e reenvio automático.
+
+Página: https://www.snappcheckout.com/webhooks
+
+O webhook do Snapp envia um POST em JSON para a URL que você indicar a cada venda aprovada. Ele também pode avisar estornos, chargebacks, cada evento da assinatura e os passos do funil antes da compra. Funciona com qualquer sistema que receba HTTP.
+
+### Webhook da conta e webhook da oferta
+
+Em Integrações, você cadastra webhooks com nome, URL e token de autenticação e escolhe em quais ofertas usar cada um. Um webhook salvo pode ser usado em quantas ofertas você quiser.
+
+Se preferir, cadastre a URL e o token direto na oferta, na aba Integração. Uma oferta pode ter mais de um webhook, e cada um tem as próprias opções de eventos.
+
+### Quais eventos chegam
+
+Toda venda aprovada chega como `purchase.approved`, seja compra avulsa ou a primeira cobrança de uma assinatura. Os outros eventos são opcionais e você liga por webhook:
+
+- **Estornos e chargebacks.** Venda avulsa estornada ou chargeback perdido. Ligue só se o seu sistema lê o campo `event`, senão um estorno pode ser tratado como venda nova.
+- **Eventos de assinatura.** Renovação paga ou recusada, cobrança abandonada pelo gateway, cancelamento, expiração, reembolso e chargeback de um ciclo.
+- **Vendas + tracking completo.** Também envia os eventos do funil, para ferramentas de rastreamento.
+
+| Evento | Quando chega | Opção |
+|---|---|---|
+| `purchase.approved` | Compra aprovada | Sempre |
+| `purchase.refunded` | Venda avulsa estornada | Estornos e chargebacks |
+| `purchase.chargeback` | Chargeback perdido em venda avulsa | Estornos e chargebacks |
+| `subscription.renewed` | Renovação paga | Eventos de assinatura |
+| `subscription.renewal_failed` | Renovação recusada, com o gateway ainda tentando cobrar | Eventos de assinatura |
+| `subscription.unpaid` | O gateway parou de tentar cobrar | Eventos de assinatura |
+| `subscription.canceled` | Cancelamento pelo comprador, por você ou pelo gateway | Eventos de assinatura |
+| `subscription.expired` | Fim dos ciclos contratados | Eventos de assinatura |
+| `subscription.refunded` | Reembolso de um ciclo | Eventos de assinatura |
+| `subscription.chargeback` | Reversão ou disputa de um ciclo | Eventos de assinatura |
+| `checkout.viewed` | Visita ao checkout, uma vez por sessão a cada 24 horas | Vendas + tracking completo |
+| `checkout.initiated` | Comprador preencheu nome, e-mail e telefone | Vendas + tracking completo |
+| `payment.pending` | Pix ou boleto gerado e ainda não pago | Vendas + tracking completo |
+| `payment.failed` | Pagamento recusado na compra, avisado em até 1 minuto | Vendas + tracking completo |
+| `cart.abandoned` | Comprador deixou o e-mail e não comprou em 30 minutos | Vendas + tracking completo |
+
+Para liberar ou bloquear o plano de um assinante, leia `subscription.active`. Ele chega `true` na renovação paga e `false` quando o gateway para de cobrar.
+
+### O que vem no JSON
+
+O envio é um POST com `Content-Type: application/json`. Se você cadastrar um token, ele vai no header `Authorization` como `Bearer`.
+
+- **`event` e `eventId`.** O primeiro diz o que aconteceu. O segundo é único por ocorrência e serve para ignorar entregas repetidas.
+- **`customer`.** Nome, e-mail, telefone, documento, país, IP e endereço do comprador.
+- **`offer`, `product`, `orderBumps` e `items`.** O que foi comprado, com o ID customizado do produto (`customId`) quando você cadastra um.
+- **`amount` e `payment`.** Valor, moeda, forma de pagamento e gateway.
+- **`tracking`.** `src`, `sck`, UTMs, IDs de clique e dados de campanha.
+- **`subscription`, `failure`, `refund` e `cancellation`.** Chegam preenchidos quando se aplicam e como `null` quando não se aplicam, para o formato ser o mesmo em todo evento.
+- **`isUpsell` e `isDownsell`.** Dizem se a venda veio do funil de [upsell](https://www.snappcheckout.com/upsell-e-order-bump).
+
+Os eventos do funil trazem os blocos `offer`, `customer`, `amount` e `tracking`, com UTMs, IDs de clique, `fbp`, `fbc`, user agent e `sessionId`. Na oferta, o botão Dados enviados mostra um exemplo do JSON.
+
+### Registro de cada envio
+
+Cada envio fica na página Eventos com o status Sucesso, Falhou ou Em reenvio. No topo aparecem o total, os envios sem contar reenvios, os sucessos, as falhas e os que estão em reenvio. Você filtra por período, tipo de evento, oferta e nome ou e-mail do cliente e abre cada envio para ver o JSON que saiu.
+
+Um envio falha quando a resposta não tem status 2xx ou não chega em 30 segundos. Nesse caso o Snapp tenta de novo até 3 vezes: cerca de 30 minutos depois da falha, depois de mais 1 hora e depois de mais 6 horas. Se a sua URL respondeu 429, a primeira nova tentativa sai em 2 minutos.
+
+Você também pode reenviar qualquer evento pelo painel. O reenvio vai para o destino original e fica registrado como um evento novo. O registro fica guardado por 90 dias. A visita ao checkout (`checkout.viewed`) não entra na página Eventos e não é reenviada.
+
+### Integrações prontas
+
+Para algumas ferramentas não é preciso montar webhook:
+
+- **UTMify** recebe as vendas e também os reembolsos e chargebacks.
+- **vTurb** recebe a conversão de cada venda paga que traz a chave de conversão (`src` ou `sck`) na URL do checkout.
+- **Discord.** O bot do Snapp coloca o comprador no servidor com o cargo da oferta e tira o cargo em reembolso total, chargeback ou fim da assinatura.
+- **Pixel e API de Conversões** da Meta, além de TikTok, Google Ads e Taboola.
+- **Resend**, para os e-mails do checkout saírem com o seu remetente.
+
+Os envios para a UTMify, a vTurb e as APIs de conversão da Meta, do TikTok e da Taboola também aparecem na página Eventos.
+
+### Perguntas frequentes
+
+#### Funciona com qualquer ferramenta de automação?
+
+Funciona com qualquer sistema que receba um POST em JSON por HTTP. Você cola a URL que a ferramenta gerar e, se ela pedir, o token.
+
+#### Como sei que o envio veio do Snapp?
+
+Cadastre um token de autenticação no webhook. O Snapp envia o token no header `Authorization`, e o seu sistema confere antes de aceitar.
+
+#### O webhook dispara em cada renovação da assinatura?
+
+Só se você ligar Eventos de assinatura. Desligado, o webhook dispara apenas na primeira venda, e a renovação não chega como venda nova.
+
+#### Como evito processar a mesma venda duas vezes?
+
+Guarde o `eventId`. Ele é único por ocorrência, então uma entrega repetida chega com o mesmo valor e pode ser ignorada.
+
+#### E se o meu sistema estiver fora do ar?
+
+O envio fica como falha e o Snapp tenta de novo até 3 vezes. Depois disso, você reenvia pela página Eventos.
+
+#### Como testo o webhook antes de vender?
+
+Gere uma compra teste na oferta. O link percorre o checkout completo com as automações, sem cobrança real, e vale por 5 minutos.

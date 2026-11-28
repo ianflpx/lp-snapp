@@ -1,6 +1,6 @@
 # Área de membros que libera o acesso quando a venda é aprovada
 
-> Entregue cursos e arquivos numa área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
+> Entregue cursos e arquivos em uma área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
 
 Página: https://www.snappcheckout.com/area-de-membros
 
@@ -30,7 +30,7 @@ A área de membros tem versões por idioma, nos 17 idiomas do checkout. Quem ven
 
 ## Com a sua marca
 
-Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir num domínio seu.
+Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir em um domínio seu.
 
 ## Discord e outras plataformas
 

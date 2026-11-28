@@ -1,59 +1,53 @@
 /* ───────── Banner 16 · IA por chat ─────────
-   Dois blocos: os pedidos (chips e campo com botão de enviar) e a janela do Claude, que roda o pedido escolhido.
-   Mobile: empilhados, com a janela sangrando por baixo (lado a lado quando a largura dá). A partir de 800px:
-   pedidos embaixo do texto e a janela à direita, do y≈100 do card até passar da borda de baixo.
-   O que encosta no card (chips) usa as variáveis da variante; campo e janela têm pele própria de mockup. */
+   Os pedidos de exemplo (uma fileira de chips) e a janela do Claude: o chip escolhido é digitado na caixa do
+   próprio Claude, enviado, e aparecem a ferramenta do Snapp usada e o resultado. Mobile: chips em cima e a
+   janela sangrando por baixo. A partir de 800px: chips embaixo do texto e a janela à direita, do y≈100 do card
+   até passar da borda de baixo. Os chips usam as variáveis da variante; a janela tem pele própria de mockup. */
+#ia .banner__label { color: var(--b-fg); }
 #ia .banner__media { aspect-ratio: auto; } /* a altura vem do conteúdo, não da proporção das outras mídias */
 .ia { --spring: cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s4); padding-inline: var(--s5); font-size: clamp(12px, 3.43cqw, 15px); }
-.ia__ask { flex: 1 1 17em; min-width: 0; display: grid; gap: var(--s3); }
 
-/* fileira rolável que some nas pontas (sinal de que rola); a folga vertical é para o anel de foco não ser cortado.
-   A máscara cria um contexto de empilhamento, então é a fileira inteira que sobe acima do link esticado do card. */
+/* uma fileira só; no mobile, se não couber, rola de lado e some nas pontas. A folga vertical é para o anel de
+   foco não ser cortado. A máscara cria um contexto de empilhamento, então a fileira sobe acima do link do card. */
 .ia__chips {
-  position: relative; z-index: 2; display: flex; gap: var(--s3); margin: -6px calc(-1 * var(--s5)); padding: 6px var(--s5); overflow-x: auto; scrollbar-width: none;
+  position: relative; z-index: 2; flex: 1 1 100%; display: flex; gap: 0.5em; margin: -6px calc(-1 * var(--s5)); padding: 6px var(--s5); overflow-x: auto; scrollbar-width: none;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 var(--s5), #000 calc(100% - var(--s5)), transparent);
   mask-image: linear-gradient(90deg, transparent, #000 var(--s5), #000 calc(100% - var(--s5)), transparent);
 }
 .ia__chips::-webkit-scrollbar { display: none; }
 /* chip: contorno em repouso, tom no hover, afunda no toque; o escolhido fica cheio, com o ponto aceso na frente */
 .ia__chip {
-  flex: none; display: flex; align-items: center; min-height: 40px; padding-inline: 1.05em; border-radius: 99em;
-  box-shadow: inset 0 0 0 1px var(--b-muted); color: var(--b-fg); font-weight: 500; white-space: nowrap;
+  flex: none; display: flex; align-items: center; min-height: 40px; padding-inline: 0.85em; border-radius: 99em;
+  box-shadow: inset 0 0 0 1px var(--b-muted); color: var(--b-fg); font-size: 0.96em; font-weight: 500; white-space: nowrap;
   transition: background-color 0.2s var(--ease), color 0.2s var(--ease), scale 0.3s var(--spring);
 }
-.ia__chip::before { content: ""; width: 0.5em; height: 0.5em; margin-right: 0.55em; border-radius: 50%; background: var(--b-muted); opacity: 0.45; transition: scale 0.35s var(--spring); }
+.ia__chip::before { content: ""; width: 0.5em; height: 0.5em; margin-right: 0.5em; border-radius: 50%; background: var(--b-muted); opacity: 0.45; transition: scale 0.35s var(--spring); }
 .ia__chip:hover { background: var(--b-tint); }
 .ia__chip:active { scale: 0.96; }
 .ia__chip[aria-pressed="true"] { background: var(--b-fg); color: var(--b-bg); box-shadow: none; }
 .ia__chip[aria-pressed="true"]::before { background: var(--yellow); opacity: 1; scale: 1.25; }
 
-/* campo: ganha o anel de foco e o cursor enquanto o pedido é digitado */
-.ia__field {
-  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.25em 0.8em;
-  padding: 0.7em 0.7em 0.7em 1.1em; border-radius: 1em; background: #fff; color: #111113;
-  box-shadow: 0 0 0 1px rgba(10, 10, 11, 0.12);
+/* Claude: a resposta abre com a marca (estrela laranja), como no app */
+.ia .chat-reply::before {
+  content: ""; display: inline-block; width: 1.15em; height: 1.15em; margin-right: 0.5em; vertical-align: -0.2em; background: var(--cw-acc);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1M7.4 2.9l9.2 18.2M16.6 2.9 7.4 21.1M2.9 7.4l18.2 9.2M2.9 16.6l18.2-9.2' stroke='%23000' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1M7.4 2.9l9.2 18.2M16.6 2.9 7.4 21.1M2.9 7.4l18.2 9.2M2.9 16.6l18.2-9.2' stroke='%23000' stroke-width='1.9' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.ia__field:has(.is-typing) { box-shadow: 0 0 0 2px #111113; }
-.ia__q { min-width: 0; min-height: 4.05em; font-size: 1.12em; line-height: 1.35; } /* três linhas reservadas: o campo não cresce ao digitar */
-.ia__q.is-typing::after { content: ""; display: inline-block; width: 2px; height: 1.05em; margin-left: 1px; vertical-align: -0.16em; background: currentColor; }
-.ia__mcp { display: flex; align-items: center; gap: 0.5em; min-width: 0; color: #6b6b72; font: 400 max(11px, 0.76em) / 1.4 var(--mono); white-space: nowrap; }
-.ia__mcp span { flex: none; display: grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 0.4em; background: #111113; }
-.ia__mcp img { width: 0.8em; height: 0.88em; }
-.ia__send {
-  grid-area: 1 / 2 / 3 / 3; align-self: end; display: grid; place-items: center;
-  width: max(40px, 2.9em); height: max(40px, 2.9em); border-radius: 0.75em;
-  background: var(--yellow); color: var(--on-yellow); font-size: 1em;
-  box-shadow: inset 0 0 0 1px rgba(10, 10, 11, 0.12); transition: border-radius 0.3s var(--ease), scale 0.3s var(--spring);
+/* caixa de mensagem do Claude numa linha: o texto, o conector do Snapp (ponto verde = ativo) e o enviar */
+.ia .chatwin__composer { gap: 0.7em; margin-bottom: 1.2em; padding: 0.65em 0.65em 0.65em 1.1em; border: 1px solid var(--cw-line); }
+.chatwin__snapp {
+  position: relative; flex: none; display: grid; place-items: center; width: 2em; height: 2em;
+  border: 1px solid var(--cw-line); border-radius: 0.6em; background: #1c1c1a;
 }
-.ia__send:hover { border-radius: 1.2em; }
-.ia__send:active { scale: 0.9; }
-.ia__send .ico { font-size: 1.35em; stroke-width: 2.25; }
+.chatwin__snapp img { width: 0.95em; height: 1.05em; }
+.chatwin__snapp::after {
+  content: ""; position: absolute; right: -0.25em; top: -0.25em; width: 0.6em; height: 0.6em;
+  border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 2px var(--cw-field);
+}
 
 /* a janela tem altura fixa (a conversa não empurra a página) e o compositor é o que passa da borda */
 /* o corte do card cai abaixo do campo de digitar, não no meio dele */
-.ia .chatwin { flex: 1.3 1 22em; min-width: 0; height: 35.5em; margin-bottom: -1.8em; font-size: 1.05em; }
-.ia .chatwin__title { justify-content: space-between; padding-block: 0.65em; color: var(--cw-ink); }
-.ia .chatwin__title .ico { width: 1em; height: 1em; fill: none; color: var(--cw-mute); }
+.ia .chatwin { flex: 1.3 1 22em; min-width: 0; height: 42em; margin-bottom: 0; font-size: 1.05em; }
 /* textos de apoio da conversa um pouco maiores que na primitiva, para não cair abaixo de ~11px em 800 e 1024 */
 .ia .chat-tool code { font-size: 0.98em; }
 .ia .chat-card__h { font-size: 0.9em; }
@@ -64,21 +58,20 @@
 .ia .chat-card dl:has(> :nth-child(3):last-child) { grid-template-columns: repeat(3, auto); }
 .ia .chat-card dl:has(> :nth-child(3):last-child) > div:not(:last-child) { border-right: 1px solid var(--cw-line); }
 
+/* mobile: os três pedidos cabem numa linha sem o ponto (o escolhido já fica cheio) */
+@media (max-width: 799px) {
+  .ia__chip { min-height: 38px; padding-inline: 0.75em; font-size: 0.92em; }
+  .ia__chip::before { display: none; }
+}
+
 @media (min-width: 800px) {
-  #ia .banner__text { width: 51%; }           /* o texto não entra por baixo da janela */
-  /* a janela sobe acima da mídia (quem recorta é o card); em telas menores a mídia não encolhe abaixo de 360px,
-     para a conversa caber com a fonte no piso */
-  #ia .banner__media { overflow: visible; height: max(calc(383 * var(--u)), 360px); }
+  #ia .banner__text { width: 39%; }           /* o texto não entra por baixo da janela */
+  /* a janela sobe acima da mídia (quem recorta é o card); a mídia não encolhe abaixo de 400px, para a conversa
+     (pedido, ferramentas, resposta e resultado) caber inteira com a fonte no piso */
+  #ia .banner__media { overflow: visible; height: max(calc(450 * var(--u)), 420px); }
   .ia { display: block; height: 100%; padding: 0; font-size: max(12px, 1.39cqw); }
-  .ia__ask { position: absolute; left: var(--s5); bottom: calc(52 * var(--u)); width: calc(51cqw - var(--s5) - 1.6em); gap: var(--s4); }
-  .ia__chips { z-index: auto; flex-wrap: wrap; margin: 0; padding: 0; overflow: visible; -webkit-mask-image: none; mask-image: none; }
-  .ia__field { grid-template-rows: 1fr auto; align-items: start; min-height: 8.6em; padding: 1.1em 0.8em 0.8em 1.25em; }
-  .ia__q { min-height: 1.35em; }
-  .ia__mcp { align-self: end; }
-  /* a borda esquerda é fixa e a largura é em em: com a fonte no piso, a janela sangra mais pela direita.
-     O que passa da borda (32em - 45.6cqw) é só moldura: o conteúdo para 1.3em antes dela */
-  .ia .chatwin { position: absolute; left: 54.4cqw; top: calc(-68 * var(--u)); bottom: -1.9em; width: 32em; height: auto; margin: 0; font-size: 1.07em; }
-  .ia .chatwin__msgs { padding-right: calc(33.3em - 45.6cqw); }
-  .ia .chatwin__composer { margin-right: calc(33.3em - 45.6cqw); }
-  .ia .chatwin__title { padding-right: calc(37em - 45.6cqw); } /* a mesma conta no em do título (0.9 do da janela) */
+  /* os pedidos ficam embaixo, na altura da caixa de mensagem do Claude */
+  .ia__chips { position: absolute; left: var(--s5); bottom: calc(56 * var(--u)); z-index: 2; margin: 0; padding: 0; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  /* janela larga, do fim do texto até a borda direita do card: sangra pela direita e por baixo */
+  .ia .chatwin { position: absolute; left: 44cqw; right: 0; top: calc(-68 * var(--u)); bottom: 0; width: auto; height: auto; margin: 0; font-size: 1em; }
 }

@@ -1,9 +1,9 @@
 ---
 title: Área de membros integrada ao checkout | Snapp Checkout
-description: Entregue cursos e arquivos numa área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
+description: Entregue cursos e arquivos em uma área de membros própria, em 17 idiomas. O acesso é liberado quando o pagamento é confirmado e faz parte de toda conta.
 h1: Área de membros que libera o acesso quando a venda é aprovada
 nav: Área de membros
-card: Aulas e arquivos numa área própria, liberada quando o pagamento é confirmado.
+card: Aulas e arquivos em uma área própria, liberada quando o pagamento é confirmado.
 related: checkout-para-infoprodutos, upsell-e-order-bump, precos
 ---
 
@@ -33,7 +33,7 @@ A área de membros tem versões por idioma, nos 17 idiomas do checkout. Quem ven
 
 ## Com a sua marca
 
-Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir num domínio seu.
+Você personaliza a tela de login, o logo, o nome da área e as abas que o aluno vê. A área também pode abrir em um domínio seu.
 
 ## Discord e outras plataformas
 
