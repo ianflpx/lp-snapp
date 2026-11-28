@@ -450,6 +450,8 @@ html{scroll-padding-top:96px}
 
 /* IA por chat: entre 800 e ~920px os chips passavam por baixo da janela do chat; quebram linha antes dela */
 @media (min-width:800px){.v3x .ia__chips{flex-wrap:wrap;max-width:calc(44cqw - var(--s5) - 16px)}}
+/* IA por chat: a janela escura entra junto com o card; com o fade atrasado da mídia o card abria claro e vazio e o chat piscava por cima */
+.js-motion .v3x #ia:not(.is-in) > .banner__media{opacity:1}
 
 /* Entrega por e-mail: o cartão é só o HTML que o Snapp envia de fato, sem a moldura de cliente de e-mail
    (faixa com o nome da oferta, título, texto, botão, entregável, resumo e rodapé, com os textos padrão do produto) */
