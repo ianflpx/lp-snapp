@@ -57,6 +57,8 @@ O envio é um POST com `Content-Type: application/json`. Se você cadastrar um t
 
 Os eventos do funil trazem os blocos `offer`, `customer`, `amount` e `tracking`, com UTMs, IDs de clique, `fbp`, `fbc`, user agent e `sessionId`. Na oferta, o botão Dados enviados mostra um exemplo do JSON.
 
+A [referência do webhook](/docs/webhooks) descreve cada campo, cada evento e os gateways que disparam cada um, com exemplos de JSON e de código para receber os envios.
+
 ## Registro de cada envio
 
 Cada envio fica na página Eventos com o status Sucesso, Falhou ou Em reenvio. No topo aparecem o total, os envios sem contar reenvios, os sucessos, as falhas e os que estão em reenvio. Você filtra por período, tipo de evento, oferta e nome ou e-mail do cliente e abre cada envio para ver o JSON que saiu.

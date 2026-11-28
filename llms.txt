@@ -29,6 +29,10 @@ Fatos principais:
 - [Personalizar checkout](https://www.snappcheckout.com/personalizar-checkout.md): Modelo, cores, banners, campos do comprador e domínio próprio, com prévia ao vivo.
 - [Webhooks](https://www.snappcheckout.com/webhooks.md): Vendas, estornos, assinaturas e funil em JSON, com registro e reenvio de cada envio.
 
+## Documentação técnica
+
+- [Referência do webhook](https://www.snappcheckout.com/docs/webhooks.md): Contrato completo do webhook do Snapp Checkout: eventos, quando cada um sai, todos os campos do JSON, exemplos, autenticação, reenvio e atribuição.
+
 ## Produto
 
 - [Página inicial](https://www.snappcheckout.com/): visão geral do Snapp Checkout

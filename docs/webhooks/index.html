@@ -1,0 +1,550 @@
+<!doctype html>
+<!-- Gerado por tools/build.mjs a partir de content/docs/webhooks.md. Não edite este arquivo. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referência do webhook do Snapp: eventos e payload</title>
+<meta name="description" content="Contrato completo do webhook do Snapp Checkout: eventos, quando cada um sai, todos os campos do JSON, exemplos, autenticação, reenvio e atribuição.">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="https://www.snappcheckout.com/docs/webhooks">
+<link rel="alternate" type="text/markdown" href="https://www.snappcheckout.com/docs/webhooks.md">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Snapp Checkout">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://www.snappcheckout.com/docs/webhooks">
+<meta property="og:title" content="Referência do webhook do Snapp: eventos e payload">
+<meta property="og:description" content="Contrato completo do webhook do Snapp Checkout: eventos, quando cada um sai, todos os campos do JSON, exemplos, autenticação, reenvio e atribuição.">
+<meta property="og:image" content="https://www.snappcheckout.com/brand/og-snapp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Referência do webhook do Snapp: eventos e payload">
+<meta name="twitter:description" content="Contrato completo do webhook do Snapp Checkout: eventos, quando cada um sai, todos os campos do JSON, exemplos, autenticação, reenvio e atribuição.">
+<meta name="twitter:image" content="https://www.snappcheckout.com/brand/og-snapp.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/pages.css?v=cb1bda3e29">
+<link rel="stylesheet" href="/v4/v3.css?v=dbb99aed66">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["TechArticle","FAQPage"],"@id":"https://www.snappcheckout.com/docs/webhooks#webpage","url":"https://www.snappcheckout.com/docs/webhooks","name":"Referência do webhook do Snapp: eventos e payload","headline":"Referência do webhook","description":"Contrato completo do webhook do Snapp Checkout: eventos, quando cada um sai, todos os campos do JSON, exemplos, autenticação, reenvio e atribuição.","inLanguage":"pt-BR","dateModified":"2026-11-28","isPartOf":{"@id":"https://www.snappcheckout.com/#website"},"about":{"@id":"https://www.snappcheckout.com/#software"},"publisher":{"@id":"https://www.snappcheckout.com/#organization"},"breadcrumb":{"@id":"https://www.snappcheckout.com/docs/webhooks#breadcrumb"},"mainEntity":[{"@type":"Question","name":"O webhook dispara para vendas pela Stripe e pelo PayPal?","acceptedAnswer":{"@type":"Answer","text":"Sim. purchase.approved sai em todos os gateways. Na Stripe e no PayPal também saem recusa, reembolso, chargeback e todos os eventos de assinatura, desde que as opções estejam ligadas no destino."}},{"@type":"Question","name":"Os parâmetros da URL do checkout chegam no webhook?","acceptedAnswer":{"@type":"Answer","text":"Chegam no bloco tracking: as cinco UTMs, src, sck, IDs de clique e dados de campanha, com atribuição de último toque. Se o checkout estiver num iframe, a página de vendas precisa repassar os parâmetros para a URL do iframe."}},{"@type":"Question","name":"Como sei que o envio veio do Snapp?","acceptedAnswer":{"@type":"Answer","text":"Cadastre um token no destino. Ele chega no cabeçalho Authorization como Bearer <token>, e o seu sistema compara antes de aceitar."}},{"@type":"Question","name":"Como evito processar o mesmo evento duas vezes?","acceptedAnswer":{"@type":"Answer","text":"Guarde o eventId. Ele é único por ocorrência, e toda repetição, seja reenvio automático, reenvio manual ou aviso repetido do gateway, chega com o mesmo valor."}},{"@type":"Question","name":"Por que uma renovação não chegou?","acceptedAnswer":{"@type":"Answer","text":"Renovação só chega no destino com a opção Eventos de assinatura ligada, e só em assinaturas da Stripe e do PayPal. Sem a opção, o destino recebe apenas a 1ª cobrança."}},{"@type":"Question","name":"O que acontece se o meu sistema estiver fora do ar?","acceptedAnswer":{"@type":"Answer","text":"O envio fica como falha e o Snapp tenta de novo até 3 vezes, em cerca de 30 minutos, 1 hora e 6 horas. Depois disso, o reenvio é manual, pela página Eventos."}}]},{"@type":"BreadcrumbList","@id":"https://www.snappcheckout.com/docs/webhooks#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Início","item":"https://www.snappcheckout.com/"},{"@type":"ListItem","position":2,"name":"Referência do webhook","item":"https://www.snappcheckout.com/docs/webhooks"}]}]}</script>
+<script src="/attribution.js?v=032c499842" defer></script>
+<script src="/v4/v3.js?v=9b1b0c2281" defer></script>
+<script src="/docs.js?v=54a938d93c" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 12.5 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/><path d="M6.5 15h3"/></symbol>
+<symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10 12 4l9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20h18"/></symbol>
+<symbol id="i-upsell" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+<symbol id="i-play-screen" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="m10.5 8.5 4.5 2.5-4.5 2.5z"/><path d="M8 21h8"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5"/><path d="M21 3l-6.5 18-4-7.5L3 9.5 21 3z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9s1.2-6.4 3.6-9z"/></symbol>
+<symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></symbol>
+<symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.75"/><path d="M17 7h.01"/></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+<div class="v3x">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="nav" data-nav>
+  <div class="nav__scrim" data-nav-close></div>
+  <div class="nav__bar">
+    <a class="nav__logo" href="/" aria-label="Snapp Checkout, início"><img src="/v4/images/logo-snapp-white.svg" width="88" height="21" alt="Snapp Checkout"></a>
+    <nav class="nav__links" aria-label="Principal">
+      <button class="nav__link" type="button" aria-expanded="false" aria-controls="nav-painel" data-nav-toggle>Recursos <svg class="ico"><use href="#i-chevron-down"/></svg></button>
+      <a class="nav__link" href="/#precos">Preço</a>
+      <a class="nav__link" href="/#faq">FAQ</a>
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__link nav__login" href="https://admin.snappcheckout.com/login">Entrar</a>
+      <a class="btn nav__cta" href="https://admin.snappcheckout.com/register">Começar agora</a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-painel" aria-label="Abrir menu" data-nav-toggle>
+        <svg class="ico"><use href="#i-menu"/></svg><svg class="ico"><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div class="nav__panel" id="nav-painel">
+      <span class="nav__group-label t-mono">Recursos</span>
+      <div class="nav__grid">
+        <a class="nav__item" href="/link-de-pagamento"><span class="ico-sq"><svg class="ico"><use href="#i-copy"/></svg></span><span><b>Link de pagamento</b><small>Crie o link, compartilhe e receba com cartão, Pix, boleto ou PayPal.</small></span></a>
+        <a class="nav__item" href="/checkout-para-infoprodutos"><span class="ico-sq"><svg class="ico"><use href="#i-layers"/></svg></span><span><b>Checkout para infoprodutos</b><small>O que o Snapp faz para quem vende curso, <span class="nw">e-book</span>, mentoria e assinatura.</small></span></a>
+        <a class="nav__item" href="/personalizar-checkout"><span class="ico-sq"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span><span><b>Personalizar checkout</b><small>Modelo, cores, banners, campos do comprador e domínio próprio, com prévia ao vivo.</small></span></a>
+        <a class="nav__item" href="/checkout-stripe"><span class="ico-sq"><svg class="ico"><use href="#i-card"/></svg></span><span><b>Checkout para Stripe</b><small>Use a sua conta Stripe com upsell em um clique, Apple Pay, Google Pay e assinaturas.</small></span></a>
+        <a class="nav__item" href="/checkout-paypal"><span class="ico-sq"><svg class="ico"><use href="#i-bank"/></svg></span><span><b>Checkout com PayPal</b><small>PayPal no mesmo checkout do cartão, com assinatura e entrega automática.</small></span></a>
+        <a class="nav__item" href="/upsell-e-order-bump"><span class="ico-sq"><svg class="ico"><use href="#i-upsell"/></svg></span><span><b>Upsell e order bump</b><small>Order bump na tela do pagamento e funil de upsell e downsell depois da compra.</small></span></a>
+        <a class="nav__item" href="/area-de-membros"><span class="ico-sq"><svg class="ico"><use href="#i-play-screen"/></svg></span><span><b>Área de membros</b><small>Aulas e arquivos em uma área própria, liberada quando o pagamento é confirmado.</small></span></a>
+        <a class="nav__item" href="/chargeback"><span class="ico-sq"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></svg></span><span><b>Chargeback e disputas</b><small>Prazo de cada disputa, provas da venda, dossiê em PDF e envio da defesa ao gateway.</small></span></a>
+        <a class="nav__item" href="/webhooks"><span class="ico-sq"><svg class="ico"><use href="#i-send"/></svg></span><span><b>Webhooks</b><small>Vendas, estornos, assinaturas e funil em JSON, com registro e reenvio de cada envio.</small></span></a>
+        <a class="nav__item" href="/vender-no-exterior"><span class="ico-sq"><svg class="ico"><use href="#i-globe"/></svg></span><span><b>Vender no exterior</b><small>Ofertas em 16 moedas e checkout em 17 idiomas, com formas de pagamento locais.</small></span></a>
+        <a class="nav__item nav__item--desk" href="/precos"><span class="ico-sq"><svg class="ico"><use href="#i-percent"/></svg></span><span><b>Preços e taxas</b><small>3% por venda aprovada, sem mensalidade nem taxa de adesão.</small></span></a>
+      </div>
+      <div class="nav__menu-links">
+        <a class="nav__link" href="/precos">Preços e taxas</a>
+        <a class="nav__link" href="/#faq">FAQ</a>
+      </div>
+      <div class="nav__menu-foot">
+        <a class="btn btn--secondary btn--sm" href="https://admin.snappcheckout.com/login">Entrar</a>
+        <a class="btn btn--sm" href="https://admin.snappcheckout.com/register">Começar agora</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+</div>
+
+<main id="conteudo" class="doc">
+  <div class="doc__head">
+    <nav aria-label="Você está aqui"><ol class="crumb"><li><a href="/">Início</a></li><li aria-current="page">Referência do webhook</li></ol></nav>
+    <h1>Referência do webhook</h1>
+    <p class="lead">Esta página descreve o contrato completo do webhook do Snapp Checkout: como o envio é feito, quais eventos existem e quando cada um sai, quais gateways disparam cada evento, o significado de cada campo do JSON e como receber os eventos com segurança. Ela vale tanto para quem programa a integração quanto para a IA que vai montá-la.</p>
+    <div class="doc__actions">
+      <button type="button" class="ai-copy" data-ai-copy>Copiar para IA</button>
+      <a class="doc__md" href="/docs/webhooks.md">Ver em Markdown</a>
+      <span class="doc__status" role="status" aria-live="polite"></span>
+    </div>
+    <p class="doc__hint">O botão copia a referência inteira com uma instrução para a IA. Cole no ChatGPT, no Claude ou no assistente do seu editor e peça a integração.</p>
+  </div>
+
+  <div class="doc__body">
+    <details class="toc" data-toc>
+      <summary>Nesta página</summary>
+      <ol>
+        <li><a href="#resumo-em-10-linhas">Resumo em 10 linhas</a></li>
+        <li><a href="#como-o-envio-funciona">Como o envio funciona</a></li>
+        <li><a href="#onde-o-webhook-e-configurado">Onde o webhook é configurado</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#eventos-por-gateway">Eventos por gateway</a></li>
+        <li><a href="#payload-dos-eventos-de-venda">Payload dos eventos de venda</a></li>
+        <li><a href="#payload-dos-eventos-do-checkout">Payload dos eventos do checkout</a></li>
+        <li><a href="#como-receber-com-seguranca">Como receber com segurança</a></li>
+        <li><a href="#como-testar">Como testar</a></li>
+        <li><a href="#limitacoes-atuais">Limitações atuais</a></li>
+        <li><a href="#perguntas-frequentes">Perguntas frequentes</a></li>
+      </ol>
+    </details>
+
+    <article class="prose">
+<h2 id="resumo-em-10-linhas">Resumo em 10 linhas</h2>
+<ul><li>O Snapp faz um <code>POST</code> com <code>Content-Type: application/json</code> na URL que você cadastrar, uma vez por evento e por destino.</li><li>Se você cadastrar um token, ele chega no cabeçalho <code>Authorization: Bearer &lt;token&gt;</code>. Não há assinatura HMAC: confira o token.</li><li>O campo <code>event</code> diz o que aconteceu. Roteie pelo <code>event</code>, nunca pelo <code>status</code>.</li><li>O campo <code>eventId</code> é único por ocorrência. Guarde-o e ignore a entrega que chegar com um <code>eventId</code> já processado.</li><li><code>purchase.approved</code> sai em toda venda aprovada, em todos os gateways. Os demais eventos dependem de opções ligadas no destino.</li><li>Responda com status <code>2xx</code> em até 30 segundos. Qualquer outra resposta conta como falha, e o Snapp tenta de novo até 3 vezes.</li><li>Valores em dinheiro vêm em dois formatos: <code>*InCents</code> (inteiro, na menor unidade da moeda) e o valor decimal. Use os campos <code>*InCents</code> como fonte de verdade.</li><li>O bloco <code>tracking</code> traz UTMs, <code>src</code>, <code>sck</code>, IDs de clique, <code>fbp</code>, <code>fbc</code> e a URL de entrada do checkout, com atribuição de último toque.</li><li>Os blocos <code>subscription</code>, <code>failure</code>, <code>refund</code> e <code>cancellation</code> estão sempre presentes no evento de venda e chegam <code>null</code> quando não se aplicam.</li><li>Datas estão em ISO 8601, em UTC (<code>2026-11-28T14:03:12.000Z</code>).</li></ul>
+<h2 id="como-o-envio-funciona">Como o envio funciona</h2>
+<div class="tbl"><table><thead><tr><th scope="col">Item</th><th scope="col">Comportamento</th></tr></thead><tbody><tr><td>Método</td><td><code>POST</code></td></tr><tr><td>Corpo</td><td>JSON em UTF-8, um evento por requisição</td></tr><tr><td>Cabeçalhos</td><td><code>Content-Type: application/json</code> e, se houver token, <code>Authorization: Bearer &lt;token&gt;</code></td></tr><tr><td>Sucesso</td><td>Qualquer resposta <code>2xx</code>. O corpo da resposta é ignorado</td></tr><tr><td>Prazo</td><td>30 segundos para responder, contando cabeçalhos e corpo</td></tr><tr><td>Redirecionamento</td><td>Não é seguido. Uma resposta <code>3xx</code> conta como falha, então cadastre a URL final</td></tr><tr><td>Destino</td><td>URL <code>http</code> ou <code>https</code> com endereço público. IP privado, <code>localhost</code> e URL com usuário e senha são recusados</td></tr><tr><td>Ordem</td><td>Não é garantida. Use <code>dateTime</code> e o estado do seu sistema para decidir</td></tr><tr><td>Entrega</td><td>Pelo menos uma vez. A mesma ocorrência pode chegar de novo, sempre com o mesmo <code>eventId</code></td></tr></tbody></table></div>
+<h3 id="reenvio-automatico">Reenvio automático</h3>
+<p>Um envio falha quando a resposta não tem status <code>2xx</code>, não chega em 30 segundos ou a conexão cai. O Snapp tenta de novo até 3 vezes:</p>
+<ol><li>cerca de 30 minutos depois da falha (2 minutos se a sua URL respondeu <code>429</code>);</li><li>1 hora depois da 1ª nova tentativa;</li><li>6 horas depois da 2ª.</li></ol>
+<p>Se a URL do destino mudar na oferta antes de uma nova tentativa, o reenvio automático é cancelado e nada vai para a URL antiga.</p>
+<p>Cada envio fica na página Eventos do painel por 90 dias, com o JSON enviado, o status da resposta e o erro. De lá o vendedor reenvia qualquer evento manualmente, e o reenvio chega com o mesmo <code>eventId</code>. A visita ao checkout (<code>checkout.viewed</code>) é a única exceção: não fica registrada e não é reenviada.</p>
+<h2 id="onde-o-webhook-e-configurado">Onde o webhook é configurado</h2>
+<p>Há dois lugares, e os dois enviam o mesmo formato:</p>
+<ul><li><strong>Webhook salvo</strong>, em Integrações › Webhooks: nome, URL, token e as ofertas que o disparam. Editar o webhook salvo leva a mudança a todas as ofertas que o usam.</li><li><strong>Webhook da oferta</strong>, na aba Integração da oferta. Uma oferta pode ter vários destinos.</li></ul>
+<p>Se a mesma URL com o mesmo token estiver configurada duas vezes numa oferta, o Snapp envia uma vez só.</p>
+<p>Cada destino tem opções que definem quais eventos ele recebe:</p>
+<div class="tbl"><table><thead><tr><th scope="col">Opção no painel</th><th scope="col">O que acrescenta</th></tr></thead><tbody><tr><td>Nenhuma (padrão)</td><td>Só <code>purchase.approved</code></td></tr><tr><td>Estornos e chargebacks</td><td><code>purchase.refunded</code> e <code>purchase.chargeback</code> de vendas avulsas</td></tr><tr><td>Eventos de assinatura</td><td><code>subscription.*</code>: renovação paga ou recusada, cobrança abandonada, cancelamento, expiração, reembolso e chargeback de um ciclo</td></tr><tr><td>Vendas + tracking completo</td><td><code>checkout.viewed</code>, <code>checkout.initiated</code>, <code>payment.pending</code>, <code>payment.failed</code> e <code>cart.abandoned</code></td></tr></tbody></table></div>
+<p>Um destino sem nenhuma opção ligada nunca recebe um evento que não seja venda. Isso protege sistemas que tratam todo <code>POST</code> como venda nova.</p>
+<h2 id="eventos">Eventos</h2>
+<div class="tbl"><table><thead><tr><th scope="col"><code>event</code></th><th scope="col">Quando sai</th><th scope="col">Opção necessária</th><th scope="col"><code>status</code></th></tr></thead><tbody><tr><td><code>purchase.approved</code></td><td>Compra aprovada: venda avulsa, 1ª cobrança de assinatura, upsell ou downsell</td><td>Nenhuma</td><td><code>approved</code></td></tr><tr><td><code>purchase.refunded</code></td><td>Venda avulsa reembolsada, total ou parcialmente</td><td>Estornos e chargebacks</td><td><code>refunded</code></td></tr><tr><td><code>purchase.chargeback</code></td><td>Chargeback perdido numa venda avulsa</td><td>Estornos e chargebacks</td><td><code>chargeback</code></td></tr><tr><td><code>subscription.renewed</code></td><td>Renovação paga (ciclo 2 em diante)</td><td>Eventos de assinatura</td><td><code>approved</code></td></tr><tr><td><code>subscription.renewal_failed</code></td><td>Renovação recusada, com o gateway ainda tentando cobrar</td><td>Eventos de assinatura</td><td><code>failed</code></td></tr><tr><td><code>subscription.unpaid</code></td><td>O gateway parou de tentar cobrar</td><td>Eventos de assinatura</td><td><code>unpaid</code></td></tr><tr><td><code>subscription.canceled</code></td><td>Assinatura cancelada pelo comprador, pelo vendedor ou pelo gateway</td><td>Eventos de assinatura</td><td><code>canceled</code></td></tr><tr><td><code>subscription.expired</code></td><td>Fim dos ciclos contratados</td><td>Eventos de assinatura</td><td><code>expired</code></td></tr><tr><td><code>subscription.refunded</code></td><td>Reembolso de um ciclo</td><td>Eventos de assinatura</td><td><code>refunded</code></td></tr><tr><td><code>subscription.chargeback</code></td><td>Reversão ou disputa perdida de um ciclo</td><td>Eventos de assinatura</td><td><code>chargeback</code></td></tr><tr><td><code>checkout.viewed</code></td><td>Visita ao checkout, uma vez por sessão a cada 24 horas</td><td>Vendas + tracking completo</td><td><code>viewed</code></td></tr><tr><td><code>checkout.initiated</code></td><td>O comprador preencheu nome, e-mail e telefone</td><td>Vendas + tracking completo</td><td><code>initiated</code></td></tr><tr><td><code>payment.pending</code></td><td>Pix, boleto ou SPEI gerado e ainda não pago</td><td>Vendas + tracking completo</td><td><code>pending</code></td></tr><tr><td><code>payment.failed</code></td><td>Pagamento recusado na compra, avisado em até 1 minuto</td><td>Vendas + tracking completo</td><td><code>failed</code></td></tr><tr><td><code>cart.abandoned</code></td><td>O comprador deixou o contato e não comprou em 30 minutos</td><td>Vendas + tracking completo</td><td><code>abandoned</code></td></tr></tbody></table></div>
+<p>Regras que valem para todos os eventos:</p>
+<ul><li><code>payment.pending</code> é seguido de <code>purchase.approved</code> quando o Pix ou o boleto é pago. Os dois têm <code>saleId</code> igual.</li><li><code>payment.failed</code> só sai se a tentativa ainda estiver recusada no momento do aviso. Uma recusa que virou venda segundos depois não gera <code>payment.failed</code>.</li><li><code>cart.abandoned</code> não sai para quem comprou. Se o comprador voltar ao checkout, o carrinho reabre e pode gerar um novo <code>cart.abandoned</code> mais tarde.</li><li>Reembolso parcial gera <code>purchase.refunded</code> com <code>refund.partial: true</code>. Um 2º reembolso parcial gera outro evento, com outro <code>eventId</code>.</li><li>Cada venda do funil de upsell é uma venda própria: chega como <code>purchase.approved</code> com <code>isUpsell: true</code> (ou <code>isDownsell: true</code>) e um <code>saleId</code> diferente da compra principal.</li><li>Renovação nunca chega como <code>purchase.approved</code>. Sem a opção Eventos de assinatura, a renovação não gera evento nenhum.</li></ul>
+<h2 id="eventos-por-gateway">Eventos por gateway</h2>
+<p>&quot;Sim&quot; quer dizer que o gateway dispara o evento hoje. &quot;Não&quot; quer dizer que o evento não sai por aquele gateway, porque o Snapp não recebe essa informação dele ou porque o gateway não tem aquela forma de pagamento. Stripe inclui a conta própria e o Stripe Connect.</p>
+<div class="tbl"><table><thead><tr><th scope="col">Evento</th><th scope="col">Stripe</th><th scope="col">PayPal</th><th scope="col">Efí</th><th scope="col">Mercado Pago</th><th scope="col">Pagar.me</th><th scope="col">XPag</th><th scope="col">Whop</th><th scope="col">dLocal Go</th></tr></thead><tbody><tr><td><code>purchase.approved</code></td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td></tr><tr><td><code>payment.pending</code></td><td>Sim (Pix)</td><td>Não</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Não</td><td>Não</td></tr><tr><td><code>payment.failed</code></td><td>Sim</td><td>Sim</td><td>Sim (cartão)</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td></tr><tr><td><code>purchase.refunded</code> e <code>purchase.chargeback</code></td><td>Sim</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td><td>Sim</td><td>Não</td></tr><tr><td><code>subscription.*</code></td><td>Sim</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td></tr><tr><td><code>checkout.viewed</code>, <code>checkout.initiated</code>, <code>cart.abandoned</code></td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Sim</td></tr></tbody></table></div>
+<p>Os eventos do checkout (<code>checkout.*</code> e <code>cart.abandoned</code>) não dependem do gateway, porque acontecem antes do pagamento.</p>
+<h2 id="payload-dos-eventos-de-venda">Payload dos eventos de venda</h2>
+<p>Todos os eventos <code>purchase.*</code>, <code>subscription.*</code>, <code>payment.pending</code> e <code>payment.failed</code> usam o mesmo formato. Os campos estão sempre presentes: texto ausente chega como <code>&quot;&quot;</code>, e bloco que não se aplica chega como <code>null</code>.</p>
+<h3 id="campos-da-raiz">Campos da raiz</h3>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>event</code></td><td>string</td><td>Nome do evento. É o campo que define o que fazer</td></tr><tr><td><code>eventId</code></td><td>string</td><td>Identificador único da ocorrência. Trate como texto opaco: o formato pode mudar</td></tr><tr><td><code>saleId</code></td><td>string</td><td>ID da venda no Snapp. Igual em todos os eventos da mesma venda</td></tr><tr><td><code>transactionId</code></td><td>string</td><td>ID do PaymentIntent na Stripe (<code>pi_...</code>). Chega <code>&quot;&quot;</code> nos outros gateways</td></tr><tr><td><code>status</code></td><td>string</td><td>Leitura curta do evento (<code>approved</code>, <code>refunded</code>...). Ver a tabela de eventos</td></tr><tr><td><code>email</code></td><td>string</td><td>E-mail do comprador. Igual a <code>customer.email</code></td></tr><tr><td><code>name</code></td><td>string</td><td>Nome do comprador. Igual a <code>customer.name</code></td></tr><tr><td><code>price</code></td><td>number</td><td>Total da venda em decimal</td></tr><tr><td><code>priceInCents</code></td><td>integer</td><td>Total da venda na menor unidade da moeda. Igual a <code>amount.totalInCents</code></td></tr><tr><td><code>currency</code></td><td>string</td><td>Moeda em ISO 4217, maiúscula (<code>BRL</code>, <code>USD</code>, <code>EUR</code>)</td></tr><tr><td><code>country</code></td><td>string</td><td>País do comprador em ISO 3166-1 alfa-2 (<code>BR</code>, <code>US</code>)</td></tr><tr><td><code>paymentMethod</code></td><td>string</td><td>Forma de pagamento (<code>card</code>, <code>pix</code>, <code>boleto</code>, <code>paypal</code>...). Quando o tipo não é conhecido, vem o gateway</td></tr><tr><td><code>dateTime</code></td><td>string</td><td>Data do pagamento. Em <code>payment.pending</code> e <code>payment.failed</code>, data da tentativa</td></tr><tr><td><code>paidAt</code></td><td>string</td><td>Igual a <code>dateTime</code></td></tr><tr><td><code>createdAt</code></td><td>string</td><td>Criação da venda no Snapp</td></tr><tr><td><code>customId</code></td><td>string</td><td>ID que o vendedor cadastrou no produto principal. Só aparece quando existe</td></tr><tr><td><code>isRenewal</code></td><td>boolean</td><td><code>true</code> em cobrança de renovação (ciclo 2 em diante)</td></tr><tr><td><code>isUpsell</code></td><td>boolean</td><td><code>true</code> quando a venda veio de um upsell</td></tr><tr><td><code>isDownsell</code></td><td>boolean</td><td><code>true</code> quando a venda veio de um downsell</td></tr></tbody></table></div>
+<h3 id="customer"><code>customer</code></h3>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>customer.name</code></td><td>string</td><td>Nome completo</td></tr><tr><td><code>customer.email</code></td><td>string</td><td>E-mail</td></tr><tr><td><code>customer.phone</code></td><td>string</td><td>Telefone informado no checkout, quando a oferta coleta</td></tr><tr><td><code>customer.document</code></td><td>string</td><td>Documento informado no checkout (CPF, CNPJ...), quando a oferta coleta</td></tr><tr><td><code>customer.country</code></td><td>string</td><td>País em ISO 3166-1 alfa-2</td></tr><tr><td><code>customer.ip</code></td><td>string</td><td>IP do comprador na compra</td></tr><tr><td><code>customer.address</code></td><td>object</td><td><code>street</code>, <code>number</code>, <code>complement</code>, <code>neighborhood</code>, <code>city</code>, <code>state</code>, <code>zipCode</code> e <code>country</code>. Preenchido só quando a oferta coleta endereço</td></tr></tbody></table></div>
+<h3 id="offer-product-orderbumps-e-items"><code>offer</code>, <code>product</code>, <code>orderBumps</code> e <code>items</code></h3>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>offer.id</code></td><td>string</td><td>ID da oferta</td></tr><tr><td><code>offer.name</code></td><td>string</td><td>Nome da oferta</td></tr><tr><td><code>offer.slug</code></td><td>string</td><td>Identificador da oferta no link do checkout</td></tr><tr><td><code>offer.currency</code></td><td>string</td><td>Moeda da oferta</td></tr><tr><td><code>offer.language</code></td><td>string</td><td>Idioma do checkout (<code>pt</code>, <code>en</code>, <code>es</code>...)</td></tr><tr><td><code>offer.product</code></td><td>object</td><td>Produto principal como está cadastrado hoje: <code>name</code>, <code>customId</code>, <code>priceInCents</code>, <code>price</code></td></tr><tr><td><code>offer.orderBumps</code></td><td>array</td><td>Order bumps <strong>cadastrados</strong> na oferta, comprados ou não: <code>id</code>, <code>name</code>, <code>customId</code>, <code>priceInCents</code>, <code>price</code></td></tr><tr><td><code>product</code></td><td>object</td><td>Produto principal <strong>desta venda</strong>: <code>name</code>, <code>customId</code>, <code>priceInCents</code>, <code>price</code></td></tr><tr><td><code>orderBumps</code></td><td>array</td><td>Order bumps <strong>comprados nesta venda</strong>, no formato de <code>items</code></td></tr><tr><td><code>items</code></td><td>array</td><td>Tudo o que foi comprado: <code>id</code>, <code>name</code>, <code>customId</code>, <code>isOrderBump</code>, <code>priceInCents</code>, <code>price</code></td></tr></tbody></table></div>
+<p>Para saber o que o comprador levou, leia <code>items</code> ou <code>orderBumps</code> da raiz. O bloco <code>offer</code> descreve a oferta, não a compra.</p>
+<h3 id="amount-e-payment"><code>amount</code> e <code>payment</code></h3>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>amount.total</code></td><td>number</td><td>Total em decimal</td></tr><tr><td><code>amount.totalInCents</code></td><td>integer</td><td>Total na menor unidade da moeda</td></tr><tr><td><code>amount.currency</code></td><td>string</td><td>Moeda</td></tr><tr><td><code>amount.platformFeeInCents</code></td><td>integer</td><td>Taxa do Snapp sobre a venda</td></tr><tr><td><code>payment.method</code></td><td>string</td><td>Gateway que processou (<code>stripe</code>, <code>paypal</code>, <code>efi</code>, <code>mercadopago</code>, <code>pagarme</code>, <code>xpag</code>, <code>whop</code>, <code>dlocal_go</code>)</td></tr><tr><td><code>payment.methodType</code></td><td>string</td><td>Forma de pagamento (<code>card</code>, <code>pix</code>, <code>boleto</code>, <code>paypal</code>...)</td></tr><tr><td><code>payment.walletType</code></td><td>string ou null</td><td><code>apple_pay</code>, <code>google_pay</code> ou <code>samsung_pay</code> quando o cartão veio de uma carteira</td></tr><tr><td><code>payment.gateway</code></td><td>string</td><td>Gateway que processou. Mesmos valores de <code>payment.method</code></td></tr></tbody></table></div>
+<p>A menor unidade é o centavo em <code>BRL</code>, <code>USD</code> e <code>EUR</code>. Em moedas sem casas decimais, como <code>JPY</code> e <code>KRW</code>, o valor <code>*InCents</code> já é o valor inteiro na moeda. Por isso, faça contas com os campos <code>*InCents</code> e a moeda da venda.</p>
+<h3 id="tracking"><code>tracking</code></h3>
+<p>O bloco <code>tracking</code> traz a atribuição de marketing da venda. As chaves abaixo estão sempre presentes, vazias quando não houve valor:</p>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_term</code>, <code>utm_content</code></td><td>UTMs da URL do checkout</td></tr><tr><td><code>src</code>, <code>sck</code></td><td>Parâmetros de origem e de campanha da URL do checkout</td></tr><tr><td><code>referrer</code></td><td>Página de onde o comprador chegou ao checkout</td></tr><tr><td><code>landingUrl</code></td><td>URL do checkout na entrada, só com os parâmetros de marketing</td></tr><tr><td><code>fbp</code>, <code>fbc</code></td><td>Cookies do Pixel da Meta, para a API de Conversões</td></tr><tr><td><code>userAgent</code></td><td>Navegador do comprador</td></tr><tr><td><code>sessionId</code></td><td>Sessão do checkout. Chega <code>&quot;&quot;</code> nos eventos de venda</td></tr></tbody></table></div>
+<p>Também entram, quando vieram na URL do checkout, estes parâmetros:</p>
+<ul><li>outras UTMs: <code>utm_id</code>, <code>utm_source_platform</code>, <code>utm_creative_format</code>, <code>utm_marketing_tactic</code> e qualquer outra chave que comece com <code>utm_</code>;</li><li>IDs de clique: <code>fbclid</code>, <code>gclid</code>, <code>gbraid</code>, <code>wbraid</code>, <code>dclid</code>, <code>msclkid</code>, <code>ttclid</code>, <code>twclid</code>, <code>li_fat_id</code>, <code>ScCid</code>, <code>epik</code>, <code>tblci</code>, <code>yclid</code>, <code>clickid</code> e <code>click_id</code>;</li><li>campanha e anúncio: <code>campaign_id</code>, <code>campaign_name</code>, <code>campaign</code>, <code>adset_id</code>, <code>adset_name</code>, <code>adset</code>, <code>adgroup_id</code>, <code>adgroup_name</code>, <code>adgroup</code>, <code>ad_id</code>, <code>ad_name</code>, <code>ad</code>, <code>cid</code>, <code>placement</code>, <code>network</code>, <code>keyword</code>, <code>matchtype</code>, <code>creative</code> e <code>device</code>;</li><li>afiliado: <code>affiliate_id</code>, <code>aff_id</code>, <code>subid</code>, <code>sub_id</code>, <code>subid1</code> a <code>subid9</code> e <code>sub_id1</code> a <code>sub_id9</code>;</li><li>chaves próprias que comecem com <code>tracking_</code> ou <code>marketing_</code>.</li></ul>
+<p>Como a atribuição é capturada:</p>
+<ul><li><strong>Último toque.</strong> Uma visita nova com parâmetros de campanha substitui a atribuição anterior inteira.</li><li><strong>Só a URL do checkout conta.</strong> Se o checkout abrir dentro de um iframe na página de vendas, a página precisa repassar os parâmetros para a URL do iframe. Sem isso, o bloco <code>tracking</code> chega vazio.</li><li><strong>Limites.</strong> Até 64 parâmetros, 2.048 caracteres por valor e 16 KB no total. Um parâmetro que estoura o limite é descartado inteiro, nunca cortado no meio.</li><li><strong>Nada sensível.</strong> Chaves com <code>token</code>, <code>secret</code>, <code>password</code>, <code>email</code>, <code>phone</code>, <code>document</code> ou <code>authorization</code> no nome nunca entram. Parâmetros fora da lista acima também não.</li><li><strong>Renovação herda.</strong> A renovação de uma assinatura leva a mesma atribuição da compra que a originou.</li></ul>
+<h3 id="subscription"><code>subscription</code></h3>
+<p>Chega <code>null</code> em venda que não é assinatura.</p>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>subscription.id</code></td><td>string</td><td>ID da assinatura no gateway (<code>sub_...</code> na Stripe, <code>I-...</code> no PayPal)</td></tr><tr><td><code>subscription.gateway</code></td><td>string</td><td>Gateway da assinatura</td></tr><tr><td><code>subscription.interval</code></td><td>string ou null</td><td><code>day</code>, <code>week</code>, <code>month</code> ou <code>year</code></td></tr><tr><td><code>subscription.cycle</code></td><td>integer ou null</td><td>Número da cobrança: 1 na compra, 2 na 1ª renovação, e assim por diante</td></tr><tr><td><code>subscription.status</code></td><td>string ou null</td><td><code>active</code>, <code>past_due</code>, <code>unpaid</code>, <code>canceled</code> ou <code>expired</code></td></tr><tr><td><code>subscription.active</code></td><td>boolean</td><td><code>true</code> só quando <code>status</code> é <code>active</code>. Use para liberar ou bloquear o acesso</td></tr><tr><td><code>subscription.nextBillingAt</code></td><td>string ou null</td><td>Próxima cobrança, quando o gateway informa</td></tr><tr><td><code>subscription.canceledAt</code></td><td>string ou null</td><td>Data do cancelamento</td></tr></tbody></table></div>
+<p><code>subscription.active</code> chega <code>false</code> em <code>past_due</code> de propósito: o gateway ainda vai tentar cobrar (ver <code>failure.nextRetryAt</code>), e cabe ao seu sistema decidir se dá carência.</p>
+<h3 id="failure"><code>failure</code></h3>
+<p>Preenchido em <code>payment.failed</code> e <code>subscription.renewal_failed</code>. Nos outros eventos, <code>null</code>.</p>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>failure.reason</code></td><td>string</td><td>Código do erro no gateway (<code>card_declined</code>...)</td></tr><tr><td><code>failure.message</code></td><td>string</td><td>Mensagem do gateway</td></tr><tr><td><code>failure.declineCode</code></td><td>string</td><td>Motivo do banco emissor, quando há (<code>insufficient_funds</code>...)</td></tr><tr><td><code>failure.attempt</code></td><td>integer ou null</td><td>Número da tentativa de cobrança da renovação</td></tr><tr><td><code>failure.nextRetryAt</code></td><td>string ou null</td><td>Próxima tentativa automática do gateway</td></tr></tbody></table></div>
+<h3 id="refund"><code>refund</code></h3>
+<p>Preenchido em <code>purchase.refunded</code>, <code>purchase.chargeback</code>, <code>subscription.refunded</code> e <code>subscription.chargeback</code>. Nos outros eventos, <code>null</code>.</p>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>refund.id</code></td><td>string</td><td>ID do reembolso no gateway</td></tr><tr><td><code>refund.amountInCents</code></td><td>integer</td><td>Total já devolvido nesta venda, somando os reembolsos parciais</td></tr><tr><td><code>refund.amount</code></td><td>number</td><td>O mesmo total, em decimal</td></tr><tr><td><code>refund.partial</code></td><td>boolean</td><td><code>true</code> quando o devolvido é menor que o total da venda</td></tr><tr><td><code>refund.reason</code></td><td>string</td><td>Motivo informado</td></tr><tr><td><code>refund.origin</code></td><td>string</td><td><code>snapp</code> quando foi pedido pelo Snapp, <code>external</code> quando veio direto do gateway</td></tr><tr><td><code>refund.refundedAt</code></td><td>string ou null</td><td>Data do reembolso</td></tr><tr><td><code>refund.chargeback</code></td><td>boolean</td><td><code>true</code> quando foi chargeback</td></tr></tbody></table></div>
+<h3 id="cancellation"><code>cancellation</code></h3>
+<p>Preenchido em <code>subscription.canceled</code> e <code>subscription.expired</code>. Nos outros eventos, <code>null</code>.</p>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>cancellation.reason</code></td><td>string</td><td>Motivo, quando informado</td></tr><tr><td><code>cancellation.source</code></td><td>string</td><td><code>customer</code>, <code>vendor</code> ou <code>gateway</code></td></tr><tr><td><code>cancellation.at</code></td><td>string ou null</td><td>Data do cancelamento</td></tr></tbody></table></div>
+<h3 id="exemplo-purchase-approved">Exemplo: <code>purchase.approved</code></h3>
+<p>Venda no cartão pela Stripe, com um order bump. Os valores são ilustrativos.</p>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;purchase.approved&quot;,
+  &quot;eventId&quot;: &quot;purchase.approved:6748a1f0c2b3d4e5f6a7b8c9&quot;,
+  &quot;saleId&quot;: &quot;6748a1f0c2b3d4e5f6a7b8c9&quot;,
+  &quot;transactionId&quot;: &quot;pi_3QExample0000000000000001&quot;,
+  &quot;email&quot;: &quot;maria@example.com&quot;,
+  &quot;name&quot;: &quot;Maria Souza&quot;,
+  &quot;status&quot;: &quot;approved&quot;,
+  &quot;price&quot;: 127,
+  &quot;priceInCents&quot;: 12700,
+  &quot;currency&quot;: &quot;BRL&quot;,
+  &quot;country&quot;: &quot;BR&quot;,
+  &quot;paymentMethod&quot;: &quot;card&quot;,
+  &quot;dateTime&quot;: &quot;2026-11-28T14:03:12.000Z&quot;,
+  &quot;customer&quot;: {
+    &quot;name&quot;: &quot;Maria Souza&quot;,
+    &quot;email&quot;: &quot;maria@example.com&quot;,
+    &quot;phone&quot;: &quot;+5511999999999&quot;,
+    &quot;document&quot;: &quot;12345678901&quot;,
+    &quot;country&quot;: &quot;BR&quot;,
+    &quot;ip&quot;: &quot;203.0.113.10&quot;,
+    &quot;address&quot;: {
+      &quot;street&quot;: &quot;&quot;,
+      &quot;number&quot;: &quot;&quot;,
+      &quot;complement&quot;: &quot;&quot;,
+      &quot;neighborhood&quot;: &quot;&quot;,
+      &quot;city&quot;: &quot;&quot;,
+      &quot;state&quot;: &quot;&quot;,
+      &quot;zipCode&quot;: &quot;&quot;,
+      &quot;country&quot;: &quot;BR&quot;
+    }
+  },
+  &quot;offer&quot;: {
+    &quot;id&quot;: &quot;6740f2a9b1c2d3e4f5a6b7c8&quot;,
+    &quot;name&quot;: &quot;Curso de Confeitaria&quot;,
+    &quot;slug&quot;: &quot;K7P2X9Q4M8R1T6WZ&quot;,
+    &quot;currency&quot;: &quot;BRL&quot;,
+    &quot;language&quot;: &quot;pt&quot;,
+    &quot;product&quot;: { &quot;name&quot;: &quot;Curso de Confeitaria&quot;, &quot;customId&quot;: &quot;CONF-01&quot;, &quot;priceInCents&quot;: 9700, &quot;price&quot;: 97 },
+    &quot;orderBumps&quot;: [
+      { &quot;id&quot;: &quot;6740f2a9b1c2d3e4f5a6b7d1&quot;, &quot;name&quot;: &quot;Apostila de receitas&quot;, &quot;customId&quot;: &quot;CONF-BUMP&quot;, &quot;priceInCents&quot;: 3000, &quot;price&quot;: 30 }
+    ]
+  },
+  &quot;product&quot;: { &quot;name&quot;: &quot;Curso de Confeitaria&quot;, &quot;customId&quot;: &quot;CONF-01&quot;, &quot;priceInCents&quot;: 9700, &quot;price&quot;: 97 },
+  &quot;orderBumps&quot;: [
+    { &quot;id&quot;: &quot;6748a1f0c2b3d4e5f6a7b8d2&quot;, &quot;name&quot;: &quot;Apostila de receitas&quot;, &quot;customId&quot;: &quot;CONF-BUMP&quot;, &quot;isOrderBump&quot;: true, &quot;priceInCents&quot;: 3000, &quot;price&quot;: 30 }
+  ],
+  &quot;items&quot;: [
+    { &quot;id&quot;: &quot;6748a1f0c2b3d4e5f6a7b8d1&quot;, &quot;name&quot;: &quot;Curso de Confeitaria&quot;, &quot;customId&quot;: &quot;CONF-01&quot;, &quot;isOrderBump&quot;: false, &quot;priceInCents&quot;: 9700, &quot;price&quot;: 97 },
+    { &quot;id&quot;: &quot;6748a1f0c2b3d4e5f6a7b8d2&quot;, &quot;name&quot;: &quot;Apostila de receitas&quot;, &quot;customId&quot;: &quot;CONF-BUMP&quot;, &quot;isOrderBump&quot;: true, &quot;priceInCents&quot;: 3000, &quot;price&quot;: 30 }
+  ],
+  &quot;amount&quot;: { &quot;total&quot;: 127, &quot;totalInCents&quot;: 12700, &quot;currency&quot;: &quot;BRL&quot;, &quot;platformFeeInCents&quot;: 381 },
+  &quot;payment&quot;: { &quot;method&quot;: &quot;stripe&quot;, &quot;methodType&quot;: &quot;card&quot;, &quot;walletType&quot;: null, &quot;gateway&quot;: &quot;stripe&quot; },
+  &quot;tracking&quot;: {
+    &quot;utm_source&quot;: &quot;facebook&quot;,
+    &quot;utm_medium&quot;: &quot;paid_social&quot;,
+    &quot;utm_campaign&quot;: &quot;black-friday&quot;,
+    &quot;utm_term&quot;: &quot;publico-quente&quot;,
+    &quot;utm_content&quot;: &quot;video-01&quot;,
+    &quot;src&quot;: &quot;pagina-de-vendas&quot;,
+    &quot;sck&quot;: &quot;120210000000000001&quot;,
+    &quot;fbclid&quot;: &quot;IwAR0Example&quot;,
+    &quot;referrer&quot;: &quot;https://exemplo.com.br/confeitaria&quot;,
+    &quot;landingUrl&quot;: &quot;https://pay.snappcheckout.com/c/K7P2X9Q4M8R1T6WZ?utm_source=facebook&amp;utm_medium=paid_social&amp;utm_campaign=black-friday&amp;utm_term=publico-quente&amp;utm_content=video-01&amp;src=pagina-de-vendas&amp;sck=120210000000000001&amp;fbclid=IwAR0Example&quot;,
+    &quot;fbp&quot;: &quot;fb.1.1732802400000.1234567890&quot;,
+    &quot;fbc&quot;: &quot;fb.1.1732802400000.IwAR0Example&quot;,
+    &quot;userAgent&quot;: &quot;Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15&quot;,
+    &quot;sessionId&quot;: &quot;&quot;
+  },
+  &quot;createdAt&quot;: &quot;2026-11-28T14:02:40.000Z&quot;,
+  &quot;paidAt&quot;: &quot;2026-11-28T14:03:12.000Z&quot;,
+  &quot;subscription&quot;: null,
+  &quot;failure&quot;: null,
+  &quot;refund&quot;: null,
+  &quot;cancellation&quot;: null,
+  &quot;isRenewal&quot;: false,
+  &quot;isUpsell&quot;: false,
+  &quot;isDownsell&quot;: false,
+  &quot;customId&quot;: &quot;CONF-01&quot;
+}</code></pre></div>
+<h3 id="exemplo-payment-pending">Exemplo: <code>payment.pending</code></h3>
+<p>Pix gerado pela Efí. O resto do payload segue o formato da venda. Quando o Pix for pago, chega <code>purchase.approved</code> com o mesmo <code>saleId</code>.</p>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;payment.pending&quot;,
+  &quot;eventId&quot;: &quot;payment.pending:6748b2c1d3e4f5a6b7c8d9e0&quot;,
+  &quot;saleId&quot;: &quot;6748b2c1d3e4f5a6b7c8d9e0&quot;,
+  &quot;transactionId&quot;: &quot;&quot;,
+  &quot;status&quot;: &quot;pending&quot;,
+  &quot;paymentMethod&quot;: &quot;pix&quot;,
+  &quot;dateTime&quot;: &quot;2026-11-28T15:10:00.000Z&quot;,
+  &quot;payment&quot;: { &quot;method&quot;: &quot;efi&quot;, &quot;methodType&quot;: &quot;pix&quot;, &quot;walletType&quot;: null, &quot;gateway&quot;: &quot;efi&quot; },
+  &quot;subscription&quot;: null,
+  &quot;failure&quot;: null,
+  &quot;refund&quot;: null,
+  &quot;cancellation&quot;: null
+}</code></pre></div>
+<h3 id="exemplo-payment-failed">Exemplo: <code>payment.failed</code></h3>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;payment.failed&quot;,
+  &quot;eventId&quot;: &quot;payment.failed:6748c3d2e4f5a6b7c8d9e0f1&quot;,
+  &quot;saleId&quot;: &quot;6748c3d2e4f5a6b7c8d9e0f1&quot;,
+  &quot;status&quot;: &quot;failed&quot;,
+  &quot;paymentMethod&quot;: &quot;card&quot;,
+  &quot;failure&quot;: {
+    &quot;reason&quot;: &quot;card_declined&quot;,
+    &quot;message&quot;: &quot;Your card has insufficient funds.&quot;,
+    &quot;declineCode&quot;: &quot;insufficient_funds&quot;,
+    &quot;attempt&quot;: null,
+    &quot;nextRetryAt&quot;: null
+  },
+  &quot;refund&quot;: null,
+  &quot;cancellation&quot;: null
+}</code></pre></div>
+<h3 id="exemplo-purchase-refunded">Exemplo: <code>purchase.refunded</code></h3>
+<p>Reembolso parcial de R$ 30,00 numa venda de R$ 127,00.</p>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;purchase.refunded&quot;,
+  &quot;eventId&quot;: &quot;purchase.refunded:6748a1f0c2b3d4e5f6a7b8c9:re_3QExample0000000000000001&quot;,
+  &quot;saleId&quot;: &quot;6748a1f0c2b3d4e5f6a7b8c9&quot;,
+  &quot;status&quot;: &quot;refunded&quot;,
+  &quot;priceInCents&quot;: 12700,
+  &quot;refund&quot;: {
+    &quot;id&quot;: &quot;re_3QExample0000000000000001&quot;,
+    &quot;amountInCents&quot;: 3000,
+    &quot;amount&quot;: 30,
+    &quot;partial&quot;: true,
+    &quot;reason&quot;: &quot;requested_by_customer&quot;,
+    &quot;origin&quot;: &quot;snapp&quot;,
+    &quot;refundedAt&quot;: &quot;2026-11-29T10:00:00.000Z&quot;,
+    &quot;chargeback&quot;: false
+  },
+  &quot;subscription&quot;: null,
+  &quot;failure&quot;: null,
+  &quot;cancellation&quot;: null
+}</code></pre></div>
+<h3 id="exemplo-subscription-renewed">Exemplo: <code>subscription.renewed</code></h3>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;subscription.renewed&quot;,
+  &quot;eventId&quot;: &quot;subscription.renewed:6750d4e3f5a6b7c8d9e0f1a2&quot;,
+  &quot;saleId&quot;: &quot;6750d4e3f5a6b7c8d9e0f1a2&quot;,
+  &quot;status&quot;: &quot;approved&quot;,
+  &quot;isRenewal&quot;: true,
+  &quot;subscription&quot;: {
+    &quot;id&quot;: &quot;sub_1QExample000000000000001&quot;,
+    &quot;gateway&quot;: &quot;stripe&quot;,
+    &quot;interval&quot;: &quot;month&quot;,
+    &quot;cycle&quot;: 2,
+    &quot;status&quot;: &quot;active&quot;,
+    &quot;active&quot;: true,
+    &quot;nextBillingAt&quot;: &quot;2027-01-28T14:03:12.000Z&quot;,
+    &quot;canceledAt&quot;: null
+  },
+  &quot;failure&quot;: null,
+  &quot;refund&quot;: null,
+  &quot;cancellation&quot;: null
+}</code></pre></div>
+<p>Cada renovação é uma venda nova no Snapp, então o <code>saleId</code> muda a cada ciclo. Para ligar as cobranças ao mesmo assinante, use <code>subscription.id</code>.</p>
+<h3 id="exemplo-subscription-canceled">Exemplo: <code>subscription.canceled</code></h3>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;subscription.canceled&quot;,
+  &quot;eventId&quot;: &quot;subscription.canceled:6750d4e3f5a6b7c8d9e0f1a2&quot;,
+  &quot;status&quot;: &quot;canceled&quot;,
+  &quot;subscription&quot;: {
+    &quot;id&quot;: &quot;sub_1QExample000000000000001&quot;,
+    &quot;gateway&quot;: &quot;stripe&quot;,
+    &quot;interval&quot;: &quot;month&quot;,
+    &quot;cycle&quot;: 2,
+    &quot;status&quot;: &quot;canceled&quot;,
+    &quot;active&quot;: false,
+    &quot;nextBillingAt&quot;: null,
+    &quot;canceledAt&quot;: &quot;2026-12-15T09:30:00.000Z&quot;
+  },
+  &quot;cancellation&quot;: { &quot;reason&quot;: &quot;&quot;, &quot;source&quot;: &quot;customer&quot;, &quot;at&quot;: &quot;2026-12-15T09:30:00.000Z&quot; },
+  &quot;failure&quot;: null,
+  &quot;refund&quot;: null
+}</code></pre></div>
+<p>O cancelamento não devolve o período já pago. Se o seu sistema controla acesso, decida se bloqueia na hora ou no fim do período, que é a data da última cobrança mais o <code>interval</code>. A área de membros e o Discord do Snapp mantêm o acesso até o fim do período pago.</p>
+<h2 id="payload-dos-eventos-do-checkout">Payload dos eventos do checkout</h2>
+<p><code>checkout.viewed</code>, <code>checkout.initiated</code> e <code>cart.abandoned</code> acontecem antes de existir uma venda. Por isso, não trazem <code>saleId</code>, <code>items</code>, <code>payment</code>, <code>subscription</code>, <code>failure</code>, <code>refund</code> nem <code>cancellation</code>.</p>
+<div class="tbl"><table><thead><tr><th scope="col">Campo</th><th scope="col">Tipo</th><th scope="col">Significado</th></tr></thead><tbody><tr><td><code>event</code></td><td>string</td><td><code>checkout.viewed</code>, <code>checkout.initiated</code> ou <code>cart.abandoned</code></td></tr><tr><td><code>eventId</code></td><td>string</td><td>Identificador único da ocorrência</td></tr><tr><td><code>status</code></td><td>string</td><td><code>viewed</code>, <code>initiated</code> ou <code>abandoned</code></td></tr><tr><td><code>email</code>, <code>name</code></td><td>string</td><td>Contato do comprador. Vazios em <code>checkout.viewed</code></td></tr><tr><td><code>dateTime</code></td><td>string</td><td>Data do evento</td></tr><tr><td><code>customer</code></td><td>object</td><td><code>name</code>, <code>email</code>, <code>phone</code>, <code>country</code> e <code>ip</code>. Em <code>checkout.viewed</code> só vêm <code>country</code> e <code>ip</code></td></tr><tr><td><code>offer</code></td><td>object</td><td>Mesmo bloco <code>offer</code> dos eventos de venda</td></tr><tr><td><code>product</code></td><td>object</td><td>Produto principal da oferta</td></tr><tr><td><code>amount</code></td><td>object</td><td><code>total</code>, <code>totalInCents</code> e <code>currency</code>. Em <code>checkout.initiated</code>, inclui os order bumps marcados</td></tr><tr><td><code>tracking</code></td><td>object</td><td>Mesmo bloco <code>tracking</code> dos eventos de venda, com <code>sessionId</code> preenchido</td></tr></tbody></table></div>
+<h3 id="exemplo-checkout-initiated">Exemplo: <code>checkout.initiated</code></h3>
+<div class="code"><div class="code__bar"><span>json</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>{
+  &quot;event&quot;: &quot;checkout.initiated&quot;,
+  &quot;eventId&quot;: &quot;checkout.initiated:6748a1e9b1c2d3e4f5a6b7c8&quot;,
+  &quot;status&quot;: &quot;initiated&quot;,
+  &quot;email&quot;: &quot;maria@example.com&quot;,
+  &quot;name&quot;: &quot;Maria Souza&quot;,
+  &quot;dateTime&quot;: &quot;2026-11-28T14:02:05.000Z&quot;,
+  &quot;customer&quot;: {
+    &quot;name&quot;: &quot;Maria Souza&quot;,
+    &quot;email&quot;: &quot;maria@example.com&quot;,
+    &quot;phone&quot;: &quot;+5511999999999&quot;,
+    &quot;country&quot;: &quot;BR&quot;,
+    &quot;ip&quot;: &quot;203.0.113.10&quot;
+  },
+  &quot;offer&quot;: {
+    &quot;id&quot;: &quot;6740f2a9b1c2d3e4f5a6b7c8&quot;,
+    &quot;name&quot;: &quot;Curso de Confeitaria&quot;,
+    &quot;slug&quot;: &quot;K7P2X9Q4M8R1T6WZ&quot;,
+    &quot;currency&quot;: &quot;BRL&quot;,
+    &quot;language&quot;: &quot;pt&quot;,
+    &quot;product&quot;: { &quot;name&quot;: &quot;Curso de Confeitaria&quot;, &quot;customId&quot;: &quot;CONF-01&quot;, &quot;priceInCents&quot;: 9700, &quot;price&quot;: 97 },
+    &quot;orderBumps&quot;: [
+      { &quot;id&quot;: &quot;6740f2a9b1c2d3e4f5a6b7d1&quot;, &quot;name&quot;: &quot;Apostila de receitas&quot;, &quot;customId&quot;: &quot;CONF-BUMP&quot;, &quot;priceInCents&quot;: 3000, &quot;price&quot;: 30 }
+    ]
+  },
+  &quot;product&quot;: { &quot;name&quot;: &quot;Curso de Confeitaria&quot;, &quot;customId&quot;: &quot;CONF-01&quot;, &quot;priceInCents&quot;: 9700, &quot;price&quot;: 97 },
+  &quot;amount&quot;: { &quot;total&quot;: 127, &quot;totalInCents&quot;: 12700, &quot;currency&quot;: &quot;BRL&quot; },
+  &quot;tracking&quot;: {
+    &quot;utm_source&quot;: &quot;facebook&quot;,
+    &quot;utm_medium&quot;: &quot;paid_social&quot;,
+    &quot;utm_campaign&quot;: &quot;black-friday&quot;,
+    &quot;utm_term&quot;: &quot;publico-quente&quot;,
+    &quot;utm_content&quot;: &quot;video-01&quot;,
+    &quot;src&quot;: &quot;pagina-de-vendas&quot;,
+    &quot;sck&quot;: &quot;120210000000000001&quot;,
+    &quot;referrer&quot;: &quot;https://exemplo.com.br/confeitaria&quot;,
+    &quot;landingUrl&quot;: &quot;https://pay.snappcheckout.com/c/K7P2X9Q4M8R1T6WZ?utm_source=facebook&amp;utm_campaign=black-friday&amp;sck=120210000000000001&quot;,
+    &quot;fbp&quot;: &quot;fb.1.1732802400000.1234567890&quot;,
+    &quot;fbc&quot;: &quot;&quot;,
+    &quot;userAgent&quot;: &quot;Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15&quot;,
+    &quot;sessionId&quot;: &quot;b6f1c0de-3a1f-4c55-9a51-0c9d6c1e2f11&quot;
+  }
+}</code></pre></div>
+<p><code>cart.abandoned</code> tem o mesmo formato, com <code>status: &quot;abandoned&quot;</code>. <code>checkout.viewed</code> também, mas com <code>email</code>, <code>name</code>, <code>customer.name</code>, <code>customer.email</code> e <code>customer.phone</code> vazios.</p>
+<h2 id="como-receber-com-seguranca">Como receber com segurança</h2>
+<ol><li><strong>Confira o token.</strong> Compare o cabeçalho <code>Authorization</code> com <code>Bearer &lt;seu token&gt;</code> em tempo constante e responda <code>401</code> se não bater.</li><li><strong>Responda rápido.</strong> Grave o evento e responda <code>200</code> logo em seguida. Processe depois, numa fila. Um processamento que passa de 30 segundos vira falha e reenvio.</li><li><strong>Descarte repetição.</strong> Antes de processar, procure o <code>eventId</code> no seu banco. Se já existir, responda <code>200</code> sem fazer nada.</li><li><strong>Roteie pelo <code>event</code>.</strong> Um <code>POST</code> não é sempre uma venda. Trate <code>purchase.refunded</code> e <code>purchase.chargeback</code> como dinheiro devolvido, nunca como venda nova.</li><li><strong>Ligue a venda pelo <code>saleId</code>.</strong> Reembolso, chargeback, Pix pago e recusa chegam com o <code>saleId</code> da venda original. Renovações chegam com <code>saleId</code> novo e o mesmo <code>subscription.id</code>.</li><li><strong>Ignore campo desconhecido.</strong> O payload pode ganhar campos novos. Leia só os que você usa e não rejeite o evento por causa de um campo a mais.</li></ol>
+<h3 id="exemplo-em-node-js-express">Exemplo em Node.js (Express)</h3>
+<div class="code"><div class="code__bar"><span>js</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>import express from &quot;express&quot;;
+import { timingSafeEqual } from &quot;node:crypto&quot;;
+
+const app = express();
+const expected = Buffer.from(`Bearer ${process.env.SNAPP_WEBHOOK_TOKEN}`);
+
+app.post(&quot;/webhooks/snapp&quot;, express.json({ limit: &quot;1mb&quot; }), async (req, res) =&gt; {
+  const received = Buffer.from(req.get(&quot;authorization&quot;) || &quot;&quot;);
+  if (received.length !== expected.length || !timingSafeEqual(received, expected)) {
+    return res.sendStatus(401);
+  }
+
+  const { event, eventId, saleId } = req.body;
+  if (await db.processedEvents.exists(eventId)) return res.sendStatus(200);
+  await db.processedEvents.insert({ eventId, event, saleId, payload: req.body });
+  res.sendStatus(200);
+
+  switch (event) {
+    case &quot;purchase.approved&quot;:
+      return grantAccess(req.body);
+    case &quot;purchase.refunded&quot;:
+    case &quot;purchase.chargeback&quot;:
+      return req.body.refund.partial ? recordPartialRefund(req.body) : revokeAccess(req.body);
+    case &quot;subscription.renewed&quot;:
+      return extendAccess(req.body.subscription);
+    case &quot;subscription.unpaid&quot;:
+    case &quot;subscription.canceled&quot;:
+    case &quot;subscription.expired&quot;:
+      return scheduleAccessEnd(req.body.subscription);
+    default:
+      return trackFunnelEvent(req.body);
+  }
+});</code></pre></div>
+<h3 id="exemplo-em-php">Exemplo em PHP</h3>
+<div class="code"><div class="code__bar"><span>php</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>&lt;?php
+$expected = 'Bearer ' . getenv('SNAPP_WEBHOOK_TOKEN');
+$received = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+if (!hash_equals($expected, $received)) {
+    http_response_code(401);
+    exit;
+}
+
+$payload = json_decode(file_get_contents('php://input'), true);
+if (!is_array($payload) || empty($payload['eventId'])) {
+    http_response_code(400);
+    exit;
+}
+
+// Tabela com índice único em event_id: a repetição falha no INSERT e é ignorada.
+$stmt = $pdo-&gt;prepare('INSERT IGNORE INTO snapp_events (event_id, event, sale_id, payload) VALUES (?, ?, ?, ?)');
+$stmt-&gt;execute([$payload['eventId'], $payload['event'], $payload['saleId'] ?? null, json_encode($payload)]);
+
+http_response_code(200);</code></pre></div>
+<p>Em Apache com PHP-FPM, o cabeçalho <code>Authorization</code> pode não chegar ao PHP. Nesse caso, acrescente <code>SetEnvIf Authorization &quot;(.*)&quot; HTTP_AUTHORIZATION=$1</code> ao <code>.htaccess</code>.</p>
+<h2 id="como-testar">Como testar</h2>
+<ul><li>Na oferta, o botão Dados enviados mostra o JSON de <code>purchase.approved</code> montado com os dados reais da oferta.</li><li>O link de compra teste percorre o checkout completo, dispara o webhook e as outras automações e não faz cobrança real. Ele vale por 5 minutos.</li><li>Para inspecionar o que chega, cadastre como destino uma URL de um serviço de captura de requisições e depois troque pela URL definitiva.</li><li>A página Eventos mostra cada envio com o JSON, o status da resposta e o erro, e permite reenviar.</li></ul>
+<h2 id="limitacoes-atuais">Limitações atuais</h2>
+<ul><li>A autenticação é só pelo token no cabeçalho <code>Authorization</code>. Não há assinatura HMAC do corpo.</li><li><code>transactionId</code> só é preenchido em vendas da Stripe. Nos outros gateways, use <code>saleId</code>.</li><li><code>sessionId</code> chega vazio nos eventos de venda: a venda não guarda a sessão do checkout.</li><li>Disputa aberta não gera evento. O chargeback chega quando a disputa é perdida.</li><li>A cobertura por gateway está na tabela &quot;Eventos por gateway&quot;. Um evento marcado como &quot;Não&quot; não sai por aquele gateway.</li></ul>
+<h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+<details><summary>O webhook dispara para vendas pela Stripe e pelo PayPal?<i></i></summary><p>Sim. <code>purchase.approved</code> sai em todos os gateways. Na Stripe e no PayPal também saem recusa, reembolso, chargeback e todos os eventos de assinatura, desde que as opções estejam ligadas no destino.</p></details>
+<details><summary>Os parâmetros da URL do checkout chegam no webhook?<i></i></summary><p>Chegam no bloco <code>tracking</code>: as cinco UTMs, <code>src</code>, <code>sck</code>, IDs de clique e dados de campanha, com atribuição de último toque. Se o checkout estiver num iframe, a página de vendas precisa repassar os parâmetros para a URL do iframe.</p></details>
+<details><summary>Como sei que o envio veio do Snapp?<i></i></summary><p>Cadastre um token no destino. Ele chega no cabeçalho <code>Authorization</code> como <code>Bearer &lt;token&gt;</code>, e o seu sistema compara antes de aceitar.</p></details>
+<details><summary>Como evito processar o mesmo evento duas vezes?<i></i></summary><p>Guarde o <code>eventId</code>. Ele é único por ocorrência, e toda repetição, seja reenvio automático, reenvio manual ou aviso repetido do gateway, chega com o mesmo valor.</p></details>
+<details><summary>Por que uma renovação não chegou?<i></i></summary><p>Renovação só chega no destino com a opção Eventos de assinatura ligada, e só em assinaturas da Stripe e do PayPal. Sem a opção, o destino recebe apenas a 1ª cobrança.</p></details>
+<details><summary>O que acontece se o meu sistema estiver fora do ar?<i></i></summary><p>O envio fica como falha e o Snapp tenta de novo até 3 vezes, em cerca de 30 minutos, 1 hora e 6 horas. Depois disso, o reenvio é manual, pela página Eventos.</p></details>
+      <p class="doc__updated">Atualizado em 2026-11-28.</p>
+    </article>
+  </div>
+</main>
+<script type="application/json" id="ai-doc">"Abaixo está a referência do webhook do Snapp Checkout, a fonte oficial (https://www.snappcheckout.com/docs/webhooks). Use-a para me ajudar a integrar. Baseie cada resposta só no que está escrito nela: se algo não estiver descrito, diga isso em vez de supor um comportamento. Nomes de campos e de eventos são literais e diferenciam maiúsculas de minúsculas.\n\n\u003creferencia>\n# Referência do webhook\n\n> Contrato completo do webhook do Snapp Checkout: eventos, quando cada um sai, todos os campos do JSON, exemplos, autenticação, reenvio e atribuição.\n\nPágina: https://www.snappcheckout.com/docs/webhooks\nMarkdown: https://www.snappcheckout.com/docs/webhooks.md\nAtualizado em 2026-11-28.\n\nEsta página descreve o contrato completo do webhook do Snapp Checkout: como o envio é feito, quais eventos existem e quando cada um sai, quais gateways disparam cada evento, o significado de cada campo do JSON e como receber os eventos com segurança. Ela vale tanto para quem programa a integração quanto para a IA que vai montá-la.\n\n## Resumo em 10 linhas\n\n- O Snapp faz um `POST` com `Content-Type: application/json` na URL que você cadastrar, uma vez por evento e por destino.\n- Se você cadastrar um token, ele chega no cabeçalho `Authorization: Bearer \u003ctoken>`. Não há assinatura HMAC: confira o token.\n- O campo `event` diz o que aconteceu. Roteie pelo `event`, nunca pelo `status`.\n- O campo `eventId` é único por ocorrência. Guarde-o e ignore a entrega que chegar com um `eventId` já processado.\n- `purchase.approved` sai em toda venda aprovada, em todos os gateways. Os demais eventos dependem de opções ligadas no destino.\n- Responda com status `2xx` em até 30 segundos. Qualquer outra resposta conta como falha, e o Snapp tenta de novo até 3 vezes.\n- Valores em dinheiro vêm em dois formatos: `*InCents` (inteiro, na menor unidade da moeda) e o valor decimal. Use os campos `*InCents` como fonte de verdade.\n- O bloco `tracking` traz UTMs, `src`, `sck`, IDs de clique, `fbp`, `fbc` e a URL de entrada do checkout, com atribuição de último toque.\n- Os blocos `subscription`, `failure`, `refund` e `cancellation` estão sempre presentes no evento de venda e chegam `null` quando não se aplicam.\n- Datas estão em ISO 8601, em UTC (`2026-11-28T14:03:12.000Z`).\n\n## Como o envio funciona\n\n| Item | Comportamento |\n|---|---|\n| Método | `POST` |\n| Corpo | JSON em UTF-8, um evento por requisição |\n| Cabeçalhos | `Content-Type: application/json` e, se houver token, `Authorization: Bearer \u003ctoken>` |\n| Sucesso | Qualquer resposta `2xx`. O corpo da resposta é ignorado |\n| Prazo | 30 segundos para responder, contando cabeçalhos e corpo |\n| Redirecionamento | Não é seguido. Uma resposta `3xx` conta como falha, então cadastre a URL final |\n| Destino | URL `http` ou `https` com endereço público. IP privado, `localhost` e URL com usuário e senha são recusados |\n| Ordem | Não é garantida. Use `dateTime` e o estado do seu sistema para decidir |\n| Entrega | Pelo menos uma vez. A mesma ocorrência pode chegar de novo, sempre com o mesmo `eventId` |\n\n### Reenvio automático\n\nUm envio falha quando a resposta não tem status `2xx`, não chega em 30 segundos ou a conexão cai. O Snapp tenta de novo até 3 vezes:\n\n1. cerca de 30 minutos depois da falha (2 minutos se a sua URL respondeu `429`);\n2. 1 hora depois da 1ª nova tentativa;\n3. 6 horas depois da 2ª.\n\nSe a URL do destino mudar na oferta antes de uma nova tentativa, o reenvio automático é cancelado e nada vai para a URL antiga.\n\nCada envio fica na página Eventos do painel por 90 dias, com o JSON enviado, o status da resposta e o erro. De lá o vendedor reenvia qualquer evento manualmente, e o reenvio chega com o mesmo `eventId`. A visita ao checkout (`checkout.viewed`) é a única exceção: não fica registrada e não é reenviada.\n\n## Onde o webhook é configurado\n\nHá dois lugares, e os dois enviam o mesmo formato:\n\n- **Webhook salvo**, em Integrações › Webhooks: nome, URL, token e as ofertas que o disparam. Editar o webhook salvo leva a mudança a todas as ofertas que o usam.\n- **Webhook da oferta**, na aba Integração da oferta. Uma oferta pode ter vários destinos.\n\nSe a mesma URL com o mesmo token estiver configurada duas vezes numa oferta, o Snapp envia uma vez só.\n\nCada destino tem opções que definem quais eventos ele recebe:\n\n| Opção no painel | O que acrescenta |\n|---|---|\n| Nenhuma (padrão) | Só `purchase.approved` |\n| Estornos e chargebacks | `purchase.refunded` e `purchase.chargeback` de vendas avulsas |\n| Eventos de assinatura | `subscription.*`: renovação paga ou recusada, cobrança abandonada, cancelamento, expiração, reembolso e chargeback de um ciclo |\n| Vendas + tracking completo | `checkout.viewed`, `checkout.initiated`, `payment.pending`, `payment.failed` e `cart.abandoned` |\n\nUm destino sem nenhuma opção ligada nunca recebe um evento que não seja venda. Isso protege sistemas que tratam todo `POST` como venda nova.\n\n## Eventos\n\n| `event` | Quando sai | Opção necessária | `status` |\n|---|---|---|---|\n| `purchase.approved` | Compra aprovada: venda avulsa, 1ª cobrança de assinatura, upsell ou downsell | Nenhuma | `approved` |\n| `purchase.refunded` | Venda avulsa reembolsada, total ou parcialmente | Estornos e chargebacks | `refunded` |\n| `purchase.chargeback` | Chargeback perdido numa venda avulsa | Estornos e chargebacks | `chargeback` |\n| `subscription.renewed` | Renovação paga (ciclo 2 em diante) | Eventos de assinatura | `approved` |\n| `subscription.renewal_failed` | Renovação recusada, com o gateway ainda tentando cobrar | Eventos de assinatura | `failed` |\n| `subscription.unpaid` | O gateway parou de tentar cobrar | Eventos de assinatura | `unpaid` |\n| `subscription.canceled` | Assinatura cancelada pelo comprador, pelo vendedor ou pelo gateway | Eventos de assinatura | `canceled` |\n| `subscription.expired` | Fim dos ciclos contratados | Eventos de assinatura | `expired` |\n| `subscription.refunded` | Reembolso de um ciclo | Eventos de assinatura | `refunded` |\n| `subscription.chargeback` | Reversão ou disputa perdida de um ciclo | Eventos de assinatura | `chargeback` |\n| `checkout.viewed` | Visita ao checkout, uma vez por sessão a cada 24 horas | Vendas + tracking completo | `viewed` |\n| `checkout.initiated` | O comprador preencheu nome, e-mail e telefone | Vendas + tracking completo | `initiated` |\n| `payment.pending` | Pix, boleto ou SPEI gerado e ainda não pago | Vendas + tracking completo | `pending` |\n| `payment.failed` | Pagamento recusado na compra, avisado em até 1 minuto | Vendas + tracking completo | `failed` |\n| `cart.abandoned` | O comprador deixou o contato e não comprou em 30 minutos | Vendas + tracking completo | `abandoned` |\n\nRegras que valem para todos os eventos:\n\n- `payment.pending` é seguido de `purchase.approved` quando o Pix ou o boleto é pago. Os dois têm `saleId` igual.\n- `payment.failed` só sai se a tentativa ainda estiver recusada no momento do aviso. Uma recusa que virou venda segundos depois não gera `payment.failed`.\n- `cart.abandoned` não sai para quem comprou. Se o comprador voltar ao checkout, o carrinho reabre e pode gerar um novo `cart.abandoned` mais tarde.\n- Reembolso parcial gera `purchase.refunded` com `refund.partial: true`. Um 2º reembolso parcial gera outro evento, com outro `eventId`.\n- Cada venda do funil de upsell é uma venda própria: chega como `purchase.approved` com `isUpsell: true` (ou `isDownsell: true`) e um `saleId` diferente da compra principal.\n- Renovação nunca chega como `purchase.approved`. Sem a opção Eventos de assinatura, a renovação não gera evento nenhum.\n\n## Eventos por gateway\n\n\"Sim\" quer dizer que o gateway dispara o evento hoje. \"Não\" quer dizer que o evento não sai por aquele gateway, porque o Snapp não recebe essa informação dele ou porque o gateway não tem aquela forma de pagamento. Stripe inclui a conta própria e o Stripe Connect.\n\n| Evento | Stripe | PayPal | Efí | Mercado Pago | Pagar.me | XPag | Whop | dLocal Go |\n|---|---|---|---|---|---|---|---|---|\n| `purchase.approved` | Sim | Sim | Sim | Sim | Sim | Sim | Sim | Sim |\n| `payment.pending` | Sim (Pix) | Não | Sim | Sim | Sim | Sim | Não | Não |\n| `payment.failed` | Sim | Sim | Sim (cartão) | Não | Não | Não | Não | Não |\n| `purchase.refunded` e `purchase.chargeback` | Sim | Sim | Não | Não | Não | Não | Sim | Não |\n| `subscription.*` | Sim | Sim | Não | Não | Não | Não | Não | Não |\n| `checkout.viewed`, `checkout.initiated`, `cart.abandoned` | Sim | Sim | Sim | Sim | Sim | Sim | Sim | Sim |\n\nOs eventos do checkout (`checkout.*` e `cart.abandoned`) não dependem do gateway, porque acontecem antes do pagamento.\n\n## Payload dos eventos de venda\n\nTodos os eventos `purchase.*`, `subscription.*`, `payment.pending` e `payment.failed` usam o mesmo formato. Os campos estão sempre presentes: texto ausente chega como `\"\"`, e bloco que não se aplica chega como `null`.\n\n### Campos da raiz\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `event` | string | Nome do evento. É o campo que define o que fazer |\n| `eventId` | string | Identificador único da ocorrência. Trate como texto opaco: o formato pode mudar |\n| `saleId` | string | ID da venda no Snapp. Igual em todos os eventos da mesma venda |\n| `transactionId` | string | ID do PaymentIntent na Stripe (`pi_...`). Chega `\"\"` nos outros gateways |\n| `status` | string | Leitura curta do evento (`approved`, `refunded`...). Ver a tabela de eventos |\n| `email` | string | E-mail do comprador. Igual a `customer.email` |\n| `name` | string | Nome do comprador. Igual a `customer.name` |\n| `price` | number | Total da venda em decimal |\n| `priceInCents` | integer | Total da venda na menor unidade da moeda. Igual a `amount.totalInCents` |\n| `currency` | string | Moeda em ISO 4217, maiúscula (`BRL`, `USD`, `EUR`) |\n| `country` | string | País do comprador em ISO 3166-1 alfa-2 (`BR`, `US`) |\n| `paymentMethod` | string | Forma de pagamento (`card`, `pix`, `boleto`, `paypal`...). Quando o tipo não é conhecido, vem o gateway |\n| `dateTime` | string | Data do pagamento. Em `payment.pending` e `payment.failed`, data da tentativa |\n| `paidAt` | string | Igual a `dateTime` |\n| `createdAt` | string | Criação da venda no Snapp |\n| `customId` | string | ID que o vendedor cadastrou no produto principal. Só aparece quando existe |\n| `isRenewal` | boolean | `true` em cobrança de renovação (ciclo 2 em diante) |\n| `isUpsell` | boolean | `true` quando a venda veio de um upsell |\n| `isDownsell` | boolean | `true` quando a venda veio de um downsell |\n\n### `customer`\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `customer.name` | string | Nome completo |\n| `customer.email` | string | E-mail |\n| `customer.phone` | string | Telefone informado no checkout, quando a oferta coleta |\n| `customer.document` | string | Documento informado no checkout (CPF, CNPJ...), quando a oferta coleta |\n| `customer.country` | string | País em ISO 3166-1 alfa-2 |\n| `customer.ip` | string | IP do comprador na compra |\n| `customer.address` | object | `street`, `number`, `complement`, `neighborhood`, `city`, `state`, `zipCode` e `country`. Preenchido só quando a oferta coleta endereço |\n\n### `offer`, `product`, `orderBumps` e `items`\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `offer.id` | string | ID da oferta |\n| `offer.name` | string | Nome da oferta |\n| `offer.slug` | string | Identificador da oferta no link do checkout |\n| `offer.currency` | string | Moeda da oferta |\n| `offer.language` | string | Idioma do checkout (`pt`, `en`, `es`...) |\n| `offer.product` | object | Produto principal como está cadastrado hoje: `name`, `customId`, `priceInCents`, `price` |\n| `offer.orderBumps` | array | Order bumps **cadastrados** na oferta, comprados ou não: `id`, `name`, `customId`, `priceInCents`, `price` |\n| `product` | object | Produto principal **desta venda**: `name`, `customId`, `priceInCents`, `price` |\n| `orderBumps` | array | Order bumps **comprados nesta venda**, no formato de `items` |\n| `items` | array | Tudo o que foi comprado: `id`, `name`, `customId`, `isOrderBump`, `priceInCents`, `price` |\n\nPara saber o que o comprador levou, leia `items` ou `orderBumps` da raiz. O bloco `offer` descreve a oferta, não a compra.\n\n### `amount` e `payment`\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `amount.total` | number | Total em decimal |\n| `amount.totalInCents` | integer | Total na menor unidade da moeda |\n| `amount.currency` | string | Moeda |\n| `amount.platformFeeInCents` | integer | Taxa do Snapp sobre a venda |\n| `payment.method` | string | Gateway que processou (`stripe`, `paypal`, `efi`, `mercadopago`, `pagarme`, `xpag`, `whop`, `dlocal_go`) |\n| `payment.methodType` | string | Forma de pagamento (`card`, `pix`, `boleto`, `paypal`...) |\n| `payment.walletType` | string ou null | `apple_pay`, `google_pay` ou `samsung_pay` quando o cartão veio de uma carteira |\n| `payment.gateway` | string | Gateway que processou. Mesmos valores de `payment.method` |\n\nA menor unidade é o centavo em `BRL`, `USD` e `EUR`. Em moedas sem casas decimais, como `JPY` e `KRW`, o valor `*InCents` já é o valor inteiro na moeda. Por isso, faça contas com os campos `*InCents` e a moeda da venda.\n\n### `tracking`\n\nO bloco `tracking` traz a atribuição de marketing da venda. As chaves abaixo estão sempre presentes, vazias quando não houve valor:\n\n| Campo | Significado |\n|---|---|\n| `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content` | UTMs da URL do checkout |\n| `src`, `sck` | Parâmetros de origem e de campanha da URL do checkout |\n| `referrer` | Página de onde o comprador chegou ao checkout |\n| `landingUrl` | URL do checkout na entrada, só com os parâmetros de marketing |\n| `fbp`, `fbc` | Cookies do Pixel da Meta, para a API de Conversões |\n| `userAgent` | Navegador do comprador |\n| `sessionId` | Sessão do checkout. Chega `\"\"` nos eventos de venda |\n\nTambém entram, quando vieram na URL do checkout, estes parâmetros:\n\n- outras UTMs: `utm_id`, `utm_source_platform`, `utm_creative_format`, `utm_marketing_tactic` e qualquer outra chave que comece com `utm_`;\n- IDs de clique: `fbclid`, `gclid`, `gbraid`, `wbraid`, `dclid`, `msclkid`, `ttclid`, `twclid`, `li_fat_id`, `ScCid`, `epik`, `tblci`, `yclid`, `clickid` e `click_id`;\n- campanha e anúncio: `campaign_id`, `campaign_name`, `campaign`, `adset_id`, `adset_name`, `adset`, `adgroup_id`, `adgroup_name`, `adgroup`, `ad_id`, `ad_name`, `ad`, `cid`, `placement`, `network`, `keyword`, `matchtype`, `creative` e `device`;\n- afiliado: `affiliate_id`, `aff_id`, `subid`, `sub_id`, `subid1` a `subid9` e `sub_id1` a `sub_id9`;\n- chaves próprias que comecem com `tracking_` ou `marketing_`.\n\nComo a atribuição é capturada:\n\n- **Último toque.** Uma visita nova com parâmetros de campanha substitui a atribuição anterior inteira.\n- **Só a URL do checkout conta.** Se o checkout abrir dentro de um iframe na página de vendas, a página precisa repassar os parâmetros para a URL do iframe. Sem isso, o bloco `tracking` chega vazio.\n- **Limites.** Até 64 parâmetros, 2.048 caracteres por valor e 16 KB no total. Um parâmetro que estoura o limite é descartado inteiro, nunca cortado no meio.\n- **Nada sensível.** Chaves com `token`, `secret`, `password`, `email`, `phone`, `document` ou `authorization` no nome nunca entram. Parâmetros fora da lista acima também não.\n- **Renovação herda.** A renovação de uma assinatura leva a mesma atribuição da compra que a originou.\n\n### `subscription`\n\nChega `null` em venda que não é assinatura.\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `subscription.id` | string | ID da assinatura no gateway (`sub_...` na Stripe, `I-...` no PayPal) |\n| `subscription.gateway` | string | Gateway da assinatura |\n| `subscription.interval` | string ou null | `day`, `week`, `month` ou `year` |\n| `subscription.cycle` | integer ou null | Número da cobrança: 1 na compra, 2 na 1ª renovação, e assim por diante |\n| `subscription.status` | string ou null | `active`, `past_due`, `unpaid`, `canceled` ou `expired` |\n| `subscription.active` | boolean | `true` só quando `status` é `active`. Use para liberar ou bloquear o acesso |\n| `subscription.nextBillingAt` | string ou null | Próxima cobrança, quando o gateway informa |\n| `subscription.canceledAt` | string ou null | Data do cancelamento |\n\n`subscription.active` chega `false` em `past_due` de propósito: o gateway ainda vai tentar cobrar (ver `failure.nextRetryAt`), e cabe ao seu sistema decidir se dá carência.\n\n### `failure`\n\nPreenchido em `payment.failed` e `subscription.renewal_failed`. Nos outros eventos, `null`.\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `failure.reason` | string | Código do erro no gateway (`card_declined`...) |\n| `failure.message` | string | Mensagem do gateway |\n| `failure.declineCode` | string | Motivo do banco emissor, quando há (`insufficient_funds`...) |\n| `failure.attempt` | integer ou null | Número da tentativa de cobrança da renovação |\n| `failure.nextRetryAt` | string ou null | Próxima tentativa automática do gateway |\n\n### `refund`\n\nPreenchido em `purchase.refunded`, `purchase.chargeback`, `subscription.refunded` e `subscription.chargeback`. Nos outros eventos, `null`.\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `refund.id` | string | ID do reembolso no gateway |\n| `refund.amountInCents` | integer | Total já devolvido nesta venda, somando os reembolsos parciais |\n| `refund.amount` | number | O mesmo total, em decimal |\n| `refund.partial` | boolean | `true` quando o devolvido é menor que o total da venda |\n| `refund.reason` | string | Motivo informado |\n| `refund.origin` | string | `snapp` quando foi pedido pelo Snapp, `external` quando veio direto do gateway |\n| `refund.refundedAt` | string ou null | Data do reembolso |\n| `refund.chargeback` | boolean | `true` quando foi chargeback |\n\n### `cancellation`\n\nPreenchido em `subscription.canceled` e `subscription.expired`. Nos outros eventos, `null`.\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `cancellation.reason` | string | Motivo, quando informado |\n| `cancellation.source` | string | `customer`, `vendor` ou `gateway` |\n| `cancellation.at` | string ou null | Data do cancelamento |\n\n### Exemplo: `purchase.approved`\n\nVenda no cartão pela Stripe, com um order bump. Os valores são ilustrativos.\n\n```json\n{\n  \"event\": \"purchase.approved\",\n  \"eventId\": \"purchase.approved:6748a1f0c2b3d4e5f6a7b8c9\",\n  \"saleId\": \"6748a1f0c2b3d4e5f6a7b8c9\",\n  \"transactionId\": \"pi_3QExample0000000000000001\",\n  \"email\": \"maria@example.com\",\n  \"name\": \"Maria Souza\",\n  \"status\": \"approved\",\n  \"price\": 127,\n  \"priceInCents\": 12700,\n  \"currency\": \"BRL\",\n  \"country\": \"BR\",\n  \"paymentMethod\": \"card\",\n  \"dateTime\": \"2026-11-28T14:03:12.000Z\",\n  \"customer\": {\n    \"name\": \"Maria Souza\",\n    \"email\": \"maria@example.com\",\n    \"phone\": \"+5511999999999\",\n    \"document\": \"12345678901\",\n    \"country\": \"BR\",\n    \"ip\": \"203.0.113.10\",\n    \"address\": {\n      \"street\": \"\",\n      \"number\": \"\",\n      \"complement\": \"\",\n      \"neighborhood\": \"\",\n      \"city\": \"\",\n      \"state\": \"\",\n      \"zipCode\": \"\",\n      \"country\": \"BR\"\n    }\n  },\n  \"offer\": {\n    \"id\": \"6740f2a9b1c2d3e4f5a6b7c8\",\n    \"name\": \"Curso de Confeitaria\",\n    \"slug\": \"K7P2X9Q4M8R1T6WZ\",\n    \"currency\": \"BRL\",\n    \"language\": \"pt\",\n    \"product\": { \"name\": \"Curso de Confeitaria\", \"customId\": \"CONF-01\", \"priceInCents\": 9700, \"price\": 97 },\n    \"orderBumps\": [\n      { \"id\": \"6740f2a9b1c2d3e4f5a6b7d1\", \"name\": \"Apostila de receitas\", \"customId\": \"CONF-BUMP\", \"priceInCents\": 3000, \"price\": 30 }\n    ]\n  },\n  \"product\": { \"name\": \"Curso de Confeitaria\", \"customId\": \"CONF-01\", \"priceInCents\": 9700, \"price\": 97 },\n  \"orderBumps\": [\n    { \"id\": \"6748a1f0c2b3d4e5f6a7b8d2\", \"name\": \"Apostila de receitas\", \"customId\": \"CONF-BUMP\", \"isOrderBump\": true, \"priceInCents\": 3000, \"price\": 30 }\n  ],\n  \"items\": [\n    { \"id\": \"6748a1f0c2b3d4e5f6a7b8d1\", \"name\": \"Curso de Confeitaria\", \"customId\": \"CONF-01\", \"isOrderBump\": false, \"priceInCents\": 9700, \"price\": 97 },\n    { \"id\": \"6748a1f0c2b3d4e5f6a7b8d2\", \"name\": \"Apostila de receitas\", \"customId\": \"CONF-BUMP\", \"isOrderBump\": true, \"priceInCents\": 3000, \"price\": 30 }\n  ],\n  \"amount\": { \"total\": 127, \"totalInCents\": 12700, \"currency\": \"BRL\", \"platformFeeInCents\": 381 },\n  \"payment\": { \"method\": \"stripe\", \"methodType\": \"card\", \"walletType\": null, \"gateway\": \"stripe\" },\n  \"tracking\": {\n    \"utm_source\": \"facebook\",\n    \"utm_medium\": \"paid_social\",\n    \"utm_campaign\": \"black-friday\",\n    \"utm_term\": \"publico-quente\",\n    \"utm_content\": \"video-01\",\n    \"src\": \"pagina-de-vendas\",\n    \"sck\": \"120210000000000001\",\n    \"fbclid\": \"IwAR0Example\",\n    \"referrer\": \"https://exemplo.com.br/confeitaria\",\n    \"landingUrl\": \"https://pay.snappcheckout.com/c/K7P2X9Q4M8R1T6WZ?utm_source=facebook&utm_medium=paid_social&utm_campaign=black-friday&utm_term=publico-quente&utm_content=video-01&src=pagina-de-vendas&sck=120210000000000001&fbclid=IwAR0Example\",\n    \"fbp\": \"fb.1.1732802400000.1234567890\",\n    \"fbc\": \"fb.1.1732802400000.IwAR0Example\",\n    \"userAgent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15\",\n    \"sessionId\": \"\"\n  },\n  \"createdAt\": \"2026-11-28T14:02:40.000Z\",\n  \"paidAt\": \"2026-11-28T14:03:12.000Z\",\n  \"subscription\": null,\n  \"failure\": null,\n  \"refund\": null,\n  \"cancellation\": null,\n  \"isRenewal\": false,\n  \"isUpsell\": false,\n  \"isDownsell\": false,\n  \"customId\": \"CONF-01\"\n}\n```\n\n### Exemplo: `payment.pending`\n\nPix gerado pela Efí. O resto do payload segue o formato da venda. Quando o Pix for pago, chega `purchase.approved` com o mesmo `saleId`.\n\n```json\n{\n  \"event\": \"payment.pending\",\n  \"eventId\": \"payment.pending:6748b2c1d3e4f5a6b7c8d9e0\",\n  \"saleId\": \"6748b2c1d3e4f5a6b7c8d9e0\",\n  \"transactionId\": \"\",\n  \"status\": \"pending\",\n  \"paymentMethod\": \"pix\",\n  \"dateTime\": \"2026-11-28T15:10:00.000Z\",\n  \"payment\": { \"method\": \"efi\", \"methodType\": \"pix\", \"walletType\": null, \"gateway\": \"efi\" },\n  \"subscription\": null,\n  \"failure\": null,\n  \"refund\": null,\n  \"cancellation\": null\n}\n```\n\n### Exemplo: `payment.failed`\n\n```json\n{\n  \"event\": \"payment.failed\",\n  \"eventId\": \"payment.failed:6748c3d2e4f5a6b7c8d9e0f1\",\n  \"saleId\": \"6748c3d2e4f5a6b7c8d9e0f1\",\n  \"status\": \"failed\",\n  \"paymentMethod\": \"card\",\n  \"failure\": {\n    \"reason\": \"card_declined\",\n    \"message\": \"Your card has insufficient funds.\",\n    \"declineCode\": \"insufficient_funds\",\n    \"attempt\": null,\n    \"nextRetryAt\": null\n  },\n  \"refund\": null,\n  \"cancellation\": null\n}\n```\n\n### Exemplo: `purchase.refunded`\n\nReembolso parcial de R$ 30,00 numa venda de R$ 127,00.\n\n```json\n{\n  \"event\": \"purchase.refunded\",\n  \"eventId\": \"purchase.refunded:6748a1f0c2b3d4e5f6a7b8c9:re_3QExample0000000000000001\",\n  \"saleId\": \"6748a1f0c2b3d4e5f6a7b8c9\",\n  \"status\": \"refunded\",\n  \"priceInCents\": 12700,\n  \"refund\": {\n    \"id\": \"re_3QExample0000000000000001\",\n    \"amountInCents\": 3000,\n    \"amount\": 30,\n    \"partial\": true,\n    \"reason\": \"requested_by_customer\",\n    \"origin\": \"snapp\",\n    \"refundedAt\": \"2026-11-29T10:00:00.000Z\",\n    \"chargeback\": false\n  },\n  \"subscription\": null,\n  \"failure\": null,\n  \"cancellation\": null\n}\n```\n\n### Exemplo: `subscription.renewed`\n\n```json\n{\n  \"event\": \"subscription.renewed\",\n  \"eventId\": \"subscription.renewed:6750d4e3f5a6b7c8d9e0f1a2\",\n  \"saleId\": \"6750d4e3f5a6b7c8d9e0f1a2\",\n  \"status\": \"approved\",\n  \"isRenewal\": true,\n  \"subscription\": {\n    \"id\": \"sub_1QExample000000000000001\",\n    \"gateway\": \"stripe\",\n    \"interval\": \"month\",\n    \"cycle\": 2,\n    \"status\": \"active\",\n    \"active\": true,\n    \"nextBillingAt\": \"2027-01-28T14:03:12.000Z\",\n    \"canceledAt\": null\n  },\n  \"failure\": null,\n  \"refund\": null,\n  \"cancellation\": null\n}\n```\n\nCada renovação é uma venda nova no Snapp, então o `saleId` muda a cada ciclo. Para ligar as cobranças ao mesmo assinante, use `subscription.id`.\n\n### Exemplo: `subscription.canceled`\n\n```json\n{\n  \"event\": \"subscription.canceled\",\n  \"eventId\": \"subscription.canceled:6750d4e3f5a6b7c8d9e0f1a2\",\n  \"status\": \"canceled\",\n  \"subscription\": {\n    \"id\": \"sub_1QExample000000000000001\",\n    \"gateway\": \"stripe\",\n    \"interval\": \"month\",\n    \"cycle\": 2,\n    \"status\": \"canceled\",\n    \"active\": false,\n    \"nextBillingAt\": null,\n    \"canceledAt\": \"2026-12-15T09:30:00.000Z\"\n  },\n  \"cancellation\": { \"reason\": \"\", \"source\": \"customer\", \"at\": \"2026-12-15T09:30:00.000Z\" },\n  \"failure\": null,\n  \"refund\": null\n}\n```\n\nO cancelamento não devolve o período já pago. Se o seu sistema controla acesso, decida se bloqueia na hora ou no fim do período, que é a data da última cobrança mais o `interval`. A área de membros e o Discord do Snapp mantêm o acesso até o fim do período pago.\n\n## Payload dos eventos do checkout\n\n`checkout.viewed`, `checkout.initiated` e `cart.abandoned` acontecem antes de existir uma venda. Por isso, não trazem `saleId`, `items`, `payment`, `subscription`, `failure`, `refund` nem `cancellation`.\n\n| Campo | Tipo | Significado |\n|---|---|---|\n| `event` | string | `checkout.viewed`, `checkout.initiated` ou `cart.abandoned` |\n| `eventId` | string | Identificador único da ocorrência |\n| `status` | string | `viewed`, `initiated` ou `abandoned` |\n| `email`, `name` | string | Contato do comprador. Vazios em `checkout.viewed` |\n| `dateTime` | string | Data do evento |\n| `customer` | object | `name`, `email`, `phone`, `country` e `ip`. Em `checkout.viewed` só vêm `country` e `ip` |\n| `offer` | object | Mesmo bloco `offer` dos eventos de venda |\n| `product` | object | Produto principal da oferta |\n| `amount` | object | `total`, `totalInCents` e `currency`. Em `checkout.initiated`, inclui os order bumps marcados |\n| `tracking` | object | Mesmo bloco `tracking` dos eventos de venda, com `sessionId` preenchido |\n\n### Exemplo: `checkout.initiated`\n\n```json\n{\n  \"event\": \"checkout.initiated\",\n  \"eventId\": \"checkout.initiated:6748a1e9b1c2d3e4f5a6b7c8\",\n  \"status\": \"initiated\",\n  \"email\": \"maria@example.com\",\n  \"name\": \"Maria Souza\",\n  \"dateTime\": \"2026-11-28T14:02:05.000Z\",\n  \"customer\": {\n    \"name\": \"Maria Souza\",\n    \"email\": \"maria@example.com\",\n    \"phone\": \"+5511999999999\",\n    \"country\": \"BR\",\n    \"ip\": \"203.0.113.10\"\n  },\n  \"offer\": {\n    \"id\": \"6740f2a9b1c2d3e4f5a6b7c8\",\n    \"name\": \"Curso de Confeitaria\",\n    \"slug\": \"K7P2X9Q4M8R1T6WZ\",\n    \"currency\": \"BRL\",\n    \"language\": \"pt\",\n    \"product\": { \"name\": \"Curso de Confeitaria\", \"customId\": \"CONF-01\", \"priceInCents\": 9700, \"price\": 97 },\n    \"orderBumps\": [\n      { \"id\": \"6740f2a9b1c2d3e4f5a6b7d1\", \"name\": \"Apostila de receitas\", \"customId\": \"CONF-BUMP\", \"priceInCents\": 3000, \"price\": 30 }\n    ]\n  },\n  \"product\": { \"name\": \"Curso de Confeitaria\", \"customId\": \"CONF-01\", \"priceInCents\": 9700, \"price\": 97 },\n  \"amount\": { \"total\": 127, \"totalInCents\": 12700, \"currency\": \"BRL\" },\n  \"tracking\": {\n    \"utm_source\": \"facebook\",\n    \"utm_medium\": \"paid_social\",\n    \"utm_campaign\": \"black-friday\",\n    \"utm_term\": \"publico-quente\",\n    \"utm_content\": \"video-01\",\n    \"src\": \"pagina-de-vendas\",\n    \"sck\": \"120210000000000001\",\n    \"referrer\": \"https://exemplo.com.br/confeitaria\",\n    \"landingUrl\": \"https://pay.snappcheckout.com/c/K7P2X9Q4M8R1T6WZ?utm_source=facebook&utm_campaign=black-friday&sck=120210000000000001\",\n    \"fbp\": \"fb.1.1732802400000.1234567890\",\n    \"fbc\": \"\",\n    \"userAgent\": \"Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15\",\n    \"sessionId\": \"b6f1c0de-3a1f-4c55-9a51-0c9d6c1e2f11\"\n  }\n}\n```\n\n`cart.abandoned` tem o mesmo formato, com `status: \"abandoned\"`. `checkout.viewed` também, mas com `email`, `name`, `customer.name`, `customer.email` e `customer.phone` vazios.\n\n## Como receber com segurança\n\n1. **Confira o token.** Compare o cabeçalho `Authorization` com `Bearer \u003cseu token>` em tempo constante e responda `401` se não bater.\n2. **Responda rápido.** Grave o evento e responda `200` logo em seguida. Processe depois, numa fila. Um processamento que passa de 30 segundos vira falha e reenvio.\n3. **Descarte repetição.** Antes de processar, procure o `eventId` no seu banco. Se já existir, responda `200` sem fazer nada.\n4. **Roteie pelo `event`.** Um `POST` não é sempre uma venda. Trate `purchase.refunded` e `purchase.chargeback` como dinheiro devolvido, nunca como venda nova.\n5. **Ligue a venda pelo `saleId`.** Reembolso, chargeback, Pix pago e recusa chegam com o `saleId` da venda original. Renovações chegam com `saleId` novo e o mesmo `subscription.id`.\n6. **Ignore campo desconhecido.** O payload pode ganhar campos novos. Leia só os que você usa e não rejeite o evento por causa de um campo a mais.\n\n### Exemplo em Node.js (Express)\n\n```js\nimport express from \"express\";\nimport { timingSafeEqual } from \"node:crypto\";\n\nconst app = express();\nconst expected = Buffer.from(`Bearer ${process.env.SNAPP_WEBHOOK_TOKEN}`);\n\napp.post(\"/webhooks/snapp\", express.json({ limit: \"1mb\" }), async (req, res) => {\n  const received = Buffer.from(req.get(\"authorization\") || \"\");\n  if (received.length !== expected.length || !timingSafeEqual(received, expected)) {\n    return res.sendStatus(401);\n  }\n\n  const { event, eventId, saleId } = req.body;\n  if (await db.processedEvents.exists(eventId)) return res.sendStatus(200);\n  await db.processedEvents.insert({ eventId, event, saleId, payload: req.body });\n  res.sendStatus(200);\n\n  switch (event) {\n    case \"purchase.approved\":\n      return grantAccess(req.body);\n    case \"purchase.refunded\":\n    case \"purchase.chargeback\":\n      return req.body.refund.partial ? recordPartialRefund(req.body) : revokeAccess(req.body);\n    case \"subscription.renewed\":\n      return extendAccess(req.body.subscription);\n    case \"subscription.unpaid\":\n    case \"subscription.canceled\":\n    case \"subscription.expired\":\n      return scheduleAccessEnd(req.body.subscription);\n    default:\n      return trackFunnelEvent(req.body);\n  }\n});\n```\n\n### Exemplo em PHP\n\n```php\n\u003c?php\n$expected = 'Bearer ' . getenv('SNAPP_WEBHOOK_TOKEN');\n$received = $_SERVER['HTTP_AUTHORIZATION'] ?? '';\nif (!hash_equals($expected, $received)) {\n    http_response_code(401);\n    exit;\n}\n\n$payload = json_decode(file_get_contents('php://input'), true);\nif (!is_array($payload) || empty($payload['eventId'])) {\n    http_response_code(400);\n    exit;\n}\n\n// Tabela com índice único em event_id: a repetição falha no INSERT e é ignorada.\n$stmt = $pdo->prepare('INSERT IGNORE INTO snapp_events (event_id, event, sale_id, payload) VALUES (?, ?, ?, ?)');\n$stmt->execute([$payload['eventId'], $payload['event'], $payload['saleId'] ?? null, json_encode($payload)]);\n\nhttp_response_code(200);\n```\n\nEm Apache com PHP-FPM, o cabeçalho `Authorization` pode não chegar ao PHP. Nesse caso, acrescente `SetEnvIf Authorization \"(.*)\" HTTP_AUTHORIZATION=$1` ao `.htaccess`.\n\n## Como testar\n\n- Na oferta, o botão Dados enviados mostra o JSON de `purchase.approved` montado com os dados reais da oferta.\n- O link de compra teste percorre o checkout completo, dispara o webhook e as outras automações e não faz cobrança real. Ele vale por 5 minutos.\n- Para inspecionar o que chega, cadastre como destino uma URL de um serviço de captura de requisições e depois troque pela URL definitiva.\n- A página Eventos mostra cada envio com o JSON, o status da resposta e o erro, e permite reenviar.\n\n## Limitações atuais\n\n- A autenticação é só pelo token no cabeçalho `Authorization`. Não há assinatura HMAC do corpo.\n- `transactionId` só é preenchido em vendas da Stripe. Nos outros gateways, use `saleId`.\n- `sessionId` chega vazio nos eventos de venda: a venda não guarda a sessão do checkout.\n- Disputa aberta não gera evento. O chargeback chega quando a disputa é perdida.\n- A cobertura por gateway está na tabela \"Eventos por gateway\". Um evento marcado como \"Não\" não sai por aquele gateway.\n\n## Perguntas frequentes\n\n### O webhook dispara para vendas pela Stripe e pelo PayPal?\n\nSim. `purchase.approved` sai em todos os gateways. Na Stripe e no PayPal também saem recusa, reembolso, chargeback e todos os eventos de assinatura, desde que as opções estejam ligadas no destino.\n\n### Os parâmetros da URL do checkout chegam no webhook?\n\nChegam no bloco `tracking`: as cinco UTMs, `src`, `sck`, IDs de clique e dados de campanha, com atribuição de último toque. Se o checkout estiver num iframe, a página de vendas precisa repassar os parâmetros para a URL do iframe.\n\n### Como sei que o envio veio do Snapp?\n\nCadastre um token no destino. Ele chega no cabeçalho `Authorization` como `Bearer \u003ctoken>`, e o seu sistema compara antes de aceitar.\n\n### Como evito processar o mesmo evento duas vezes?\n\nGuarde o `eventId`. Ele é único por ocorrência, e toda repetição, seja reenvio automático, reenvio manual ou aviso repetido do gateway, chega com o mesmo valor.\n\n### Por que uma renovação não chegou?\n\nRenovação só chega no destino com a opção Eventos de assinatura ligada, e só em assinaturas da Stripe e do PayPal. Sem a opção, o destino recebe apenas a 1ª cobrança.\n\n### O que acontece se o meu sistema estiver fora do ar?\n\nO envio fica como falha e o Snapp tenta de novo até 3 vezes, em cerca de 30 minutos, 1 hora e 6 horas. Depois disso, o reenvio é manual, pela página Eventos.\n\u003c/referencia>\n"</script>
+
+<div class="v3x">
+<footer class="footer">
+  <div class="footer__top">
+    <img src="/v4/images/logo-snapp-white.svg" width="117" height="28" alt="Snapp Checkout" loading="lazy">
+    <a class="footer__social" href="https://www.instagram.com/snappcheckout/" aria-label="Snapp Checkout no Instagram"><svg class="ico"><use href="#i-instagram"/></svg></a>
+  </div>
+  <nav class="footer__cols" aria-label="Rodapé">
+    <div class="footer__col">
+      <h2 class="t-mono">Produto</h2>
+      <ul>
+        <li><a href="/#recursos">Ferramentas</a></li>
+        <li><a href="/#por-que">Por que o Snapp</a></li>
+        <li><a href="/#integracoes">Integrações</a></li>
+        <li><a href="/#precos">Preço</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="t-mono">Recursos</h2>
+      <ul>
+        <li><a href="/link-de-pagamento">Link de pagamento</a></li>
+        <li><a href="/checkout-para-infoprodutos">Checkout para infoprodutos</a></li>
+        <li><a href="/personalizar-checkout">Personalizar checkout</a></li>
+        <li><a href="/checkout-stripe">Checkout para Stripe</a></li>
+        <li><a href="/checkout-paypal">Checkout com PayPal</a></li>
+        <li><a href="/vender-no-exterior">Vender no exterior</a></li>
+        <li><a href="/upsell-e-order-bump">Upsell e order bump</a></li>
+        <li><a href="/area-de-membros">Área de membros</a></li>
+        <li><a href="/chargeback">Chargeback e disputas</a></li>
+        <li><a href="/webhooks">Webhooks</a></li>
+        <li><a href="/precos">Preços e taxas</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="t-mono">Suporte e legal</h2>
+      <ul>
+        <li><a href="/support">Suporte</a></li>
+        <li><a href="/terms-of-use">Termos de uso</a></li>
+        <li><a href="/privacy-policy">Privacidade</a></li>
+        <li><a href="/data-protection">Proteção de dados</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="t-mono">Conta</h2>
+      <ul>
+        <li><a href="https://admin.snappcheckout.com/login">Entrar</a></li>
+        <li><a href="https://admin.snappcheckout.com/register">Criar conta</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="footer__bottom">
+    <p class="t-fine">Feito para quem vende para o mundo.</p>
+    <p class="t-mono">© 2026 Snapp Checkout. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</div>
+</body>
+</html>

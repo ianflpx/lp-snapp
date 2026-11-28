@@ -247,21 +247,187 @@ ${chrome.footer}
 `;
 };
 
+/* ---------- Documentação técnica (content/docs/*.md → /docs/<slug>) ---------- */
+// Referências para integradores e para IAs: aceitam bloco de código (```lang), têm sumário e o botão
+// "Copiar para IA", que copia a página inteira em Markdown com uma instrução de uso no topo.
+const parseDoc = (file) => {
+  const [, front, body] = read(`content/docs/${file}`).match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const meta = Object.fromEntries(front.split("\n").map((l) => [l.slice(0, l.indexOf(": ")), l.slice(l.indexOf(": ") + 2).trim()]));
+  // Blocos separados por linha em branco, sem quebrar um bloco de código que tenha linhas em branco.
+  const blocks = [];
+  let text = [];
+  const flush = () => text.join("\n").split(/\n{2,}/).filter((b) => b.trim()).forEach((b) => blocks.push(b.trim()));
+  const lines = body.trim().split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    if (!lines[i].startsWith("```")) { text.push(lines[i]); continue; }
+    flush(); text = [];
+    const lang = lines[i].slice(3).trim();
+    const code = [];
+    while (++i < lines.length && !lines[i].startsWith("```")) code.push(lines[i]);
+    blocks.push({ lang, code: code.join("\n") });
+  }
+  flush();
+  const faqAt = blocks.indexOf(FAQ_HEADING);
+  const faq = [];
+  for (const b of blocks.slice(faqAt + 1)) {
+    if (typeof b === "string" && b.startsWith("### ")) faq.push({ q: b.slice(4), a: [] });
+    else faq.at(-1).a.push(b);
+  }
+  return { ...meta, slug: `docs/${file.replace(/\.md$/, "")}`, lead: blocks[0], blocks: blocks.slice(1, faqAt), faq, markdown: body.trim() };
+};
+
+const docBlock = (b) => {
+  if (typeof b !== "string")
+    return `<div class="code"><div class="code__bar"><span>${esc(b.lang || "texto")}</span><button type="button" class="code__copy" data-copy>Copiar</button></div><pre><code>${esc(b.code)}</code></pre></div>`;
+  if (b.startsWith("### ")) return `<h3 id="${anchor(b.slice(4))}">${inline(b.slice(4))}</h3>`;
+  return block(b);
+};
+
+const docMirror = (d) =>
+  `# ${d.h1}\n\n> ${d.description}\n\nPágina: ${SITE}/${d.slug}\nMarkdown: ${SITE}/${d.slug}.md\nAtualizado em ${UPDATED}.\n\n${absolute(d.markdown)}\n`;
+
+// Texto que vai na área de transferência: a instrução diz à IA para não inventar o que a referência não cobre.
+const aiPrompt = (d) =>
+  `Abaixo está a ${d.h1.toLowerCase()} do Snapp Checkout, a fonte oficial (${SITE}/${d.slug}). ` +
+  `Use-a para me ajudar a integrar. Baseie cada resposta só no que está escrito nela: se algo não estiver descrito, diga isso em vez de supor um comportamento. ` +
+  `Nomes de campos e de eventos são literais e diferenciam maiúsculas de minúsculas.\n\n<referencia>\n${docMirror(d)}</referencia>\n`;
+
+const docPage = (d) => {
+  const url = `${SITE}/${d.slug}`;
+  const toc = d.blocks.filter((b) => typeof b === "string" && b.startsWith("## ")).map((b) => b.slice(3));
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["TechArticle", "FAQPage"],
+        "@id": `${url}#webpage`,
+        url,
+        name: d.title,
+        headline: d.h1,
+        description: d.description,
+        inLanguage: "pt-BR",
+        dateModified: UPDATED,
+        isPartOf: { "@id": `${SITE}/#website` },
+        about: { "@id": `${SITE}/#software` },
+        publisher: { "@id": `${SITE}/#organization` },
+        breadcrumb: { "@id": `${url}#breadcrumb` },
+        mainEntity: d.faq.map(({ q, a }) => ({
+          "@type": "Question",
+          name: q,
+          acceptedAnswer: { "@type": "Answer", text: plain(a.join(" ")) },
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Início", item: `${SITE}/` },
+          { "@type": "ListItem", position: 2, name: d.nav, item: url },
+        ],
+      },
+    ],
+  };
+  // JSON com "<" escapado: o Markdown tem código e não pode fechar a tag <script> por acidente.
+  const aiJson = JSON.stringify(aiPrompt(d)).replace(/</g, "\\u003c");
+
+  return `<!doctype html>
+<!-- Gerado por tools/build.mjs a partir de content/${d.slug}.md. Não edite este arquivo. -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(d.title)}</title>
+<meta name="description" content="${esc(d.description)}">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="theme-color" content="#050505">
+<link rel="canonical" href="${url}">
+<link rel="alternate" type="text/markdown" href="${url}.md">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Snapp Checkout">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="${url}">
+<meta property="og:title" content="${esc(d.title)}">
+<meta property="og:description" content="${esc(d.description)}">
+<meta property="og:image" content="${OG}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(d.title)}">
+<meta name="twitter:description" content="${esc(d.description)}">
+<meta name="twitter:image" content="${OG}">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/pages.css">
+<link rel="stylesheet" href="/v4/v3.css">
+<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+<script src="/attribution.js" defer></script>
+<script src="/v4/v3.js" defer></script>
+<script src="/docs.js" defer></script>
+</head>
+<body>
+${chrome.header}
+
+<main id="conteudo" class="doc">
+  <div class="doc__head">
+    <nav aria-label="Você está aqui"><ol class="crumb"><li><a href="/">Início</a></li><li aria-current="page">${esc(d.nav)}</li></ol></nav>
+    <h1>${inline(d.h1)}</h1>
+    <p class="lead">${inline(d.lead)}</p>
+    <div class="doc__actions">
+      <button type="button" class="ai-copy" data-ai-copy>Copiar para IA</button>
+      <a class="doc__md" href="/${d.slug}.md">Ver em Markdown</a>
+      <span class="doc__status" role="status" aria-live="polite"></span>
+    </div>
+    <p class="doc__hint">O botão copia a referência inteira com uma instrução para a IA. Cole no ChatGPT, no Claude ou no assistente do seu editor e peça a integração.</p>
+  </div>
+
+  <div class="doc__body">
+    <details class="toc" data-toc>
+      <summary>Nesta página</summary>
+      <ol>
+${toc.map((h) => `        <li><a href="#${anchor(h)}">${inline(h)}</a></li>`).join("\n")}
+        <li><a href="#perguntas-frequentes">Perguntas frequentes</a></li>
+      </ol>
+    </details>
+
+    <article class="prose">
+${d.blocks.map(docBlock).join("\n")}
+<h2 id="perguntas-frequentes">Perguntas frequentes</h2>
+${d.faq.map(({ q, a }) => `<details><summary>${inline(q)}<i></i></summary>${a.map(docBlock).join("")}</details>`).join("\n")}
+      <p class="doc__updated">Atualizado em ${UPDATED}.</p>
+    </article>
+  </div>
+</main>
+<script type="application/json" id="ai-doc">${aiJson}</script>
+
+${chrome.footer}
+</body>
+</html>
+`;
+};
+
 /* ---------- Markdown para IAs, sitemap e llms ---------- */
 const absolute = (md) => md.replace(/\]\(\//g, `](${SITE}/`);
 const mirror = (p) => `# ${p.h1}\n\n> ${p.description}\n\nPágina: ${SITE}/${p.slug}\n\n${absolute(p.markdown)}\n`;
 
-const sitemap = (all) => `<?xml version="1.0" encoding="UTF-8"?>
+const sitemap = (all, docs) => `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${["", ...all.map((p) => p.slug)].map((slug) => `  <url><loc>${SITE}/${slug}</loc><lastmod>${UPDATED}</lastmod></url>`).join("\n")}
+${["", ...all.map((p) => p.slug), ...docs.map((d) => d.slug)].map((slug) => `  <url><loc>${SITE}/${slug}</loc><lastmod>${UPDATED}</lastmod></url>`).join("\n")}
 </urlset>
 `;
 
-const llms = (all) => `${read("content/_llms.md").trim()}
+const llms = (all, docs) => `${read("content/_llms.md").trim()}
 
 ## Páginas
 
 ${all.map((p) => `- [${p.nav}](${SITE}/${p.slug}.md): ${p.card}`).join("\n")}
+
+## Documentação técnica
+
+${docs.map((d) => `- [${d.nav}](${SITE}/${d.slug}.md): ${d.description}`).join("\n")}
 
 ## Produto
 
@@ -287,16 +453,29 @@ ${all.map((p) => `- [${p.nav}](${SITE}/${p.slug}.md): ${p.card}`).join("\n")}
 - [Instagram](https://www.instagram.com/snappcheckout/)
 `;
 
-const llmsFull = (all) =>
+const llmsFull = (all, docs) =>
   `${read("content/_llms.md").trim()}\n\nContato: snappcheckout@gmail.com · Site: ${SITE}/ · Painel: ${REGISTER}\nAtualizado em ${UPDATED}.\n\n` +
-  all.map((p) => `---\n\n${mirror(p).replace(/^(#+) /gm, "#$1 ")}`).join("\n");
+  [...all.map(mirror), ...docs.map(docMirror)].map((md) => `---\n\n${md.replace(/^(#+) /gm, "#$1 ")}`).join("\n");
 
 /* ---------- Conferência ---------- */
-const check = (all) => {
+const check = (all, docs) => {
   const errors = [];
   const fail = (where, what) => errors.push(`${where}: ${what}`);
-  const slugs = new Set(all.map((p) => p.slug));
+  const slugs = new Set([...all, ...docs].map((p) => p.slug));
   const seen = new Map();
+
+  for (const d of docs) {
+    if (d.title.length > 62) fail(d.slug, `title com ${d.title.length} caracteres (máx. 62)`);
+    if (d.description.length < 110 || d.description.length > 160) fail(d.slug, `description com ${d.description.length} caracteres (110 a 160)`);
+    if (d.faq.length < 3) fail(d.slug, "menos de 3 perguntas frequentes");
+    if (typeof d.lead !== "string" || d.lead.startsWith("#")) fail(d.slug, "falta o parágrafo de abertura antes do primeiro título");
+    if (/[—–]/.test(d.title + d.h1 + d.markdown.match(/^#+ .*$/gm).join(""))) fail(d.slug, "travessão em título");
+    if (COMPETITORS.test(d.markdown + d.title + d.description)) fail(d.slug, "cita concorrente");
+    if (!all.some((p) => p.markdown.includes(`](/${d.slug})`))) fail(d.slug, "nenhuma página de recurso aponta para esta referência");
+    for (const [, href] of d.markdown.matchAll(/\]\((\/[^)#]*)/g)) {
+      if (!slugs.has(href.slice(1)) && !STATIC_PATHS.includes(href)) fail(d.slug, `link interno quebrado: ${href}`);
+    }
+  }
 
   for (const p of all) {
     if (p.title.length > 62) fail(p.slug, `title com ${p.title.length} caracteres (máx. 62)`);
@@ -330,7 +509,7 @@ const check = (all) => {
   if (declared.join("|") !== visible.join("|")) fail("home", "FAQ do JSON-LD diferente do FAQ visível");
   if (/aggregateRating|"review"/.test(ld?.[1] ?? "")) fail("home", "avaliação nos dados estruturados sem estar visível na página");
   if (COMPETITORS.test(home.replace(/<style[\s\S]*?<\/style>/g, ""))) fail("home", "cita concorrente");
-  for (const slug of slugs) if (!home.includes(`href="/${slug}"`)) fail("home", `sem link para /${slug}`);
+  for (const { slug } of all) if (!home.includes(`href="/${slug}"`)) fail("home", `sem link para /${slug}`);
 
   if (errors.length) {
     console.error(errors.map((e) => `✗ ${e}`).join("\n"));
@@ -343,15 +522,21 @@ const ORDER = ["link-de-pagamento", "checkout-para-infoprodutos", "checkout-stri
 const files = readdirSync(join(ROOT, "content")).filter((f) => f.endsWith(".md") && !f.startsWith("_"));
 const pages = files.map(parse).sort((a, b) => (ORDER.indexOf(a.slug) + 1 || 99) - (ORDER.indexOf(b.slug) + 1 || 99));
 
-check(pages);
+const docs = readdirSync(join(ROOT, "content/docs")).filter((f) => f.endsWith(".md")).map(parseDoc);
+
+check(pages, docs);
 for (const p of pages) {
   write(`${p.slug}/index.html`, page(p, pages));
   write(`${p.slug}.md`, mirror(p));
 }
+for (const d of docs) {
+  write(`${d.slug}/index.html`, docPage(d));
+  write(`${d.slug}.md`, docMirror(d));
+}
 for (const path of STATIC_PATHS.filter((p) => p !== "/")) syncStatic(`${path.slice(1)}/index.html`);
-write("sitemap.xml", sitemap(pages));
-write("llms.txt", llms(pages));
-write("llms-full.txt", llmsFull(pages));
+write("sitemap.xml", sitemap(pages, docs));
+write("llms.txt", llms(pages, docs));
+write("llms-full.txt", llmsFull(pages, docs));
 
 // Versão dos CSS/JS locais: ?v=<hash do conteúdo> em todo HTML (home inclusive), para o vercel.json cachear esses
 // arquivos por 1 ano. Por isso rode o build também depois de mexer em qualquer .css/.js do site.
@@ -360,6 +545,6 @@ const version = (path) => {
   if (!hashes.has(path)) hashes.set(path, createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex").slice(0, 10));
   return hashes.get(path);
 };
-for (const file of ["index.html", ...pages.map((p) => `${p.slug}/index.html`), ...STATIC_PATHS.filter((p) => p !== "/").map((p) => `${p.slice(1)}/index.html`)])
+for (const file of ["index.html", ...[...pages, ...docs].map((p) => `${p.slug}/index.html`), ...STATIC_PATHS.filter((p) => p !== "/").map((p) => `${p.slice(1)}/index.html`)])
   write(file, read(file).replace(/((?:href|src)=")(\/[\w/.-]+\.(?:css|js))(?:\?v=\w+)?"/g, (_, attr, path) => `${attr}${path}?v=${version(path.slice(1))}"`));
-console.log(`✓ ${pages.length} páginas, sitemap.xml, llms.txt e llms-full.txt (${UPDATED})`);
+console.log(`✓ ${pages.length} páginas, ${docs.length} referência(s), sitemap.xml, llms.txt e llms-full.txt (${UPDATED})`);
