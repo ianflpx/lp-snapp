@@ -2,7 +2,7 @@
 //   /<slug>/index.html  página
 //   /<slug>.md          a mesma página em Markdown, para IAs
 //   /sitemap.xml, /llms.txt, /llms-full.txt
-// e copia o header e o footer da home para essas páginas e para as estáticas (support, termos, privacidade,
+// e copia o header, o footer e o CTA final da home para essas páginas (o CTA só nas de content/) e para as estáticas (support, termos, privacidade,
 // proteção de dados), entre os marcadores <!-- chrome:header --> / <!-- chrome:footer -->.
 // Uso: node tools/build.mjs   (sem dependências; rode depois de editar content/ ou a home)
 //
@@ -41,13 +41,21 @@ const chrome = (() => {
   };
   const header = grab(/<div class="v3x">\s*<a class="skip"[\s\S]*?<\/header>\s*<\/div>/, "header");
   const footer = grab(/<div class="v3x">\s*<footer class="footer">[\s\S]*?<\/footer>\s*<\/div>/, "footer");
-  const symbols = [...new Set([...(header + footer).matchAll(/<use href="#([\w-]+)"/g)].map((m) => m[1]))].map((id) => {
+  const cta = grab(/<div class="v3x">\s*<section class="section wide endcta"[\s\S]*?<\/section>\s*<\/div>/, "CTA final");
+  const symbols = [...new Set([...(header + footer + cta).matchAll(/<use href="#([\w-]+)"/g)].map((m) => m[1]))].map((id) => {
     const m = home.match(new RegExp(`<symbol id="${id}"[\\s\\S]*?</symbol>`));
     if (!m) throw new Error(`index.html: ícone #${id} não encontrado`);
     return m[0];
   });
   const sprite = `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">\n${symbols.join("\n")}\n</svg>`;
-  return { header: `${sprite}\n${header}`, footer };
+  // Organização, site e produto da home vão no JSON-LD de cada página, para os @id citados resolverem ali mesmo
+  const graph = JSON.parse(home.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])["@graph"];
+  const entities = ["Organization", "WebSite", "SoftwareApplication"].map((type) => {
+    const node = graph.find((n) => [].concat(n["@type"]).includes(type));
+    if (!node) throw new Error(`index.html: ${type} não encontrado no JSON-LD da home`);
+    return node;
+  });
+  return { header: `${sprite}\n${header}`, footer, cta, entities };
 })();
 
 // Páginas estáticas: o build troca o que estiver entre <!-- chrome:header --> e <!-- /chrome:header --> (idem footer).
@@ -119,6 +127,7 @@ const page = (p, all) => {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      ...chrome.entities,
       {
         "@type": ["WebPage", "FAQPage"],
         "@id": `${url}#webpage`,
@@ -158,10 +167,14 @@ const page = (p, all) => {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(p.title)}</title>
 <meta name="description" content="${esc(p.description)}">
+<meta name="author" content="Snapp Checkout">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="theme-color" content="#050505">
+<meta name="color-scheme" content="dark">
 <link rel="canonical" href="${url}">
-<link rel="alternate" type="text/markdown" href="${url}.md">
+<link rel="alternate" hreflang="pt-BR" href="${url}">
+<link rel="alternate" hreflang="x-default" href="${url}">
+<link rel="alternate" type="text/markdown" href="${url}.md" title="${esc(p.h1)} (Markdown)">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Snapp Checkout">
 <meta property="og:locale" content="pt_BR">
@@ -169,13 +182,17 @@ const page = (p, all) => {
 <meta property="og:title" content="${esc(p.title)}">
 <meta property="og:description" content="${esc(p.description)}">
 <meta property="og:image" content="${OG}">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Snapp Checkout: checkout e link de pagamento para vender no mundo inteiro">
+<meta property="article:modified_time" content="${UPDATED}">
+<meta property="article:publisher" content="${SITE}/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(p.title)}">
 <meta name="twitter:description" content="${esc(p.description)}">
 <meta name="twitter:image" content="${OG}">
+<meta name="twitter:image:alt" content="Snapp Checkout: checkout e link de pagamento para vender no mundo inteiro">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
@@ -192,7 +209,8 @@ const page = (p, all) => {
 ${chrome.header}
 
 <main id="conteudo">
-  <div class="read head">
+  <article>
+  <header class="read head">
     <nav aria-label="Você está aqui"><ol class="crumb"><li><a href="/">Início</a></li><li aria-current="page">${esc(p.nav)}</li></ol></nav>
     <h1>${inline(p.h1)}</h1>
     <p class="lead">${inline(p.lead)}</p>
@@ -200,32 +218,27 @@ ${chrome.header}
       <a class="cta-btn cta-btn--yellow" href="${REGISTER}">Criar minha conta${arrow()}</a>
       <a class="cta-btn cta-btn--ghost" href="/precos">Ver preços${arrow()}</a>
     </div>
-  </div>
+  </header>
 
-  <article class="read prose">
+  <div class="read prose">
 ${p.blocks.map(block).join("\n")}
+<section aria-labelledby="perguntas-frequentes">
 <h2 id="perguntas-frequentes">Perguntas frequentes</h2>
 ${p.faq.map(({ q, a }) => `<details><summary>${inline(q)}<i></i></summary>${a.map(block).join("")}</details>`).join("\n")}
+</section>
+  </div>
   </article>
 
-  <section class="more">
-    <div class="wrap">
-      <h2>Veja também</h2>
+  <nav class="more" aria-labelledby="veja-tambem">
+    <div class="wide">
+      <h2 id="veja-tambem">Veja também</h2>
       <ul class="cards">
 ${p.related.map((slug) => `        <li><a href="/${slug}"><b>${esc(bySlug(slug).nav)}</b><span>${esc(bySlug(slug).card)}</span></a></li>`).join("\n")}
       </ul>
     </div>
-  </section>
+  </nav>
 
-  <section class="final">
-    <div class="wrap">
-      <div class="box">
-        <h2>Crie a conta e publique o primeiro checkout hoje.</h2>
-        <p>Você paga 3% por venda aprovada. Sem mensalidade.</p>
-        <a class="cta-btn cta-btn--yellow" href="${REGISTER}">Criar minha conta${arrow()}</a>
-      </div>
-    </div>
-  </section>
+${chrome.cta}
 </main>
 
 ${chrome.footer}

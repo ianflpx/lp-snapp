@@ -84,18 +84,44 @@ details[open] summary i{background:var(--yellow);border-color:var(--yellow);colo
 details p{padding:0 52px 22px 0}
 
 /* veja também + chamada final */
-.more{padding:clamp(40px,6vw,72px) 0;border-top:1px solid var(--line)}
+.more{padding:clamp(40px,6vw,72px) 0 0;border-top:1px solid var(--line)}
+/* mesma largura do CTA final e do header (.v3x .wide do v4/v3.css) */
+.more .wide{width:min(100%,1580px);margin-inline:auto;padding-inline:20px}
+@media (min-width:800px){.more .wide{padding-inline:calc(32 * (0.25px + 0.0625vw))}}
 .more h2{font-size:clamp(24px,2.6vw,32px);font-weight:600;letter-spacing:-.03em;margin-bottom:24px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;list-style:none}
 .cards a{display:block;height:100%;padding:24px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.02);transition:border-color .3s,background .3s}
 .cards a:hover{border-color:rgba(254,210,23,.4);background:rgba(255,255,255,.04)}
 .cards b{display:block;font-weight:600;font-size:18px;letter-spacing:-.015em}
 .cards span{display:block;margin-top:8px;color:var(--ink-3);font-size:15px;line-height:1.5}
-.final{padding:0 0 clamp(64px,8vw,110px)}
-.final .box{text-align:center;border-radius:32px;padding:clamp(48px,7vw,88px) var(--pad);border:1px solid var(--line);
-  background:radial-gradient(60% 90% at 50% 120%,rgba(254,210,23,.16),transparent 70%),var(--bg-2)}
-.final h2{font-size:clamp(28px,3.6vw,44px);font-weight:600;letter-spacing:-.035em;line-height:1.05;text-wrap:balance}
-.final p{margin:16px auto 28px;color:var(--ink-3);font-size:17px;max-width:52ch}
+/* CTA final: o HTML vem da home (tools/build.mjs); este CSS é cópia do <style> do index.html */
+.v3x .endcta{margin-bottom:var(--s11)}
+/* o v3.css carrega depois deste arquivo e o .v3x a{color:inherit} dele apagaria a cor do botão amarelo */
+.v3x a.cta-btn--yellow{color:#0a0a0b}
+.v3x .endcta__card{position:relative;isolation:isolate;display:grid;overflow:hidden;border-radius:var(--r-xl);background:#0a0a0b;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),0 30px 60px -30px rgba(0,0,0,.8)}
+.v3x .endcta__text{display:grid;justify-items:start;gap:var(--s4);padding:0 var(--s6) var(--s7)}
+.v3x .endcta__title{margin:0;padding-bottom:.1em;text-wrap:balance;font:600 clamp(30px,4.2vw,52px)/1.05 "Outfit","Outfit Fallback",system-ui,sans-serif;letter-spacing:-.035em;
+  background:linear-gradient(180deg,#fff 0%,#d9d9dd 60%,#a3a3ab 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.v3x .endcta__sub{max-width:44ch;margin:0 0 var(--s3);color:#a9a9b0;font:400 17px/1.5 "Outfit","Outfit Fallback",system-ui,sans-serif;text-wrap:pretty}
+.v3x .endcta__actions{display:grid;gap:var(--s3);width:100%}
+.v3x .endcta__art{order:-1;justify-self:end;width:min(78vw,320px);margin:-18% -14% -8% 0}
+/* halo amarelo atrás do S, pulsando devagar */
+.v3x .endcta__art{position:relative}
+.v3x .endcta__art::before{content:"";position:absolute;z-index:-1;inset:-25%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(254,210,23,.38),rgba(254,210,23,.12) 50%,transparent);animation:endcta-halo 5s ease-in-out infinite alternate}
+@keyframes endcta-halo{from{opacity:.55;scale:.9}to{opacity:1;scale:1.05}}
+@media (prefers-reduced-motion:reduce){.v3x .endcta__art::before{animation:none}}
+.v3x .endcta__art img{display:block;width:100%;height:auto;rotate:-10deg;filter:drop-shadow(0 24px 40px rgba(0,0,0,.6));user-select:none}
+@media (min-width:800px){
+  .v3x .endcta__card{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);align-items:center;min-height:calc(380 * var(--u))}
+  .v3x .endcta__text{gap:var(--s5);padding:var(--s9) 0 var(--s9) var(--s9)}
+  .v3x .endcta__sub{font-size:calc(19 * var(--u))}
+  .v3x .endcta__actions{display:flex;flex-wrap:wrap;width:auto}
+  .v3x .endcta__art{order:0;position:absolute;right:calc(-60 * var(--u));top:50%;width:calc(500 * var(--u));margin:0;translate:0 -50%}
+  .v3x .endcta .cta-btn{min-height:calc(68 * var(--u));padding:calc(10 * var(--u)) calc(10 * var(--u)) calc(10 * var(--u)) calc(30 * var(--u));font-size:calc(19 * var(--u))}
+  .v3x .endcta .cta-btn__go{width:calc(48 * var(--u));height:calc(48 * var(--u));font-size:calc(22 * var(--u))}
+}
 
 
 @media (max-width:860px){
